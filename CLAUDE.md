@@ -109,3 +109,13 @@ Husky + lint-staged runs on every commit:
 9. Deploy CMS: `bun run deploy:cms`
 
 **CI/CD**: GitHub Actions runs lint + type check on PRs. Cloudflare Workers Builds handles deployment on push to main (configure in Cloudflare Dashboard).
+
+## DB Workflow (Payload + D1)
+
+- Use Payload migrations for schema changes (collections/fields), not Drizzle.
+- Local migration status: `cd apps/cms && bun run db:migrate:status`
+- Remote migration status: `cd apps/cms && bun run db:migrate:status:remote`
+- Create migration after schema changes: `cd apps/cms && bun run db:migrate:create <name>`
+- Apply locally: `cd apps/cms && bun run db:migrate`
+- Apply to remote D1: `cd apps/cms && bun run db:migrate:remote`
+- One-off local content copy to remote (data only): `cd apps/cms && bun run db:sync:data:local-to-remote`

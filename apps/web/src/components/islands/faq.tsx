@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ChevronDown } from "lucide-react";
+import Typography from "../typography";
 
 const faqItems = [
   {
@@ -37,13 +38,16 @@ const Faq = () => {
   return (
     <section className="w-full max-w-376.5 bg-secondary p-4 sm:p-8 lg:p-12 xl:p-16">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">
-        <div className="flex-1">
-          <h2 className="text-center text-5xl leading-none font-bold text-white uppercase sm:text-start">
+        <div className="flex-1 text-center text-white sm:text-start">
+          <Typography tag="h1" variant="h1" className="text-white">
             FAQ
-          </h2>
-          <p className="mt-6 text-2xl leading-8 text-balance text-primary-foreground lg:min-w-70 xl:max-w-88 xl:min-w-88">
+          </Typography>
+          <Typography
+            variant="body-xl"
+            className="mt-6 text-balance text-primary-foreground lg:min-w-70 xl:max-w-88 xl:min-w-88"
+          >
             Quick answers to the questions we get the most.
-          </p>
+          </Typography>
         </div>
 
         <Accordion
@@ -54,16 +58,16 @@ const Faq = () => {
         >
           {faqItems.map(item => (
             <AccordionItem key={item.id} value={item.id} className="border-0">
-              <AccordionTrigger className="h-auto min-h-17.5 w-full items-center rounded-none bg-primary-foreground px-4 py-4 text-left text-lg leading-none font-bold text-secondary uppercase hover:no-underline lg:text-2xl [&>svg]:hidden [&[data-state=open]>div>svg]:rotate-180">
+              <AccordionTrigger className="min-h-17.5 w-full cursor-pointer items-center rounded-none bg-primary-foreground px-4 py-2 text-secondary uppercase hover:no-underline [&>svg]:hidden [&[data-state=open]>div>svg]:rotate-180">
                 <div className="flex w-full items-start justify-between gap-4">
-                  <span className="leading-tight lg:mt-0.5">
+                  <Typography variant="h5" tag="h5">
                     {item.question}
-                  </span>
-                  <ChevronDown className="size-6 shrink-0 text-secondary transition-transform duration-200 lg:size-9" />
+                  </Typography>
+                  <ChevronDown className="size-8 shrink-0 text-secondary transition-transform duration-200 lg:mt-0.5 lg:size-9" />
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pt-3 pb-0 text-primary-foreground lg:text-xl">
-                {item.answer}
+              <AccordionContent className="pt-3 pb-0 text-primary-foreground">
+                <Typography variant="body-lg">{item.answer}</Typography>
               </AccordionContent>
             </AccordionItem>
           ))}

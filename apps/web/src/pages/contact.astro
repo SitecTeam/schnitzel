@@ -1,4 +1,5 @@
 ---
+import DiveInto from "@/components/astro/dive-into.astro";
 import Faq from "@/components/islands/faq";
 import Layout from "@/layouts/Layout.astro";
 
@@ -11,5 +12,6 @@ export const prerender = true;
   >
     <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
     <Faq client:load />
+    <DiveInto />
   </main>
 </Layout>

@@ -17,7 +17,14 @@ const { class: className, variant = "primary" } = Astro.props;
     ? "https://schnitzelshow.podbean.com/"
     : "https://www.youtube.com/@schnitzelsnow"}
 >
-  <Button variant={variant} className={cn("cursor-pointer", className)}>
+  <Button
+    variant={variant}
+    className={cn(
+      "cursor-pointer",
+      variant === "secondary" && "xl:pr-6",
+      className
+    )}
+  >
     <span class="text-[14px] xl:text-[17px]"
       >{variant === "primary" ? "Listen Now" : "Watch On Youtube"}</span
     >

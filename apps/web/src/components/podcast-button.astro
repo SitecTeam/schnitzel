@@ -1,6 +1,6 @@
 ---
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 import { Play } from "lucide-react";
 
 interface Props {
@@ -17,18 +17,14 @@ const { class: className, variant = "primary" } = Astro.props;
   href={variant === "primary"
     ? "https://schnitzelshow.podbean.com/"
     : "https://www.youtube.com/@schnitzelsnow"}
+  class={cn(
+    buttonVariants({ variant }),
+    variant === "secondary" && "xl:pr-6",
+    className
+  )}
 >
-  <Button
-    variant={variant}
-    className={cn(
-      "cursor-pointer",
-      variant === "secondary" && "xl:pr-6",
-      className
-    )}
+  <span class="text-[14px] xl:text-[17px]"
+    >{variant === "primary" ? "Listen Now" : "Watch On Youtube"}</span
   >
-    <span class="text-[14px] xl:text-[17px]"
-      >{variant === "primary" ? "Listen Now" : "Watch On Youtube"}</span
-    >
-    <Play className="size-4 xl:size-5" />
-  </Button>
+  <Play className="size-4 xl:size-5" />
 </a>

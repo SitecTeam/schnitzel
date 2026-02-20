@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Footer from "./footer.astro";
 
 interface Props {
   title: string;
@@ -23,5 +24,6 @@ const { title, description = "Built with Astro, Payload CMS & Cloudflare" } =
     class="min-h-screen bg-background font-sans text-foreground antialiased"
   >
     <slot />
+    <Footer />
   </body>
 </html>

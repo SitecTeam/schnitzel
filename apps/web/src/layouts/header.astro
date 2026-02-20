@@ -1,10 +1,10 @@
 ---
-import PodcastButton from "@/components/podcast-button.astro";
-import MobileNav from "@/components/mobile-nav";
+import PodcastButton from "@/components/astro/podcast-button.astro";
+import MobileNav from "@/components/islands/mobile-nav";
 import Logo from "@/assets/svgs/logo.svg";
 import Wifi from "@/assets/svgs/wifi.svg";
 import { Youtube, Instagram } from "lucide-react";
-import Typography from "@/components/ui/typography";
+import Typography from "@/components/typography";
 
 const pathname = Astro.url.pathname;
 const isHome = pathname === "/";
@@ -20,7 +20,7 @@ const navItems = [
   class:list={["w-full", isHome ? "bg-secondary" : "bg-primary-foreground"]}
 >
   <div
-    class="flex h-16 items-center justify-between px-4 md:px-8 lg:grid lg:h-[114px] lg:grid-cols-3 lg:items-center lg:px-10"
+    class="flex h-16 items-center justify-between px-4 md:px-8 lg:grid lg:h-28.5 lg:grid-cols-3 lg:items-center lg:px-10"
   >
     <!-- Logo -->
     <a href="/" class="flex items-center justify-self-start">
@@ -28,7 +28,7 @@ const navItems = [
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="hidden items-center justify-self-center lg:flex lg:gap-[48px]">
+    <nav class="hidden items-center justify-self-center lg:flex lg:gap-12">
       {
         navItems.map(item => (
           <a
@@ -79,5 +79,3 @@ const navItems = [
     />
   </div>
 </header>
-
-<slot />

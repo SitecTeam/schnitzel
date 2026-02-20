@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "./ui/button";
 import { Play } from "lucide-react";
+import Typography from "./ui/typography";
 
 interface Props {
   variant?: "primary" | "secondary";
@@ -23,8 +24,8 @@ const { class: className, variant = "primary" } = Astro.props;
     className
   )}
 >
-  <span class="text-[14px] xl:text-[17px]"
-    >{variant === "primary" ? "Listen Now" : "Watch On Youtube"}</span
-  >
+  <Typography tag="span" variant="button-regular" className="xl:text-[17px]">
+    {variant === "primary" ? "Listen Now" : "Watch On Youtube"}
+  </Typography>
   <Play className="size-4 xl:size-5" />
 </a>

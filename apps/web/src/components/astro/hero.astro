@@ -1,0 +1,80 @@
+---
+import Typography from "@/components/typography";
+import PodcastButton from "@/components/astro/podcast-button.astro";
+import heroImage from "@/assets/hero.png";
+
+interface Props {
+  title?: string;
+  heroImageAlt?: string;
+}
+
+const {
+  title = "The world of climbing, served Schnitzel-style.",
+  heroImageAlt = "Schnitzel podcast hero collage",
+} = Astro.props;
+---
+
+<section
+  class="flex min-h-[calc(100dvh-64px)] items-center bg-secondary lg:min-h-[calc(100dvh-114px)]"
+>
+  <div
+    class="mx-auto grid w-full max-w-432.5 grid-cols-1 items-center gap-8 px-4 py-12 md:px-8 xl:grid-cols-[52%_48%] xl:gap-0 xl:py-0 xl:pr-14.75 xl:pl-24"
+  >
+    <!-- Left: copy -->
+    <div class="flex flex-col gap-6 xl:gap-8">
+      <!-- Heading: scales across all breakpoints -->
+      <Typography
+        tag="h1"
+        variant="h3"
+        uppercase={true}
+        className="text-primary-foreground 3xl:text-[112px] 3xl:leading-31 md:text-[64px] md:leading-19.25 xl:text-[72px] xl:leading-21 2xl:text-[96px] 2xl:leading-27.5"
+      >
+        {title}
+      </Typography>
+
+      <!-- Description: scales across all breakpoints, line-breaks at 3xl -->
+      <Typography
+        tag="p"
+        variant="body-md"
+        className="text-primary-foreground 3xl:text-[24px] 3xl:leading-9.5 xl:text-[20px] xl:leading-8"
+      >
+        <span class="desc-piece"
+          >Talks with the world's most inspiring climbers, adventurers,</span
+        ><span class="desc-piece">
+          and thinkers — exploring the human side of climbing,</span
+        ><span class="desc-piece"> training, and living boldly.</span>
+      </Typography>
+
+      <div class="flex flex-wrap gap-3 xl:gap-4">
+        <PodcastButton variant="primary" />
+        <PodcastButton
+          variant="secondary"
+          class="rounded-xs border-2 border-primary-foreground text-primary-foreground"
+        />
+      </div>
+    </div>
+
+    <!-- Right: hero collage image (xl+) -->
+    <div class="relative hidden items-center justify-center xl:flex">
+      <img
+        src={heroImage.src}
+        alt={heroImageAlt}
+        width={756}
+        height={756}
+        class="w-full max-w-189 object-contain drop-shadow-xl"
+        loading="eager"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .desc-piece {
+    display: inline;
+  }
+  @media (min-width: 1606px) {
+    .desc-piece {
+      display: block;
+    }
+  }
+</style>

@@ -65,8 +65,11 @@ const navItems = [
           </div>
         ) : (
           <div class="flex max-w-full min-w-0 flex-row justify-center gap-2 xl:gap-4">
-            <PodcastButton />
-            <PodcastButton variant="secondary" />
+            <PodcastButton class="lg:px-3 lg:py-1 xl:px-4 xl:py-2 lg:[&_span]:text-[13px] xl:[&_span]:text-[16px] lg:[&_svg]:size-3 xl:[&_svg]:size-4" />
+            <PodcastButton
+              variant="secondary"
+              class="lg:px-3 lg:py-1 xl:px-4 xl:py-2 lg:[&_span]:text-[13px] xl:[&_span]:text-[16px] lg:[&_svg]:size-3 xl:[&_svg]:size-4"
+            />
           </div>
         )
       }

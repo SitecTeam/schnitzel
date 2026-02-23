@@ -9,7 +9,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Typography from "@/components/ui/typography";
+import Typography from "@/components/typography";
 
 interface NavItem {
   name: string;

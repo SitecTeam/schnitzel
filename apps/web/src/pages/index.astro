@@ -1,14 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Hero from "@/components/astro/hero.astro";
 
 export const prerender = true;
 ---
 
 <Layout title="Schnitzel">
-  <main
-    class="flex min-h-screen flex-col items-center justify-center gap-6 p-8"
-  >
-    <h1 class="text-4xl font-bold tracking-tight">Schnitzel</h1>
-    <p class="text-muted-foreground">Astro + React + Tailwind + Payload CMS</p>
-  </main>
+  <Hero />
 </Layout>

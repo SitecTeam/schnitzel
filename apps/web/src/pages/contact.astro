@@ -1,16 +1,17 @@
 ---
 import DiveInto from "@/components/astro/dive-into.astro";
+import GetInTouch from "@/components/astro/get-in-touch.astro";
 import Faq from "@/components/islands/faq";
-import Layout from "@/layouts/Layout.astro";
+import Layout from "@/layouts/layout.astro";
 
 export const prerender = true;
 ---
 
 <Layout title="Schnitzel">
   <main
-    class="flex min-h-screen flex-col items-center justify-center gap-6 p-8"
+    class="flex min-h-screen flex-col items-center justify-center bg-primary-foreground"
   >
-    <h1 class="text-4xl font-bold tracking-tight">Contact</h1>
+    <GetInTouch />
     <Faq client:load />
     <DiveInto />
   </main>

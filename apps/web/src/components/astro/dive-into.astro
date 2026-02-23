@@ -3,18 +3,20 @@ import Typography from "../typography";
 import PodcastButton from "./podcast-button.astro";
 ---
 
-<div
-  class="flex w-full flex-col items-center justify-center gap-8 text-secondary"
->
-  <Typography variant="h1" tag="h1" className="text-center text-balance"
-    >Dive into the Schnitzel show</Typography
+<section class="py-16 lg:pt-32 lg:pb-24">
+  <div
+    class="flex w-full flex-col items-center justify-center gap-8 text-secondary"
   >
-  <Typography variant="body-xl" className="max-w-181 text-center">
-    If you enjoy the conversations, you can support the podcast by subscribing,
-    sharing episodes, or becoming a partner.
-  </Typography>
-  <div class="flex flex-col gap-4 sm:flex-row">
-    <PodcastButton variant="primary" />
-    <PodcastButton variant="secondary" />
+    <Typography variant="h1" tag="h1" className="text-center text-balance"
+      >Dive into the Schnitzel show</Typography
+    >
+    <Typography variant="body-xl" className="max-w-181 text-center">
+      If you enjoy the conversations, you can support the podcast by
+      subscribing, sharing episodes, or becoming a partner.
+    </Typography>
+    <div class="flex flex-col gap-4 sm:flex-row">
+      <PodcastButton variant="primary" />
+      <PodcastButton variant="secondary" />
+    </div>
   </div>
-</div>
+</section>

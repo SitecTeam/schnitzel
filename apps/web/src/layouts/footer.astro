@@ -1,0 +1,123 @@
+---
+import Typography, { textVariants } from "@/components/typography";
+import FooterLogo from "@/assets/footer-logo.svg?url";
+import { cn } from "@/lib/utils";
+
+const navigation = [
+  { name: "home", href: "/" },
+  { name: "episodes", href: "/episodes" },
+  { name: "contact", href: "/contact" },
+];
+
+const socials = [
+  { name: "podbean", href: "https://schnitzelshow.podbean.com/" },
+  { name: "youtube", href: "https://www.youtube.com/@schnitzelsnow" },
+  {
+    name: "instagram",
+    href: "https://www.instagram.com/schnitzelsnow/profilecard/",
+  },
+];
+---
+
+<footer
+  aria-label="footer"
+  class="relative flex w-full items-center bg-secondary text-white lg:min-h-130 2xl:min-h-156"
+>
+  {/* Grid Background */}
+  <div
+    class="pointer-events-none absolute inset-0 -mt-4 opacity-70"
+    style={{
+      backgroundImage: `
+        linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px)
+      `,
+      backgroundSize: "46px 46px",
+    }}
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="flex h-full flex-1 flex-col justify-between gap-12 p-8 pt-24 lg:-mt-2 lg:flex-row lg:items-center lg:gap-6 lg:pt-8"
+  >
+    {/* Left Column: Logo & Button */}
+    <div class="flex flex-1 flex-col items-center gap-8">
+      <div class="relative flex flex-col items-center lg:pt-21">
+        <div
+          class="absolute -top-21.5 left-[calc(50%-2px)] w-[192%] -translate-x-1/2 sm:-top-28.5 sm:left-[calc(50%-5px)] lg:-top-8.5 lg:left-[calc(50%-8px)] 2xl:-top-20 2xl:left-[calc(50%-12px)]"
+        >
+          <img src={FooterLogo} alt="Schnitzel Logo" class="h-auto w-full" />
+        </div>
+        <Typography
+          variant="h4"
+          tag="h4"
+          className="text-7xl uppercase sm:text-8xl lg:text-[136px] lg:leading-relaxed 2xl:text-[187px]"
+          >Show</Typography
+        >
+        <a
+          href="/contact"
+          class={cn(
+            "hidden min-w-32 rounded-xs bg-primary px-5 py-3 lg:-mt-4 lg:ml-10 lg:block",
+            textVariants({ variant: "body-sm" })
+          )}
+        >
+          Contact Us
+        </a>
+      </div>
+    </div>
+
+    {/* Right Column: Navigation & Socials */}
+    <div
+      class="flex flex-1 flex-col gap-10 uppercase sm:justify-evenly lg:flex-row xl:justify-normal xl:gap-30 2xl:gap-39.5"
+    >
+      {/* Navigation */}
+      <nav class="flex flex-col gap-6 lg:gap-8 2xl:gap-12.5">
+        <Typography variant="h5" tag="h5" className="lg:mb-1"
+          >NAVIGATION</Typography
+        >
+        {
+          navigation.map(item => (
+            <a
+              href={item.href}
+              class="decoration-2 underline-offset-4 hover:underline"
+            >
+              <Typography variant="h6" tag="h6">
+                {item.name}
+              </Typography>
+            </a>
+          ))
+        }
+      </nav>
+
+      {/* Socials */}
+      <nav class="flex flex-col gap-6 lg:gap-8 2xl:gap-12.5">
+        <Typography variant="h5" tag="h5" className="lg:mb-1"
+          >SOCIALS</Typography
+        >
+        {
+          socials.map(item => (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={item.href}
+              class="decoration-2 underline-offset-4 hover:underline"
+            >
+              <Typography variant="h6" tag="h6">
+                {item.name}
+              </Typography>
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+    <a
+      href="/contact"
+      class={cn(
+        "z-10 max-w-32 rounded-xs bg-primary px-5 py-3 lg:hidden",
+        textVariants({ variant: "body-sm" })
+      )}
+    >
+      Contact Us
+    </a>
+  </div>
+</footer>

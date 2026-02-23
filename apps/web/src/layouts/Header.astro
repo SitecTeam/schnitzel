@@ -20,7 +20,7 @@ const navItems = [
   class:list={["w-full", isHome ? "bg-secondary" : "bg-primary-foreground"]}
 >
   <div
-    class="mx-auto flex h-16 w-full max-w-432.5 items-center justify-between px-4 md:px-8 lg:grid lg:h-28.5 lg:grid-cols-3 lg:items-center lg:px-10"
+    class="mx-auto flex h-16 w-full max-w-432.5 items-center justify-between px-4 md:px-8 lg:grid lg:h-28.5 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:px-6 xl:px-10"
   >
     <!-- Logo -->
     <a href="/" class="flex items-center justify-self-start">
@@ -28,7 +28,9 @@ const navItems = [
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="hidden items-center justify-self-center lg:flex lg:gap-12">
+    <nav
+      class="hidden items-center justify-self-center lg:flex lg:gap-6 xl:gap-12"
+    >
       {
         navItems.map(item => (
           <a
@@ -62,7 +64,7 @@ const navItems = [
             <Instagram className="size-6" />
           </div>
         ) : (
-          <div class="flex max-w-full min-w-0 flex-row justify-center gap-4">
+          <div class="flex max-w-full min-w-0 flex-row justify-center gap-2 xl:gap-4">
             <PodcastButton />
             <PodcastButton variant="secondary" />
           </div>

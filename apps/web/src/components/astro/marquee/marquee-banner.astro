@@ -1,0 +1,43 @@
+---
+import Typography from "@/components/typography";
+
+interface Props {
+  marqueeText?: string;
+  rotation?: "negative" | "positive";
+}
+
+const {
+  marqueeText = "Deep conversations with curious minds",
+  rotation = "negative",
+} = Astro.props;
+
+const marqueeItems = Array.from({ length: 10 });
+const rotationClass = rotation === "negative" ? "-rotate-2" : "rotate-2";
+---
+
+<div
+  class:list={[
+    "relative z-10 scale-x-105 bg-primary py-2.5 sm:py-3 xl:py-6",
+    rotationClass,
+  ]}
+>
+  <div class="marquee-track flex whitespace-nowrap">
+    <Typography
+      className="inline-flex items-center whitespace-nowrap text-primary-foreground"
+      tag="h1"
+      variant="h2"
+      aria-hidden="true"
+    >
+      {
+        marqueeItems.map(() => (
+          <div class="inline-flex items-center gap-4 pr-4">
+            <h2 class="uppercase">{marqueeText}</h2>
+            <span class="relative -top-1 inline-block" aria-hidden="true">
+              ✷
+            </span>
+          </div>
+        ))
+      }
+    </Typography>
+  </div>
+</div>

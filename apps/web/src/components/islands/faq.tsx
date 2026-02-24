@@ -36,7 +36,7 @@ const faqItems = [
 
 const Faq = () => {
   return (
-    <section className="w-full max-w-376.5 bg-secondary p-4 sm:p-8 lg:p-12 xl:p-16">
+    <section className="z-20 mt-1 w-full max-w-376.5 bg-secondary p-4 sm:p-8 lg:-mt-10 lg:p-12 xl:-mt-10 xl:p-16 2xl:-mt-24">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">
         <div className="flex-1 text-center text-white sm:text-start">
           <Typography tag="h1" variant="h1" className="text-white">

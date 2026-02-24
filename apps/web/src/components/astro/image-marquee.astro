@@ -1,0 +1,111 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import Typography from "../typography";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  imageSrc: ImageMetadata;
+  imageAlt?: string;
+  marqueeText?: string;
+  textPosition?: "above" | "below";
+  rotation?: "negative" | "positive";
+  className?: string;
+}
+
+const {
+  imageSrc,
+  imageAlt = "Schnitzel Show",
+  marqueeText = "Deep conversations with curious minds",
+  textPosition = "above",
+  rotation = "negative",
+  className,
+} = Astro.props;
+
+// Build repeated text items (enough copies for seamless loop)
+const marqueeItems = Array.from({ length: 20 });
+
+const rotationClass = rotation === "negative" ? "-rotate-2" : "rotate-2";
+---
+
+<section
+  class={cn("relative mx-auto w-full overflow-x-clip sm:max-w-full", className)}
+>
+  {/* Text above: banner first, then image overlapping below */}
+  {
+    textPosition === "above" && (
+      <>
+        <div
+          class:list={[
+            "relative z-10 scale-x-105 bg-primary py-2.5 sm:py-3 xl:py-6",
+            rotationClass,
+          ]}
+        >
+          <div class="marquee-track flex whitespace-nowrap">
+            <Typography
+              className="text-primary-foreground inline-flex items-center whitespace-nowrap"
+              tag="h2"
+              variant="h2"
+              aria-hidden="true"
+            >
+              {marqueeItems.map(() => (
+                <div class="inline-flex items-center gap-4 pr-4">
+                  <h2 class="uppercase">{marqueeText}</h2>
+                  <span class="relative -top-1 inline-block" aria-hidden="true">
+                    ✷
+                  </span>
+                </div>
+              ))}
+            </Typography>
+          </div>
+        </div>
+        <div class="-mt-6 md:-mt-8 lg:-mt-20">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full object-cover lg:h-[80vh] 2xl:h-[90vh]"
+          />
+        </div>
+      </>
+    )
+  }
+
+  {/* Text below: image first, then banner overlapping below */}
+  {
+    textPosition === "below" && (
+      <>
+        <div class="-mb-6 md:-mb-8 lg:-mb-20">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            class="w-full object-cover lg:h-[80vh] 2xl:h-[90vh]"
+          />
+        </div>
+        <div
+          class:list={[
+            "relative z-10 scale-x-105 bg-primary py-2.5 sm:py-3 xl:py-6",
+            rotationClass,
+          ]}
+        >
+          <div class="marquee-track flex whitespace-nowrap">
+            <Typography
+              className="text-primary-foreground inline-flex items-center whitespace-nowrap"
+              tag="h2"
+              variant="h2"
+              aria-hidden="true"
+            >
+              {marqueeItems.map(() => (
+                <div class="inline-flex items-center gap-4 pr-4">
+                  <h2 class="uppercase">{marqueeText}</h2>
+                  <span class="relative -top-1 inline-block" aria-hidden="true">
+                    ✷
+                  </span>
+                </div>
+              ))}
+            </Typography>
+          </div>
+        </div>
+      </>
+    )
+  }
+</section>

@@ -1,6 +1,7 @@
 ---
 import Hero from "@/components/astro/hero.astro";
 import ImageMarquee from "@/components/astro/image-marquee.astro";
+import GuestsWhoInspire from "@/components/astro/guests-who-inspire.astro";
 import Layout from "@/layouts/layout.astro";
 import podcastBanner from "@/assets/banners/podcast.jpg";
 
@@ -15,4 +16,5 @@ export const prerender = true;
     marqueeText="Honest talks with the humans behind the harness"
     className="bg-secondary"
   />
+  <GuestsWhoInspire />
 </Layout>

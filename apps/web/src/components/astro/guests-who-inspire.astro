@@ -1,0 +1,92 @@
+---
+import { SwipeCards } from "@/components/islands/swipe-cards";
+import Typography from "@/components/typography";
+import person1 from "@/assets/person-1.png";
+import person2 from "@/assets/person-2.png";
+import person3 from "@/assets/person-3.png";
+import person4 from "@/assets/person-4.png";
+import person5 from "@/assets/person-5.png";
+import name1 from "@/assets/svgs/name-1.svg?url";
+import name2 from "@/assets/svgs/name-2.svg?url";
+import name3 from "@/assets/svgs/name-3.svg?url";
+import name4 from "@/assets/svgs/name-4.svg?url";
+import name5 from "@/assets/svgs/name-5.svg?url";
+import swipeCards from "@/assets/svgs/swipe-cards.svg?url";
+
+const guests = [
+  {
+    id: "1",
+    image: person1.src,
+    nameBadge: name1,
+  },
+  {
+    id: "2",
+    image: person2.src,
+    nameBadge: name2,
+  },
+  {
+    id: "3",
+    image: person3.src,
+    nameBadge: name3,
+  },
+  {
+    id: "4",
+    image: person4.src,
+    nameBadge: name4,
+  },
+  {
+    id: "5",
+    image: person5.src,
+    nameBadge: name5,
+  },
+];
+---
+
+<section class="h-[min(900px,100dvh)] overflow-hidden bg-secondary text-white">
+  <div
+    class="mx-auto h-full w-full max-w-432.5 px-4 md:px-8 xl:pr-14.75 xl:pl-24"
+  >
+    <div
+      class="grid h-full grid-cols-1 items-center gap-10 md:gap-12 lg:grid-cols-2"
+    >
+      <div class="relative z-10 max-w-152.5">
+        <Typography
+          tag="h2"
+          variant="h1"
+          uppercase
+          className="mb-5 text-primary-foreground max-lg:text-7xl max-lg:leading-[0.9] max-md:mb-6 max-md:text-6xl max-md:leading-[0.9] max-sm:text-5xl 3xl:whitespace-nowrap"
+        >
+          Guests Who Inspire
+        </Typography>
+        <Typography
+          tag="p"
+          variant="body-xl"
+          className="text-primary-foreground max-md:text-lg max-md:leading-relaxed max-sm:text-base"
+        >
+          <span>I chat with outdoor nutters whose noodles have been</span><span>
+            properly mushed by adventure. Less ego, more grit.</span
+          ><span>
+            We dig into the weird, the wild, and the stuff that</span
+          ><span> usually stays off-mic—real stories from people</span><span>
+            shaped (and slightly scrambled) by life outside.</span
+          >
+        </Typography>
+      </div>
+
+      <div class="relative flex w-full justify-center">
+        <div
+          class="relative aspect-4/5 w-full max-w-80 cursor-grab pr-8 pl-8 sm:max-w-96 sm:pr-10 sm:pl-10 lg:max-w-100 lg:pr-12 lg:pl-0"
+        >
+          {/* Circular text decoration */}
+          <div
+            class="absolute -top-8 -right-6 z-20 h-24 w-24 animate-[spin_10s_linear_infinite] sm:-top-10 sm:-right-10 sm:h-32 sm:w-32 lg:-top-14 lg:-right-10 lg:h-40 lg:w-40"
+          >
+            <img src={swipeCards} alt="Swipe cards" class="h-full w-full" />
+          </div>
+
+          <SwipeCards guests={guests} client:load />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

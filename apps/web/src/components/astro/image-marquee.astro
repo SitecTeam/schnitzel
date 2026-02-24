@@ -10,6 +10,7 @@ interface Props {
   marqueeText?: string;
   textPosition?: "above" | "below";
   rotation?: "negative" | "positive";
+  imagePosition?: "object-top" | "object-center" | "object-bottom";
   className?: string;
 }
 
@@ -19,6 +20,7 @@ const {
   marqueeText = "Deep conversations with curious minds",
   textPosition = "above",
   rotation = "negative",
+  imagePosition = "object-center",
   className,
 } = Astro.props;
 
@@ -63,7 +65,10 @@ const rotationClass = rotation === "negative" ? "-rotate-2" : "rotate-2";
           <Image
             src={imageSrc}
             alt={imageAlt}
-            class="w-full object-cover lg:h-[80vh] xl:h-[85vh] 2xl:h-[80vh]"
+            class={cn(
+              "w-full object-cover lg:h-[80vh] xl:h-[85vh] 2xl:h-[80vh]",
+              imagePosition
+            )}
           />
         </div>
       </>
@@ -78,7 +83,10 @@ const rotationClass = rotation === "negative" ? "-rotate-2" : "rotate-2";
           <Image
             src={imageSrc}
             alt={imageAlt}
-            class="w-full object-cover lg:h-[80vh]"
+            class={cn(
+              "w-full object-cover lg:h-[80vh] xl:h-[85vh] 2xl:h-[80vh]",
+              imagePosition
+            )}
           />
         </div>
         <div

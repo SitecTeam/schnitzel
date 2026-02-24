@@ -156,3 +156,9 @@
   animation: marquee 30s linear infinite;
   will-change: transform;
 }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+}

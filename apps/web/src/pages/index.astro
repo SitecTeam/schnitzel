@@ -1,10 +1,18 @@
 ---
 import Hero from "@/components/astro/hero.astro";
+import ImageMarquee from "@/components/astro/image-marquee.astro";
 import Layout from "@/layouts/layout.astro";
+import podcastBanner from "@/assets/banners/podcast.jpg";
 
 export const prerender = true;
 ---
 
 <Layout title="Schnitzel">
   <Hero />
+  <ImageMarquee
+    imageSrc={podcastBanner}
+    imageAlt="Talking with guests"
+    marqueeText="Honest talks with the humans behind the harness"
+    className="bg-secondary"
+  />
 </Layout>

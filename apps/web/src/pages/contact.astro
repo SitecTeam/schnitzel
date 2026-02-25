@@ -1,17 +1,18 @@
 ---
 import DiveInto from "@/components/astro/dive-into.astro";
 import GetInTouch from "@/components/astro/get-in-touch.astro";
+import MarqueeWrapper from "@/components/astro/marquee/marquee-wrapper.astro";
 import Faq from "@/components/islands/faq";
 import Layout from "@/layouts/layout.astro";
+import contactBanner from "@/assets/banners/contact.jpg";
 
 export const prerender = true;
 ---
 
 <Layout title="Schnitzel">
-  <main
-    class="flex min-h-screen flex-col items-center justify-center bg-primary-foreground"
-  >
+  <main class="flex min-h-screen flex-col items-center justify-center">
     <GetInTouch />
+    <MarqueeWrapper imageSrc={contactBanner} imageAlt="Schnitzel Show hosts" />
     <Faq client:load />
     <DiveInto />
   </main>

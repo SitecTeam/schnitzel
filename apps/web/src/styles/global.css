@@ -137,7 +137,28 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-primary-foreground text-foreground;
     scrollbar-gutter: stable;
+  }
+}
+
+/* Infinite marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
   }
 }

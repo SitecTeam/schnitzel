@@ -1,0 +1,60 @@
+---
+import type { ImageMetadata } from "astro";
+import MarqueeBanner from "./marquee-banner.astro";
+import MarqueeImage from "./marquee-image.astro";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  imageSrc: ImageMetadata;
+  imageAlt?: string;
+  marqueeText?: string;
+  textPosition?: "above" | "below";
+  rotation?: "negative" | "positive";
+  imagePosition?: "object-top" | "object-center" | "object-bottom";
+  className?: string;
+}
+
+const {
+  imageSrc,
+  imageAlt = "Schnitzel Show",
+  marqueeText = "Deep conversations with curious minds",
+  textPosition = "above",
+  rotation = "negative",
+  imagePosition = "object-center",
+  className,
+} = Astro.props;
+---
+
+<section
+  class={cn("relative mx-auto w-full overflow-x-clip sm:max-w-full", className)}
+>
+  {/* Text above: banner first, then image overlapping below */}
+  {
+    textPosition === "above" && (
+      <>
+        <MarqueeBanner marqueeText={marqueeText} rotation={rotation} />
+        <MarqueeImage
+          imageSrc={imageSrc}
+          imageAlt={imageAlt}
+          imagePosition={imagePosition}
+          className="-mt-6 md:-mt-8 lg:-mt-20"
+        />
+      </>
+    )
+  }
+
+  {/* Text below: image first, then banner overlapping below */}
+  {
+    textPosition === "below" && (
+      <>
+        <MarqueeImage
+          imageSrc={imageSrc}
+          imageAlt={imageAlt}
+          imagePosition={imagePosition}
+          className="-mb-6 md:-mb-8 lg:-mb-20"
+        />
+        <MarqueeBanner marqueeText={marqueeText} rotation={rotation} />
+      </>
+    )
+  }
+</section>

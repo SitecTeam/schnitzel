@@ -1,0 +1,30 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  imageSrc: ImageMetadata;
+  imageAlt?: string;
+  imagePosition?: "object-top" | "object-center" | "object-bottom";
+  className?: string;
+}
+
+const {
+  imageSrc,
+  imageAlt = "Schnitzel Show",
+  imagePosition = "object-center",
+  className,
+} = Astro.props;
+---
+
+<div class={className}>
+  <Image
+    src={imageSrc}
+    alt={imageAlt}
+    class={cn(
+      "min-h-100 w-full object-cover lg:h-[80vh] xl:h-[85vh] 2xl:h-[85vh]",
+      imagePosition
+    )}
+  />
+</div>

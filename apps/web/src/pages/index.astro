@@ -1,7 +1,11 @@
 ---
 import Hero from "@/components/astro/hero.astro";
+import MarqueeWrapper from "@/components/astro/marquee/marquee-wrapper.astro";
+import AboutUs from "@/components/astro/about-us.astro";
 import GuestsWhoInspire from "@/components/astro/guests-who-inspire.astro";
 import Layout from "@/layouts/layout.astro";
+import podcastBanner from "@/assets/banners/podcast.jpg";
+import climbingBanner from "@/assets/banners/climbing.jpg";
 import DiveInto from "@/components/astro/dive-into.astro";
 
 export const prerender = true;
@@ -9,6 +13,20 @@ export const prerender = true;
 
 <Layout title="Schnitzel">
   <Hero />
+  <MarqueeWrapper
+    imageSrc={podcastBanner}
+    imageAlt="Talking with guests"
+    marqueeText="Honest talks with the humans behind the harness"
+    className="bg-secondary"
+  />
+  <AboutUs />
   <GuestsWhoInspire />
+  <MarqueeWrapper
+    imageSrc={climbingBanner}
+    imageAlt="Mountain climbing"
+    className="bg-secondary"
+    rotation="positive"
+    imagePosition="object-bottom"
+  />
   <DiveInto />
 </Layout>

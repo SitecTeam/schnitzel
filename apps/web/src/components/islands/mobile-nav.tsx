@@ -7,6 +7,8 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Typography from "@/components/typography";
@@ -49,6 +51,10 @@ export default function MobileNav({
         side="top"
         className={cn("h-dvh border-none pb-10", bgColor)}
       >
+        <SheetTitle className="sr-only">Mobile navigation menu</SheetTitle>
+        <SheetDescription className="sr-only">
+          Use this menu to navigate between sections of the site.
+        </SheetDescription>
         {/* Top bar — matches header height exactly */}
         <div className="flex h-16 items-center justify-between px-4 md:px-8">
           <SheetClose asChild>

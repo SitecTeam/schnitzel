@@ -1,0 +1,54 @@
+---
+import { ArrowDown } from "lucide-react";
+import Typography from "../typography";
+---
+
+<section class="flex justify-center lg:pb-50">
+  <div
+    class="z-20 bg-primary px-4 py-6 text-primary-foreground sm:px-8 sm:py-10 lg:-mt-20 lg:w-[95%] lg:p-10 2xl:p-16"
+  >
+    <div class="flex min-h-105 flex-col gap-8 lg:flex-row">
+      <Typography
+        variant="h1"
+        tag="h1"
+        className="basis-2/5 uppercase lg:-mt-2.5"
+      >
+        About Us
+      </Typography>
+
+      <div class="flex flex-1 flex-col gap-8 text-pretty 2xl:gap-16">
+        <Typography variant="h5">
+          A climbing-centered podcast featuring climbers and unique voices from
+          across the outdoor and creative spectrum.
+        </Typography>
+        <Typography variant="h5">
+          Conversations range from training methods and coaching philosophies to
+          injury recovery, mindset, and pivotal life events that reshape
+          identity.
+        </Typography>
+        <Typography variant="h5">
+          Exploring the intersection of climbing, art, and resilience in modern
+          times. By the one and only Wolf Schnitzel.
+        </Typography>
+      </div>
+    </div>
+
+    <div
+      class="mt-8 flex flex-col justify-between gap-2 lg:mt-16 lg:flex-row lg:gap-8"
+    >
+      <Typography variant="caption" tag="span" className="basis-2/5"
+        >Since 2020</Typography
+      >
+      <Typography variant="caption" tag="span" className="block flex-1">
+        Keep scrolling, the good stuff's just below the
+        <span class="whitespace-nowrap">
+          ledge.
+          <ArrowDown
+            aria-hidden="true"
+            className="relative top-0.5 ml-1 inline-block size-6 align-text-bottom"
+          />
+        </span>
+      </Typography>
+    </div>
+  </div>
+</section>

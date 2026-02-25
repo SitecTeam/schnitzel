@@ -60,6 +60,7 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
               minWidth: "min(100%, 430px)",
               height: "150",
             }}
+            referrerPolicy="no-referrer"
             data-name="pb-iframe-player"
             src={iframeSrc}
             loading="lazy"

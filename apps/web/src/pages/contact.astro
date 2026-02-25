@@ -10,9 +10,7 @@ export const prerender = true;
 ---
 
 <Layout title="Schnitzel">
-  <main
-    class="flex min-h-screen flex-col items-center justify-center bg-primary-foreground"
-  >
+  <main class="flex min-h-screen flex-col items-center justify-center">
     <GetInTouch />
     <MarqueeWrapper imageSrc={contactBanner} imageAlt="Schnitzel Show hosts" />
     <Faq client:load />

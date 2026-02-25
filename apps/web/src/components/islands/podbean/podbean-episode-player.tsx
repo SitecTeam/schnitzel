@@ -50,7 +50,7 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
       </div>
 
       {isPlayerVisible && hasEpisode && (
-        <div className="bg-white p-2">
+        <div className="bg-white p-2 sm:m-2">
           <iframe
             title={title}
             height="150"
@@ -60,7 +60,6 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
               minWidth: "min(100%, 430px)",
               height: "150",
             }}
-            scrolling="no"
             data-name="pb-iframe-player"
             src={iframeSrc}
             loading="lazy"

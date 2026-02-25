@@ -1,0 +1,141 @@
+---
+import mediaPlayer from "@/assets/media-player.png";
+import Typography from "@/components/typography";
+---
+
+<section
+  class="mt-12 bg-primary-foreground pb-14 md:mt-16 md:pb-18 lg:mt-24 lg:pb-35.75"
+>
+  <div class="mx-auto w-full max-w-7xl px-4 md:px-8">
+    <!-- Mobile layout: boxes above + below the image -->
+    <div class="md:hidden">
+      <!-- Two boxes above image -->
+      <div class="mb-3 flex items-stretch gap-3">
+        <div
+          class="flex flex-1 flex-col items-center justify-center rounded-xl bg-[#16D8D3] px-4 py-3 text-center text-primary-foreground shadow-lg"
+        >
+          <Typography
+            tag="p"
+            variant="subtitle"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">No scripts. No filters.</span>
+            <span class="block">Just Schnitzel.</span>
+          </Typography>
+        </div>
+        <div
+          class="flex flex-1 flex-col items-center justify-center rounded-xl bg-[#16D8D3] px-4 py-3 text-center text-primary-foreground shadow-lg"
+        >
+          <Typography
+            tag="p"
+            variant="subtitle"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">New Episode</span>
+            <span class="block">every week</span>
+          </Typography>
+        </div>
+      </div>
+      <img
+        src={mediaPlayer.src}
+        alt="Schnitzel media player"
+        class="mx-auto block h-auto w-full"
+      />
+      <!-- Two boxes below image -->
+      <div class="mt-3 flex items-stretch gap-3">
+        <div
+          class="flex flex-1 flex-col items-center justify-center rounded-xl bg-[#FFC567] px-4 py-3 text-center text-primary-foreground shadow-lg"
+        >
+          <Typography
+            tag="p"
+            variant="subtitle"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">Conversations with Guests</span>
+            <span class="block">from around the world</span>
+          </Typography>
+        </div>
+        <div
+          class="flex flex-1 flex-col items-center justify-center rounded-xl bg-primary px-4 py-3 text-center text-primary-foreground shadow-lg"
+        >
+          <Typography
+            tag="p"
+            variant="subtitle"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">Listen on Podbean</span>
+            <span class="block">& YouTube</span>
+          </Typography>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop layout: image with absolute overlays -->
+    <div class="relative mx-auto hidden w-full max-w-216 md:block">
+      <img
+        src={mediaPlayer.src}
+        alt="Schnitzel media player"
+        class="mx-auto block h-auto w-full max-w-190"
+      />
+
+      <!-- Desktop overlays (hidden on mobile) -->
+      <div class="pointer-events-none absolute inset-0 z-10 hidden md:block">
+        {/* Left callout: No scripts */}
+        <div
+          class="absolute top-[30%] left-2 w-52 rounded-xl bg-[#16D8D3] px-5 py-4 text-center text-primary-foreground shadow-lg lg:-left-20 lg:w-64"
+        >
+          <Typography
+            tag="p"
+            variant="h6"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">No scripts. No filters.</span>
+            <span class="block">Just Schnitzel.</span>
+          </Typography>
+        </div>
+
+        {/* Top-right callout: New Episode */}
+        <div
+          class="absolute top-[13%] right-2 w-40 rounded-xl bg-[#16D8D3] px-5 py-4 text-center text-primary-foreground shadow-lg lg:-right-22 lg:w-48"
+        >
+          <Typography
+            tag="p"
+            variant="h6"
+            className="text-primary- text-center"
+          >
+            <span class="block">New Episode</span>
+            <span class="block">every week</span>
+          </Typography>
+        </div>
+
+        {/* Right callout: Conversations */}
+        <div
+          class="absolute top-[64%] right-2 w-52 rounded-xl bg-[#FFC567] px-5 py-4 text-center text-primary-foreground shadow-lg lg:-right-24 lg:w-80"
+        >
+          <Typography
+            tag="p"
+            variant="h6"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">Conversations with Guests</span>
+            <span class="block">from around the world</span>
+          </Typography>
+        </div>
+
+        {/* Bottom-left callout: Listen on Podbean & YouTube */}
+        <div
+          class="absolute bottom-10 left-2 w-52 rounded-xl bg-primary px-5 py-4 text-center text-primary-foreground shadow-lg lg:-left-14 lg:w-64"
+        >
+          <Typography
+            tag="p"
+            variant="h6"
+            className="text-center text-primary-foreground"
+          >
+            <span class="block">Listen on Podbean</span>
+            <span class="block">& YouTube</span>
+          </Typography>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

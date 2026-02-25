@@ -1,9 +1,10 @@
 ---
 import Typography from "../typography";
 import PodcastButton from "./podcast-button.astro";
+import MediaPlayer from "./media-player.astro";
 ---
 
-<section class="py-16 lg:pt-32 lg:pb-24">
+<section class="bg-primary-foreground py-16 lg:pt-32 lg:pb-24">
   <div
     class="flex w-full flex-col items-center justify-center gap-8 text-secondary"
   >
@@ -19,4 +20,5 @@ import PodcastButton from "./podcast-button.astro";
       <PodcastButton variant="secondary" />
     </div>
   </div>
+  <MediaPlayer />
 </section>

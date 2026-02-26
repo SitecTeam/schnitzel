@@ -108,6 +108,8 @@ Husky + lint-staged runs on every commit:
 8. Deploy web: `bun run deploy:web`
 9. Deploy CMS: `bun run deploy:cms`
 
+`apps/cms/wrangler.json` includes a pinned `account_id` so local dev and deploy always resolve D1/R2 bindings against the same Cloudflare account. Any teammate must be added to that account to use remote bindings.
+
 **CI/CD**: GitHub Actions runs lint + type check on PRs. Cloudflare Workers Builds handles deployment on push to main (configure in Cloudflare Dashboard).
 
 ## DB Workflow (Payload + D1)

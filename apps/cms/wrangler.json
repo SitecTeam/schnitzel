@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "schnitzel-cms",
+  "account_id": "70c30422c6838c681fe8fcd77f68d2ea",
   "compatibility_date": "2026-01-15",
   "compatibility_flags": ["nodejs_compat"],
   "main": ".open-next/worker.js",

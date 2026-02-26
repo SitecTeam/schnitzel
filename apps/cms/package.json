@@ -27,11 +27,10 @@
     "db:export:remote": "wrangler d1 export schnitzel-db --remote --output ./remote-d1-full.sql",
     "db:export:data:remote": "wrangler d1 export schnitzel-db --remote --output ./remote-d1-data.sql --no-schema",
     "db:import:local": "wrangler d1 execute schnitzel-db --local --file ./local-d1-full.sql --yes",
-    "db:import:remote": "wrangler d1 execute schnitzel-db --remote --file ./local-d1-data.sql --yes",
-    "db:sync:data:local-to-remote": "bun run db:export:data:local && bun run db:import:remote",
+    "db:import:remote:dangerous": "wrangler d1 execute schnitzel-db --remote --file ./local-d1-data.sql --yes",
+    "db:sync:data:local-to-remote:dangerous": "bun run db:export:data:local && bun run db:import:remote:dangerous",
     "db:sync:data:remote-to-local": "bun run db:export:data:remote && wrangler d1 execute schnitzel-db --local --file ./remote-d1-data.sql --yes",
     "db:seed": "wrangler d1 execute schnitzel-db --local --file ./src/db/seed.sql --yes",
-    "db:seed:remote": "wrangler d1 execute schnitzel-db --remote --file ./src/db/seed.sql --yes",
     "db:types": "payload generate:types"
   },
   "dependencies": {

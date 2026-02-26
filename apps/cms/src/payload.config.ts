@@ -18,6 +18,7 @@ import { Episodes } from "./collections/Episodes";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+const wranglerConfigPath = path.resolve(dirname, "../wrangler.json");
 const realpath = (value: string) =>
   fs.existsSync(value) ? fs.realpathSync(value) : undefined;
 
@@ -73,6 +74,7 @@ function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
   ).then(({ getPlatformProxy }) =>
     getPlatformProxy({
       environment: cloudflareEnvironment,
+      configPath: wranglerConfigPath,
       remoteBindings:
         isProduction || process.env.CLOUDFLARE_REMOTE_BINDINGS === "true",
     } satisfies GetPlatformProxyOptions)

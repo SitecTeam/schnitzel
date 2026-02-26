@@ -115,12 +115,15 @@ Husky + lint-staged runs on every commit:
 ## DB Workflow (Payload + D1)
 
 - Use Payload migrations for schema changes (collections/fields), not Drizzle.
+- Team source of truth for shared content is **remote D1 + remote R2**.
+- Day-to-day dev should treat remote as canonical and avoid writing local data back to remote.
 - Local migration status: `cd apps/cms && bun run db:migrate:status`
 - Remote migration status: `cd apps/cms && bun run db:migrate:status:remote`
 - Create migration after schema changes: `cd apps/cms && bun run db:migrate:create <name>`
 - Apply locally: `cd apps/cms && bun run db:migrate`
 - Apply to remote D1: `cd apps/cms && bun run db:migrate:remote`
-- One-off local content copy to remote (data only): `cd apps/cms && bun run db:sync:data:local-to-remote`
+- Pull remote content into local (data only): `cd apps/cms && bun run db:sync:data:remote-to-local`
+- Emergency overwrite of remote from local (data only): `cd apps/cms && bun run db:sync:data:local-to-remote:dangerous`
 
 ## Local Dev Seed Data
 
@@ -151,6 +154,8 @@ and text will work fine.
 
 `bun run dev:cms` (or `bun run dev`) already uses remote D1 + R2 by default (`CLOUDFLARE_REMOTE_BINDINGS=true`).
 Images work and data is live. **Any writes in the CMS admin will affect the remote database.**
+
+Because this mode writes directly to remote, do **not** run seed scripts against remote and do **not** run `db:sync:data:local-to-remote:dangerous` unless you intentionally want to replace shared data.
 
 **Use local D1 only (Option B — fully isolated):**
 

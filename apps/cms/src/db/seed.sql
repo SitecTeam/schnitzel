@@ -1,6 +1,6 @@
 -- Seed file for local development
--- Run with: bun run db:seed (from apps/cms)
--- This inserts sample episodes into the local D1 database.
+-- Run with: bun run db:seed (from apps/cms) or bun run db:seed:remote
+-- This inserts sample episodes into the local or remote D1 database.
 
 INSERT OR IGNORE INTO episodes (id, episode_number, title, slug, guest_name, description, audio_url, published_at, status, updated_at, created_at)
 VALUES

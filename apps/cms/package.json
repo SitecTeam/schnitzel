@@ -31,6 +31,7 @@
     "db:sync:data:local-to-remote": "bun run db:export:data:local && bun run db:import:remote",
     "db:sync:data:remote-to-local": "bun run db:export:data:remote && wrangler d1 execute schnitzel-db --local --file ./remote-d1-data.sql --yes",
     "db:seed": "wrangler d1 execute schnitzel-db --local --file ./src/db/seed.sql --yes",
+    "db:seed:remote": "wrangler d1 execute schnitzel-db --remote --file ./src/db/seed.sql --yes",
     "db:types": "payload generate:types"
   },
   "dependencies": {

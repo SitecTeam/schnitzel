@@ -1,0 +1,77 @@
+---
+import type { Episode, Media } from "@schnitzel/shared";
+import { formatDate } from "@schnitzel/shared";
+import Typography from "@/components/typography";
+import { resolveMediaUrl } from "@/lib/payload";
+
+interface Props {
+  episode: Episode;
+}
+
+const { episode } = Astro.props;
+
+const coverImage =
+  episode.coverImage && typeof episode.coverImage === "object"
+    ? (episode.coverImage as Media)
+    : null;
+const coverUrl = resolveMediaUrl(coverImage?.url);
+---
+
+<a
+  href={`/episodes/${episode.slug}`}
+  class="group flex flex-col overflow-hidden transition-opacity hover:opacity-90 md:h-122 md:flex-row"
+>
+  <!-- Cover image — 814×488 crop -->
+  <div
+    class="h-64 w-full shrink-0 overflow-hidden md:aspect-814/488 md:h-full md:w-auto"
+  >
+    {
+      coverUrl ? (
+        <img
+          src={coverUrl}
+          alt={episode.guestName}
+          width={814}
+          height={488}
+          class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+        />
+      ) : (
+        <div class="h-full w-full bg-muted" />
+      )
+    }
+  </div>
+
+  <!-- Info (right) -->
+  <div
+    class="flex flex-1 flex-col justify-center gap-4 px-4 py-6 md:px-10 md:py-10"
+  >
+    <!-- Blue title bar -->
+    <div class="inline-block self-start bg-secondary px-4 py-2.5">
+      <Typography
+        tag="h3"
+        variant="h3"
+        uppercase={true}
+        className="text-primary-foreground"
+      >
+        Episode #{episode.episodeNumber}&nbsp;{episode.guestName}
+      </Typography>
+    </div>
+
+    <!-- Date -->
+    {
+      episode.publishedAt && (
+        <Typography tag="p" variant="caption" className="text-[#7492B2]">
+          {formatDate(episode.publishedAt)}
+        </Typography>
+      )
+    }
+
+    <!-- Description -->
+    <Typography
+      tag="p"
+      variant="body-lg"
+      className="line-clamp-4 max-w-xl text-secondary"
+    >
+      {episode.description}
+    </Typography>
+  </div>
+</a>

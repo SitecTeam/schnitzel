@@ -14,6 +14,7 @@ import { r2Storage } from "@payloadcms/storage-r2";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Pages } from "./collections/Pages";
+import { Episodes } from "./collections/Episodes";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -31,6 +32,10 @@ const cloudflare =
     : await getCloudflareContext({ async: true });
 
 export default buildConfig({
+  serverURL:
+    process.env.PAYLOAD_PUBLIC_SERVER_URL ||
+    (isProduction ? "" : "http://localhost:3000"),
+
   admin: {
     user: Users.slug,
     importMap: {
@@ -38,7 +43,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Media, Pages],
+  collections: [Users, Media, Pages, Episodes],
 
   editor: lexicalEditor(),
 

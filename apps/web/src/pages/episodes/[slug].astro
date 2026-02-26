@@ -1,0 +1,146 @@
+---
+import Layout from "@/layouts/layout.astro";
+import Typography from "@/components/typography";
+import { getEpisodeBySlug, resolveMediaUrl } from "@/lib/payload";
+import { formatDate } from "@schnitzel/shared";
+import type { Media } from "@schnitzel/shared";
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect("/episodes");
+}
+
+const episode = await getEpisodeBySlug(slug);
+
+if (!episode) {
+  return new Response(null, { status: 404 });
+}
+
+const coverImage =
+  episode.coverImage && typeof episode.coverImage === "object"
+    ? (episode.coverImage as Media)
+    : null;
+const coverUrl = resolveMediaUrl(coverImage?.url);
+---
+
+<Layout title={`${episode.title} — Schnitzel Podcast`}>
+  <main class="min-h-screen bg-primary-foreground">
+    <!-- Hero / Cover -->
+    <div class="relative flex min-h-[50vh] flex-col md:flex-row">
+      <!-- Cover image -->
+      {
+        coverUrl && (
+          <div class="relative md:w-1/2 lg:w-[40%]">
+            <img
+              src={coverUrl}
+              alt={episode.guestName}
+              class="h-64 w-full object-cover grayscale md:h-full"
+            />
+          </div>
+        )
+      }
+
+      <!-- Episode meta on the right / below -->
+      <div
+        class="flex flex-1 flex-col justify-end gap-6 bg-secondary px-6 py-10 md:px-12 md:py-16 lg:px-16"
+      >
+        <div>
+          <Typography
+            tag="p"
+            variant="subtitle"
+            uppercase={true}
+            className="mb-2 text-primary/80"
+          >
+            Episode #{episode.episodeNumber}
+          </Typography>
+          <Typography
+            tag="h1"
+            variant="h3"
+            uppercase={true}
+            className="text-primary-foreground"
+          >
+            {episode.guestName}
+          </Typography>
+          <Typography
+            tag="p"
+            variant="h5"
+            uppercase={true}
+            className="mt-1 text-primary-foreground/70"
+          >
+            {episode.title}
+          </Typography>
+        </div>
+
+        {
+          episode.publishedAt && (
+            <Typography
+              tag="p"
+              variant="caption"
+              className="text-primary-foreground/60"
+            >
+              {formatDate(episode.publishedAt)}
+            </Typography>
+          )
+        }
+
+        <!-- Back link -->
+        <a
+          href="/episodes"
+          class="mt-2 inline-flex items-center gap-1.5 font-inter text-sm font-semibold text-primary-foreground/80 hover:text-primary-foreground"
+        >
+          ← All Episodes
+        </a>
+      </div>
+    </div>
+
+    <!-- Audio player (if audioUrl present) -->
+    {
+      episode.audioUrl && (
+        <div class="border-b border-secondary/20 bg-muted/40 px-6 py-6 md:px-12 lg:px-16">
+          <Typography
+            tag="p"
+            variant="caption"
+            className="mb-2 text-muted-foreground"
+          >
+            Listen
+          </Typography>
+          <audio controls class="w-full max-w-2xl">
+            <source src={episode.audioUrl} />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      )
+    }
+
+    <!-- Description / Show notes -->
+    <div class="mx-auto max-w-3xl px-6 py-12 md:px-12 lg:px-0">
+      <Typography
+        tag="p"
+        variant="body-lg"
+        className="leading-relaxed text-foreground/80"
+      >
+        {episode.description}
+      </Typography>
+
+      {
+        episode.content && (
+          <div class="prose prose-neutral mt-10 max-w-none">
+            <Typography
+              tag="h2"
+              variant="h5"
+              uppercase={true}
+              className="text-secondary mb-6"
+            >
+              Show Notes
+            </Typography>
+            {/* Full Lexical rich-text rendering requires a separate renderer — coming soon */}
+            <p class="text-sm text-muted-foreground italic">
+              Full show notes available in the Schnitzel CMS admin.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </main>
+</Layout>

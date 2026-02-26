@@ -38,6 +38,20 @@ export interface Page extends PayloadDocument {
   status: "draft" | "published";
 }
 
+/** Episode document */
+export interface Episode extends PayloadDocument {
+  episodeNumber: number;
+  title: string;
+  slug: string;
+  guestName: string;
+  description: string;
+  content?: unknown; // Lexical rich text JSON
+  coverImage?: string | Media;
+  audioUrl?: string;
+  publishedAt?: string;
+  status: "draft" | "published";
+}
+
 /** Generic Payload list response */
 export interface PayloadListResponse<T> {
   docs: T[];

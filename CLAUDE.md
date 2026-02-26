@@ -147,6 +147,8 @@ cd apps/cms
 bun run db:sync:data:remote-to-local   # pulls remote D1 data into your local DB
 ```
 
+This command resets local D1 first (local-only destructive) and then imports remote data, so it avoids `UNIQUE constraint` collisions from older local rows.
+
 Note: R2 images won't be available locally this way — cover images will 404 but episode data
 and text will work fine.
 

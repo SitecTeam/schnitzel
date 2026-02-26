@@ -29,7 +29,8 @@
     "db:import:local": "wrangler d1 execute schnitzel-db --local --file ./local-d1-full.sql --yes",
     "db:import:remote:dangerous": "wrangler d1 execute schnitzel-db --remote --file ./local-d1-data.sql --yes",
     "db:sync:data:local-to-remote:dangerous": "bun run db:export:data:local && bun run db:import:remote:dangerous",
-    "db:sync:data:remote-to-local": "bun run db:export:data:remote && wrangler d1 execute schnitzel-db --local --file ./remote-d1-data.sql --yes",
+    "db:reset:local": "node -e \"require('fs').rmSync('./.wrangler/state/v3/d1', { recursive: true, force: true })\" && bun run db:migrate",
+    "db:sync:data:remote-to-local": "bun run db:export:data:remote && bun run db:reset:local && wrangler d1 execute schnitzel-db --local --file ./remote-d1-data.sql --yes",
     "db:seed": "wrangler d1 execute schnitzel-db --local --file ./src/db/seed.sql --yes",
     "db:types": "payload generate:types"
   },

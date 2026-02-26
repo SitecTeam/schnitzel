@@ -25,6 +25,9 @@ const isCLI = process.argv.some(value =>
   realpath(value)?.endsWith(path.join("payload", "bin.js"))
 );
 const isProduction = process.env.NODE_ENV === "production";
+const cloudflareEnvironment = isProduction
+  ? (process.env.CLOUDFLARE_ENV?.trim() ?? undefined)
+  : undefined;
 
 const cloudflare =
   isCLI || !isProduction
@@ -69,7 +72,7 @@ function getCloudflareContextFromWrangler(): Promise<CloudflareContext> {
     /* webpackIgnore: true */ `${"__wrangler".replaceAll("_", "")}`
   ).then(({ getPlatformProxy }) =>
     getPlatformProxy({
-      environment: process.env.CLOUDFLARE_ENV,
+      environment: cloudflareEnvironment,
       remoteBindings:
         isProduction || process.env.CLOUDFLARE_REMOTE_BINDINGS === "true",
     } satisfies GetPlatformProxyOptions)

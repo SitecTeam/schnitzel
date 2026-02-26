@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env CLOUDFLARE_REMOTE_BINDINGS=true next dev",
+    "dev:local": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -24,8 +25,12 @@
     "db:export:local": "wrangler d1 export schnitzel-db --local --output ./local-d1-full.sql",
     "db:export:data:local": "wrangler d1 export schnitzel-db --local --output ./local-d1-data.sql --no-schema",
     "db:export:remote": "wrangler d1 export schnitzel-db --remote --output ./remote-d1-full.sql",
+    "db:export:data:remote": "wrangler d1 export schnitzel-db --remote --output ./remote-d1-data.sql --no-schema",
+    "db:import:local": "wrangler d1 execute schnitzel-db --local --file ./local-d1-full.sql --yes",
     "db:import:remote": "wrangler d1 execute schnitzel-db --remote --file ./local-d1-data.sql --yes",
     "db:sync:data:local-to-remote": "bun run db:export:data:local && bun run db:import:remote",
+    "db:sync:data:remote-to-local": "bun run db:export:data:remote && wrangler d1 execute schnitzel-db --local --file ./remote-d1-data.sql --yes",
+    "db:seed": "wrangler d1 execute schnitzel-db --local --file ./src/db/seed.sql --yes",
     "db:types": "payload generate:types"
   },
   "dependencies": {

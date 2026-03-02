@@ -1,4 +1,5 @@
 ---
+import MarqueeWrapper from "@/components/astro/marquee/marquee-wrapper.astro";
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import PodbeanEpisodePlayer from "@/components/islands/podbean";
 import { extractPodbeanEpisodeId } from "@/components/islands/podbean/utils";
@@ -8,6 +9,7 @@ import Layout from "@/layouts/layout.astro";
 import { getEpisodeBySlug, resolveMediaUrl } from "@/lib/payload";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { formatDateWithOrdinal, type Media } from "@schnitzel/shared";
+import climbingImage from "@/assets/banners/climbing.jpg";
 
 const { slug } = Astro.params;
 
@@ -35,24 +37,27 @@ const podbeanEpisodeId = extractPodbeanEpisodeId(episode.audioUrl);
 
 <Layout title={`${episode.guestName} — Schnitzel Podcast`}>
   <main class="flex min-h-screen flex-col items-center justify-center lg:pb-24">
+    <MarqueeWrapper
+      imageSrc={climbingImage}
+      imageAlt={episode.title}
+      textPosition="below"
+      marqueeText={episode.title}
+      className="mb-28"
+    />
     <Typography variant="caption" className="text-[#7492B2]">
       {formattedPublishedAt}
     </Typography>
     <Typography
       tag="h1"
       variant="h1"
-      className="text-secondary uppercase lg:mt-6"
+      className="text-center text-pretty text-secondary uppercase lg:mt-6"
     >
       {episode.title}
     </Typography>
     <RichTextWrapper data={content} />
     {
       episode.youtubeUrl && (
-        <PodcastButton
-          variant="secondary"
-          href={episode.youtubeUrl}
-          class="mt-"
-        />
+        <PodcastButton variant="secondary" href={episode.youtubeUrl} />
       )
     }
     {

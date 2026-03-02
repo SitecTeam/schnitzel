@@ -5,7 +5,7 @@ import MarqueeImage from "./marquee-image.astro";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  imageSrc: ImageMetadata;
+  imageSrc: ImageMetadata | string | null;
   imageAlt?: string;
   marqueeText?: string;
   textPosition?: "above" | "below";

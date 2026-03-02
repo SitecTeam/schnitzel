@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  imageSrc: ImageMetadata;
+  imageSrc: ImageMetadata | string | null;
   imageAlt?: string;
   imagePosition?: "object-top" | "object-center" | "object-bottom";
   className?: string;
@@ -26,8 +26,10 @@ const imageHeightClass = fixedHeight
 
 <div class={className}>
   <Image
-    src={imageSrc}
+    src={imageSrc as string}
     alt={imageAlt}
+    width={200}
+    height={400}
     class={cn("min-h-100 w-full object-cover", imageHeightClass, imagePosition)}
   />
 </div>

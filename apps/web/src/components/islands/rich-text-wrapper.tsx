@@ -38,7 +38,11 @@ const RichTextWrapper = ({ data }: RichTextWrapperProps) => {
           const variant = node.tag as "h1" | "h2" | "h3" | "h4" | "h5";
 
           return (
-            <Typography variant={variant} tag={tag} className="text-secondary">
+            <Typography
+              variant={variant}
+              tag={tag}
+              className="text-center text-pretty text-secondary"
+            >
               {children}
             </Typography>
           );
@@ -102,7 +106,7 @@ const RichTextWrapper = ({ data }: RichTextWrapperProps) => {
         quote: ({ node, nodesToJSX }) => {
           const children = nodesToJSX({ nodes: node.children });
           return (
-            <blockquote className="border-l-4 border-white pl-4 italic">
+            <blockquote className="border-l-4 border-white pl-4 text-center text-pretty text-secondary italic">
               <Typography>{children}</Typography>
             </blockquote>
           );

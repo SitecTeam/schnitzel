@@ -170,6 +170,39 @@ export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
 }
 
 /**
+ * Fetch the previous and next published episodes relative to the given
+ * episode number. Uses two targeted queries (limit=1 each) so it scales
+ * to any number of episodes without fetching the full list.
+ */
+export async function getAdjacentEpisodes(episodeNumber: number): Promise<{
+  prev: Episode | null;
+  next: Episode | null;
+}> {
+  const [prevRes, nextRes] = await Promise.all([
+    fetch(
+      `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][greater_than]=${episodeNumber}&sort=episodeNumber&limit=1&depth=0`,
+      { headers: { "Content-Type": "application/json" } }
+    ),
+    fetch(
+      `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][less_than]=${episodeNumber}&sort=-episodeNumber&limit=1&depth=0`,
+      { headers: { "Content-Type": "application/json" } }
+    ),
+  ]);
+
+  const prevData: PayloadListResponse<Episode> = prevRes.ok
+    ? await prevRes.json()
+    : ({ docs: [] } as unknown as PayloadListResponse<Episode>);
+  const nextData: PayloadListResponse<Episode> = nextRes.ok
+    ? await nextRes.json()
+    : ({ docs: [] } as unknown as PayloadListResponse<Episode>);
+
+  return {
+    prev: prevData.docs[0] ?? null,
+    next: nextData.docs[0] ?? null,
+  };
+}
+
+/**
  * Fetch a Payload global (e.g., site settings, nav).
  */
 export async function getGlobal<T = Record<string, unknown>>(

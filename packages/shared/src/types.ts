@@ -48,6 +48,7 @@ export interface Episode extends PayloadDocument {
   content?: unknown; // Lexical rich text JSON
   coverImage?: string | Media;
   audioUrl?: string;
+  youtubeUrl?: string;
   publishedAt?: string;
   status: "draft" | "published";
 }

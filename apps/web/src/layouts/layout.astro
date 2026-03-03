@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Header from "./header.astro";
 import Footer from "./footer.astro";
@@ -20,6 +21,7 @@ const { title, description = "Built with Astro, Payload CMS & Cloudflare" } =
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class="min-h-screen font-sans antialiased">
     <Header />

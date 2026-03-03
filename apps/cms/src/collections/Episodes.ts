@@ -60,6 +60,7 @@ export const Episodes: CollectionConfig = {
       relationTo: "media",
       label: "Cover Image",
     },
+    { name: "youtubeUrl", type: "text", label: "YouTube URL" },
     {
       name: "audioUrl",
       type: "text",

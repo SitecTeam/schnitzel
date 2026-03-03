@@ -22,7 +22,7 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
   };
 
   return (
-    <section className="flex h-41.5 w-full max-w-225 flex-col justify-center">
+    <section className="flex h-41.5 w-full max-w-250 flex-col justify-center lg:mt-3.5">
       <div className="flex w-full items-center gap-0.5 px-2 sm:px-4">
         <PodbeanButtonWrapper
           handlePlay={handlePlay}

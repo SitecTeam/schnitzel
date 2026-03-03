@@ -4,10 +4,11 @@ import { Image } from "astro:assets";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  imageSrc: ImageMetadata;
+  imageSrc: ImageMetadata | string | null;
   imageAlt?: string;
   imagePosition?: "object-top" | "object-center" | "object-bottom";
   className?: string;
+  fixedHeight?: boolean;
 }
 
 const {
@@ -15,16 +16,23 @@ const {
   imageAlt = "Schnitzel Show",
   imagePosition = "object-center",
   className,
+  fixedHeight = false,
 } = Astro.props;
+
+const imageHeightClass = fixedHeight
+  ? "h-130"
+  : "lg:h-[80vh] xl:h-[85vh] 2xl:h-[85vh]";
 ---
 
 <div class={className}>
   <Image
-    src={imageSrc}
+    src={imageSrc as string}
     alt={imageAlt}
-    class={cn(
-      "min-h-100 w-full object-cover lg:h-[80vh] xl:h-[85vh] 2xl:h-[85vh]",
-      imagePosition
-    )}
+    width={200}
+    height={400}
+    loading="eager"
+    decoding="async"
+    fetchpriority="high"
+    class={cn("min-h-100 w-full object-cover", imageHeightClass, imagePosition)}
   />
 </div>

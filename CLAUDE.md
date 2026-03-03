@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 bun install              # Install all workspace dependencies
 bun run dev              # Start all apps in dev mode (turbo)
 bun run dev:web          # Start Astro frontend at localhost:4321
-bun run dev:cms          # Start Payload CMS at localhost:3000/admin
+bun run dev:cms          # Start Payload CMS at localhost:3000/admin (uses remote D1 + R2 by default)
 bun run build            # Build all apps (turbo)
 bun run lint             # Lint all apps
 bun run format           # Format all files with Prettier
@@ -108,14 +108,60 @@ Husky + lint-staged runs on every commit:
 8. Deploy web: `bun run deploy:web`
 9. Deploy CMS: `bun run deploy:cms`
 
+`apps/cms/wrangler.json` includes a pinned `account_id` so local dev and deploy always resolve D1/R2 bindings against the same Cloudflare account. Any teammate must be added to that account to use remote bindings.
+
 **CI/CD**: GitHub Actions runs lint + type check on PRs. Cloudflare Workers Builds handles deployment on push to main (configure in Cloudflare Dashboard).
 
 ## DB Workflow (Payload + D1)
 
 - Use Payload migrations for schema changes (collections/fields), not Drizzle.
+- Team source of truth for shared content is **remote D1 + remote R2**.
+- Day-to-day dev should treat remote as canonical and avoid writing local data back to remote.
 - Local migration status: `cd apps/cms && bun run db:migrate:status`
 - Remote migration status: `cd apps/cms && bun run db:migrate:status:remote`
 - Create migration after schema changes: `cd apps/cms && bun run db:migrate:create <name>`
 - Apply locally: `cd apps/cms && bun run db:migrate`
 - Apply to remote D1: `cd apps/cms && bun run db:migrate:remote`
-- One-off local content copy to remote (data only): `cd apps/cms && bun run db:sync:data:local-to-remote`
+- Pull remote content into local (data only): `cd apps/cms && bun run db:sync:data:remote-to-local`
+- Emergency overwrite of remote from local (data only): `cd apps/cms && bun run db:sync:data:local-to-remote:dangerous`
+
+## Local Dev Seed Data
+
+Each developer has their own isolated local D1 SQLite database (managed by wrangler). It starts empty on a fresh clone.
+
+**First-time setup for a new developer:**
+
+```bash
+cd apps/cms
+bun run db:migrate   # apply all schema migrations
+bun run db:seed      # insert sample episodes (src/db/seed.sql)
+```
+
+To add seed entries, edit `apps/cms/src/db/seed.sql`.
+To share your full local DB with a colleague: `bun run db:export:local` → sends `local-d1-full.sql`, colleague runs `bun run db:import:local`.
+
+**Sync real data from remote to local (Option A — safe):**
+
+```bash
+cd apps/cms
+bun run db:sync:data:remote-to-local   # pulls remote D1 data into your local DB
+```
+
+This command resets local D1 first (local-only destructive), clears local `payload_migrations`, and then imports remote data, so it avoids `UNIQUE constraint` collisions from older local rows.
+
+Note: R2 images won't be available locally this way — cover images will 404 but episode data
+and text will work fine.
+
+**Use remote D1 + R2 in local dev (default):**
+
+`bun run dev:cms` (or `bun run dev`) already uses remote D1 + R2 by default (`CLOUDFLARE_REMOTE_BINDINGS=true`).
+Images work and data is live. **Any writes in the CMS admin will affect the remote database.**
+
+Because this mode writes directly to remote, do **not** run seed scripts against remote and do **not** run `db:sync:data:local-to-remote:dangerous` unless you intentionally want to replace shared data.
+
+**Use local D1 only (Option B — fully isolated):**
+
+```bash
+cd apps/cms
+bun run dev:local   # runs next dev against local SQLite only, no remote bindings
+```

@@ -6,25 +6,28 @@ import Typography from "@/components/typography";
 
 interface Props {
   variant?: "primary" | "secondary";
+  href?: string;
   class?: string;
 }
 
-const { class: className, variant = "primary" } = Astro.props;
+const { class: className, variant = "primary", href } = Astro.props;
 ---
 
 <a
   target="_blank"
   rel="noopener noreferrer"
-  href={variant === "primary"
-    ? "https://schnitzelshow.podbean.com/"
-    : "https://www.youtube.com/@schnitzelsnow"}
+  href={href
+    ? href
+    : variant === "primary"
+      ? "https://schnitzelshow.podbean.com/"
+      : "https://www.youtube.com/@schnitzelsnow"}
   class={cn(
     buttonVariants({ variant }),
     variant === "secondary" && "xl:pr-6",
     className
   )}
 >
-  <Typography tag="span" variant="button-regular" className="xl:text-[17px]">
+  <Typography tag="span" variant="button-regular">
     {variant === "primary" ? "Listen Now" : "Watch On Youtube"}
   </Typography>
   <Play className="size-4 xl:size-5" />

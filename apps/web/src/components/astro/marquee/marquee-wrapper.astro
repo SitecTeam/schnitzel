@@ -5,7 +5,7 @@ import MarqueeImage from "./marquee-image.astro";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  imageSrc: ImageMetadata;
+  imageSrc: ImageMetadata | string | null;
   imageAlt?: string;
   marqueeText?: string;
   textPosition?: "above" | "below";
@@ -51,9 +51,14 @@ const {
           imageSrc={imageSrc}
           imageAlt={imageAlt}
           imagePosition={imagePosition}
-          className="-mb-6 md:-mb-8 lg:-mb-20"
+          className="-mb-6 md:-mb-8 lg:-mb-11.5"
+          fixedHeight={true}
         />
-        <MarqueeBanner marqueeText={marqueeText} rotation={rotation} />
+        <MarqueeBanner
+          marqueeText={marqueeText}
+          rotation={rotation}
+          compact={true}
+        />
       </>
     )
   }

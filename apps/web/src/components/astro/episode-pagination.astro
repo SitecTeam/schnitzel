@@ -1,0 +1,46 @@
+---
+import type { Episode } from "@schnitzel/shared";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Typography from "../typography";
+
+interface Props {
+  prev: Episode | null;
+  next: Episode | null;
+}
+
+const { prev, next } = Astro.props;
+---
+
+<nav class="mt-16 flex w-full items-center justify-between lg:mt-33 lg:px-10">
+  {
+    prev ? (
+      <a
+        href={`/episodes/${prev.slug}`}
+        class="flex items-center gap-2 text-secondary transition-opacity hover:opacity-80"
+      >
+        <ChevronLeft className="size-6 shrink-0 md:size-12" />
+        <Typography variant="h4" className="uppercase">
+          {prev.title}
+        </Typography>
+      </a>
+    ) : (
+      <div />
+    )
+  }
+
+  {
+    next ? (
+      <a
+        href={`/episodes/${next.slug}`}
+        class="flex items-center gap-2 text-secondary transition-opacity hover:opacity-70"
+      >
+        <Typography variant="h4" className="uppercase">
+          {next.title}
+        </Typography>
+        <ChevronRight className="size-6 shrink-0 md:size-12" />
+      </a>
+    ) : (
+      <div />
+    )
+  }
+</nav>

@@ -1,16 +1,73 @@
 ---
 import Layout from "@/layouts/layout.astro";
-import PodbeanEpisodePlayer from "@/components/islands/podbean";
+import EpisodesFilters from "@/components/islands/episodes-filters";
+import EpisodesList from "@/components/islands/episodes-list";
+import Typography from "@/components/typography";
+import { getEpisodes } from "@/lib/payload";
 
-export const prerender = true;
+const search = Astro.url.searchParams.get("search") ?? undefined;
+const sort = Astro.url.searchParams.get("sort") ?? "-episodeNumber";
+
+let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
+let initialPage = 1;
+let initialHasNextPage = false;
+let error: string | null = null;
+const fetchOnMount = import.meta.env.DEV;
+
+if (!fetchOnMount) {
+  try {
+    const result = await getEpisodes({ search, sort });
+    episodes = result.docs;
+    initialPage = result.page;
+    initialHasNextPage = result.hasNextPage;
+  } catch (e) {
+    error = "Could not load episodes. Please try again later.";
+    console.error(e);
+  }
+}
 ---
 
-<Layout title="Schnitzel">
-  <main class="flex min-h-screen flex-col items-center justify-center">
-    <PodbeanEpisodePlayer
-      client:load
-      id="5rjbn-1a356c3-pb"
-      title="#31 James Mchaffie"
-    />
+<Layout title="All Episodes — Schnitzel Podcast">
+  <main class="min-h-screen bg-primary-foreground pt-10 pb-20 md:pt-14">
+    <div class="mx-auto w-full max-w-432.5 px-4 md:px-8 lg:px-6 xl:px-10">
+      <!-- Page header -->
+      <div
+        class="mb-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      >
+        <Typography
+          tag="h1"
+          variant="h1"
+          uppercase={true}
+          className="text-secondary"
+        >
+          All Episodes
+        </Typography>
+
+        <EpisodesFilters
+          initialSearch={search ?? ""}
+          initialSort={sort}
+          client:load
+        />
+      </div>
+
+      <!-- Episodes list -->
+      <section>
+        {
+          error ? (
+            <p class="py-16 text-center text-muted-foreground">{error}</p>
+          ) : (
+            <EpisodesList
+              initialDocs={episodes}
+              initialSearch={search ?? ""}
+              initialSort={sort}
+              initialPage={initialPage}
+              initialHasNextPage={initialHasNextPage}
+              fetchOnMount={fetchOnMount}
+              client:load
+            />
+          )
+        }
+      </section>
+    </div>
   </main>
 </Layout>

@@ -5,11 +5,15 @@ import PodbeanEpisodePlayer from "@/components/islands/podbean";
 import { extractPodbeanEpisodeId } from "@/components/islands/podbean/utils";
 import RichTextWrapper from "@/components/islands/rich-text-wrapper";
 import Typography from "@/components/typography";
+import EpisodePagination from "@/components/astro/episode-pagination.astro";
 import Layout from "@/layouts/layout.astro";
-import { getEpisodeBySlug, resolveMediaUrl } from "@/lib/payload";
+import {
+  getAdjacentEpisodes,
+  getEpisodeBySlug,
+  resolveMediaUrl,
+} from "@/lib/payload";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { formatDateWithOrdinal, type Media } from "@schnitzel/shared";
-import climbingImage from "@/assets/banners/climbing.jpg";
 
 const { slug } = Astro.params;
 
@@ -23,10 +27,13 @@ if (!episode) {
   return new Response(null, { status: 404 });
 }
 
+const { prev, next } = await getAdjacentEpisodes(episode.episodeNumber);
+
 const coverImage =
   episode.coverImage && typeof episode.coverImage === "object"
     ? (episode.coverImage as Media)
     : null;
+
 const coverUrl = resolveMediaUrl(coverImage?.url);
 const formattedPublishedAt = episode.publishedAt
   ? formatDateWithOrdinal(episode.publishedAt)
@@ -35,14 +42,15 @@ const content = episode.content as SerializedEditorState | null;
 const podbeanEpisodeId = extractPodbeanEpisodeId(episode.audioUrl);
 ---
 
-<Layout title={`${episode.guestName} — Schnitzel Podcast`}>
+<Layout title={`${episode.title} — Schnitzel Podcast`}>
   <main class="flex min-h-screen flex-col items-center justify-center lg:pb-24">
     <MarqueeWrapper
-      imageSrc={climbingImage}
+      imageSrc={coverUrl}
       imageAlt={episode.title}
       textPosition="below"
       marqueeText={episode.title}
       className="mb-28"
+      transition:animate="fade"
     />
     <Typography variant="caption" className="text-[#7492B2]">
       {formattedPublishedAt}
@@ -69,5 +77,6 @@ const podbeanEpisodeId = extractPodbeanEpisodeId(episode.audioUrl);
         />
       )
     }
+    <EpisodePagination prev={prev} next={next} />
   </main>
 </Layout>

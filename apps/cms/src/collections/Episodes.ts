@@ -61,7 +61,34 @@ export const Episodes: CollectionConfig = {
       relationTo: "media",
       label: "Cover Image",
     },
-    { name: "youtubeUrl", type: "text", label: "YouTube URL" },
+    {
+      name: "youtubeUrl",
+      type: "text",
+      label: "YouTube URL",
+      validate: (value: string | null | undefined) => {
+        if (!value) {
+          // Allow empty values; required-ness can be controlled separately if needed
+          return true;
+        }
+        try {
+          const url = new URL(value);
+          if (url.protocol !== "https:") {
+            return "YouTube URL must use https://";
+          }
+          const hostname = url.hostname.toLowerCase();
+          const isYoutubeDomain =
+            hostname === "youtu.be" ||
+            hostname === "youtube.com" ||
+            hostname.endsWith(".youtube.com");
+          if (!isYoutubeDomain) {
+            return "YouTube URL must be from youtube.com or youtu.be";
+          }
+          return true;
+        } catch {
+          return "YouTube URL must be a valid URL";
+        }
+      },
+    },
     {
       name: "audioUrl",
       type: "text",

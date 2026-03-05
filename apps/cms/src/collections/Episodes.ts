@@ -21,6 +21,7 @@ export const Episodes: CollectionConfig = {
       type: "number",
       required: true,
       label: "Episode Number",
+      index: true,
     },
     {
       name: "title",
@@ -70,6 +71,7 @@ export const Episodes: CollectionConfig = {
       name: "publishedAt",
       type: "date",
       label: "Published At",
+      index: true,
       admin: {
         position: "sidebar",
         date: {
@@ -82,6 +84,7 @@ export const Episodes: CollectionConfig = {
       type: "select",
       required: true,
       defaultValue: "draft",
+      index: true,
       options: [
         { label: "Draft", value: "draft" },
         { label: "Published", value: "published" },

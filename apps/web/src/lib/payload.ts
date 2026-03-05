@@ -10,6 +10,7 @@ import type { PayloadListResponse, Episode } from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
+const EPISODES_CACHE_TTL_MS = 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)
 const PAYLOAD_SERVER_URL = PAYLOAD_API_URL.replace(/\/api\/?$/, "");
@@ -31,6 +32,43 @@ interface PayloadRequestOptions {
   query?: Record<string, string | number | boolean>;
   /** Additional fetch options */
   fetchOptions?: RequestInit;
+}
+
+type CacheEntry<T> = {
+  data: T;
+  expiresAt: number;
+};
+
+const responseCache = new Map<string, CacheEntry<unknown>>();
+const inflightRequests = new Map<string, Promise<unknown>>();
+
+function getCachedResponse<T>(key: string): T | null {
+  const entry = responseCache.get(key) as CacheEntry<T> | undefined;
+  if (!entry) return null;
+  if (entry.expiresAt <= Date.now()) {
+    responseCache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function setCachedResponse<T>(key: string, data: T, ttlMs: number): void {
+  responseCache.set(key, {
+    data,
+    expiresAt: Date.now() + ttlMs,
+  });
+}
+
+function getInflightRequest<T>(key: string): Promise<T> | null {
+  return (inflightRequests.get(key) as Promise<T> | undefined) ?? null;
+}
+
+function setInflightRequest<T>(key: string, request: Promise<T>): void {
+  inflightRequests.set(key, request as Promise<unknown>);
+}
+
+function clearInflightRequest(key: string): void {
+  inflightRequests.delete(key);
 }
 
 /**
@@ -118,12 +156,21 @@ interface GetEpisodesOptions {
 export async function getEpisodes(
   options: GetEpisodesOptions = {}
 ): Promise<PayloadListResponse<Episode>> {
-  const { search, sort = "-episodeNumber", page = 1, limit = 100 } = options;
+  const { search, sort = "-episodeNumber", page = 1, limit = 12 } = options;
 
   const parts: string[] = [
     "where[status][equals]=published",
     `sort=${encodeURIComponent(sort)}`,
     "depth=1",
+    "select[episodeNumber]=true",
+    "select[title]=true",
+    "select[slug]=true",
+    "select[guestName]=true",
+    "select[description]=true",
+    "select[coverImage]=true",
+    "select[publishedAt]=true",
+    "select[audioUrl]=true",
+    "select[status]=true",
     `limit=${limit}`,
     `page=${page}`,
   ];
@@ -139,17 +186,35 @@ export async function getEpisodes(
 
   const url = `${PAYLOAD_API_URL}/episodes?${parts.join("&")}`;
 
-  const response = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-  });
+  const cached = getCachedResponse<PayloadListResponse<Episode>>(url);
+  if (cached) return cached;
 
-  if (!response.ok) {
-    throw new Error(
-      `Payload API error: ${response.status} ${response.statusText}`
-    );
+  const inflight = getInflightRequest<PayloadListResponse<Episode>>(url);
+  if (inflight) return inflight;
+
+  const request = (async () => {
+    const response = await fetch(url, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Payload API error: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data: PayloadListResponse<Episode> = await response.json();
+    setCachedResponse(url, data, EPISODES_CACHE_TTL_MS);
+    return data;
+  })();
+
+  setInflightRequest(url, request);
+
+  try {
+    return await request;
+  } finally {
+    clearInflightRequest(url);
   }
-
-  return response.json();
 }
 
 /**
@@ -159,14 +224,35 @@ export async function getEpisodes(
 export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
   const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`;
 
-  const response = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-  });
+  const cached = getCachedResponse<PayloadListResponse<Episode>>(url);
+  if (cached) return cached.docs[0] ?? null;
 
-  if (!response.ok) return null;
+  const inflight = getInflightRequest<PayloadListResponse<Episode>>(url);
+  if (inflight) {
+    const data = await inflight;
+    return data.docs[0] ?? null;
+  }
 
-  const data: PayloadListResponse<Episode> = await response.json();
-  return data.docs[0] ?? null;
+  const request = (async () => {
+    const response = await fetch(url, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) return null;
+
+    const data: PayloadListResponse<Episode> = await response.json();
+    setCachedResponse(url, data, EPISODES_CACHE_TTL_MS);
+    return data;
+  })();
+
+  setInflightRequest(url, request);
+
+  try {
+    const data = await request;
+    return data?.docs[0] ?? null;
+  } finally {
+    clearInflightRequest(url);
+  }
 }
 
 /**

@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { Search } from "lucide-react";
-
 interface EpisodesFiltersProps {
   initialSearch?: string;
   initialSort?: string;
@@ -24,7 +23,17 @@ export default function EpisodesFilters({
     if (search.trim()) params.set("search", search.trim());
     if (sort && sort !== "-episodeNumber") params.set("sort", sort);
     const qs = params.toString();
-    window.location.href = qs ? `/episodes?${qs}` : "/episodes";
+    const nextPath = qs ? `/episodes?${qs}` : "/episodes";
+    window.history.replaceState({}, "", nextPath);
+
+    window.dispatchEvent(
+      new CustomEvent("episodes:filters-change", {
+        detail: {
+          search: search.trim(),
+          sort,
+        },
+      })
+    );
   }
 
   function handleSortChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -39,7 +48,6 @@ export default function EpisodesFilters({
   }
 
   function handleSearchBlur(e: React.FocusEvent<HTMLInputElement>) {
-    // Only navigate on blur if value actually changed
     if (e.target.value !== initialSearch) {
       navigate(e.target.value, getSelectedSort());
     }
@@ -51,13 +59,11 @@ export default function EpisodesFilters({
     return select?.value ?? initialSort;
   }
 
-  // button-regular = Inter 16px bold — matches textVariants["button-regular"]
   const btnCls =
     "font-inter text-[16px] leading-[27px] font-bold text-secondary";
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      {/* Search input */}
       <div className="relative flex min-w-48 flex-1 items-center sm:flex-none">
         <input
           ref={searchRef}
@@ -71,7 +77,6 @@ export default function EpisodesFilters({
         <Search className="absolute right-2.5 h-4 w-4 text-secondary" />
       </div>
 
-      {/* Sort select */}
       <div className="flex items-center gap-2">
         <span className={btnCls}>Sort by:</span>
         <select

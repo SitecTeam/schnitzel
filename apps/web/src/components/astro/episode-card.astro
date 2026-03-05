@@ -32,6 +32,8 @@ const coverUrl = resolveMediaUrl(coverImage?.url);
           alt={episode.guestName}
           width={814}
           height={488}
+          loading="lazy"
+          decoding="async"
           class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
         />
       ) : (

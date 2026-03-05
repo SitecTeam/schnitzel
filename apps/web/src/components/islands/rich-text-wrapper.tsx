@@ -90,11 +90,11 @@ const RichTextWrapper = ({ data }: RichTextWrapperProps) => {
             alt?: string | null;
           };
           return (
-            <div className="relative max-h-[37.5rem] min-h-[22.375rem] w-full overflow-hidden rounded-xl lg:min-h-[37.5rem]">
+            <div className="w-full overflow-hidden rounded-lg">
               <img
                 src={image.url || ""}
                 alt={image.alt || "Episode image"}
-                className="object-cover"
+                className="block h-auto w-full"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw"
                 loading="lazy"
                 decoding="sync"

@@ -1,0 +1,50 @@
+---
+import Typography from "../typography";
+import { ArrowRight } from "lucide-react";
+import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astro";
+---
+
+<section
+  class="mx-auto flex flex-col items-center justify-center gap-8 px-4 py-12 lg:max-w-432.5 lg:gap-10 lg:px-10 lg:pt-25 lg:pb-50"
+>
+  <div class="flex w-full flex-col justify-between lg:flex-row lg:items-end">
+    <Typography variant="h1" tag="h1" className="text-secondary uppercase">
+      <span class="hidden lg:inline">Featured episodes</span>
+      <span class="lg:hidden">Top episodes</span>
+    </Typography>
+    <a
+      href="/episodes"
+      aria-label="See all featured episodes button"
+      class="mb-3.5 hidden h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:flex"
+    >
+      <Typography variant="button-regular">See All Episodes</Typography>
+      <ArrowRight className="size-5 shrink-0" />
+    </a>
+  </div>
+  <section class="w-full">
+    <FeaturedEpisodesList server:defer>
+      <div
+        slot="fallback"
+        class="flex h-fit w-full flex-col gap-16 lg:grid lg:grid-cols-3 lg:gap-5"
+      >
+        {
+          [0, 1, 2].map(i => (
+            <div class="flex h-full w-full flex-col">
+              <div class="h-56 w-full animate-pulse bg-muted lg:h-110" />
+              <div class="mt-3 h-12 w-5/6 animate-pulse bg-muted" />
+              <div class="mt-3 h-20 w-full animate-pulse bg-muted" />
+            </div>
+          ))
+        }
+      </div>
+    </FeaturedEpisodesList>
+  </section>
+  <a
+    href="/episodes"
+    aria-label="See all featured episodes button"
+    class="flex h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:hidden"
+  >
+    <Typography variant="button-regular">See All Episodes</Typography>
+    <ArrowRight className="size-5 shrink-0" />
+  </a>
+</section>

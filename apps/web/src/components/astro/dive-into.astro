@@ -4,21 +4,29 @@ import PodcastButton from "./podcast-button.astro";
 import MediaPlayer from "./media-player.astro";
 ---
 
-<section class="bg-primary-foreground pt-16 lg:pt-32">
+<section class="bg-primary-foreground py-16 lg:pt-32 lg:pb-0">
   <div
-    class="flex w-full flex-col items-center justify-center gap-8 text-secondary"
+    class="flex w-full flex-col items-center justify-center gap-8 px-4 text-secondary"
   >
-    <Typography variant="h1" tag="h1" className="text-center text-balance"
+    <Typography
+      variant="h1"
+      tag="h1"
+      className="order-1 text-center text-pretty uppercase"
       >Dive into the Schnitzel show</Typography
     >
-    <Typography variant="body-xl" className="max-w-181 text-center">
+    <Typography
+      variant="body-xl"
+      className="order-3 max-w-181 text-center text-[18px] leading-[31px] lg:order-2"
+    >
       If you enjoy the conversations, you can support the podcast by
       subscribing, sharing episodes, or becoming a partner.
     </Typography>
-    <div class="flex flex-col gap-4 sm:flex-row">
+    <div
+      class="order-4 flex w-full flex-col gap-3 sm:w-fit sm:flex-row lg:order-3 lg:gap-4"
+    >
       <PodcastButton variant="primary" />
       <PodcastButton variant="secondary" />
     </div>
+    <MediaPlayer />
   </div>
-  <MediaPlayer />
 </section>

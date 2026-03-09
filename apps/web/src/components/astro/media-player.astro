@@ -3,14 +3,12 @@ import mediaPlayer from "@/assets/media-player.png";
 import Typography from "@/components/typography";
 ---
 
-<section
-  class="mt-12 bg-primary-foreground pb-14 md:mt-16 md:pb-18 lg:mt-24 lg:pb-35.75"
->
+<section class="order-2 bg-primary-foreground lg:order-4 lg:mt-16 lg:pb-35.75">
   <div class="mx-auto w-full max-w-7xl px-4 md:px-8">
     <!-- Mobile layout: boxes above + below the image -->
-    <div class="md:hidden">
+    <div class="lg:hidden">
       <!-- Two boxes above image -->
-      <div class="mb-3 flex items-stretch gap-3">
+      <div class="mb-3 hidden items-stretch gap-3 lg:flex">
         <div
           class="flex flex-1 flex-col items-center justify-center rounded-xl bg-[#16D8D3] px-4 py-3 text-center text-primary-foreground shadow-lg"
         >
@@ -42,7 +40,7 @@ import Typography from "@/components/typography";
         class="mx-auto block h-auto w-full"
       />
       <!-- Two boxes below image -->
-      <div class="mt-3 flex items-stretch gap-3">
+      <div class="mt-3 hidden items-stretch gap-3 lg:flex">
         <div
           class="flex flex-1 flex-col items-center justify-center rounded-xl bg-[#FFC567] px-4 py-3 text-center text-primary-foreground shadow-lg"
         >
@@ -71,7 +69,7 @@ import Typography from "@/components/typography";
     </div>
 
     <!-- Desktop layout: image with absolute overlays -->
-    <div class="relative mx-auto hidden w-full max-w-216 md:block">
+    <div class="relative mx-auto hidden w-full max-w-216 lg:block">
       <img
         src={mediaPlayer.src}
         alt="Schnitzel media player"
@@ -79,7 +77,7 @@ import Typography from "@/components/typography";
       />
 
       <!-- Desktop overlays (hidden on mobile) -->
-      <div class="pointer-events-none absolute inset-0 z-10 hidden md:block">
+      <div class="pointer-events-none absolute inset-0 z-10 hidden lg:block">
         {/* Left callout: No scripts */}
         <div
           class="absolute top-[30%] left-2 w-52 rounded-xl bg-[#16D8D3] px-5 py-4 text-center text-primary-foreground shadow-lg lg:-left-20 lg:w-64"

@@ -9,7 +9,11 @@ import Typography, { textVariants } from "@/components/typography";
 import { Play } from "lucide-react";
 
 const result = await getCollection<Episode>("episodes", {
-  query: { limit: 3, sort: "-episodeNumber" },
+  query: {
+    limit: 3,
+    sort: "-episodeNumber",
+    "where[status][equals]": "published",
+  },
 });
 
 const episodes = result.docs;

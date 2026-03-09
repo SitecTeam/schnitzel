@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Typography from "../typography";
 
 const faqItems = [
@@ -68,7 +68,7 @@ const Faq = () => {
                     <Typography variant="h5" tag="h5">
                       {item.question}
                     </Typography>
-                    <ChevronUp className="size-9 shrink-0 text-secondary transition-transform duration-200 lg:mt-0.5" />
+                    <ChevronDown className="size-9 shrink-0 text-secondary transition-transform duration-200 lg:mt-0.5" />
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="pt-2 pb-0 text-primary-foreground lg:pt-4">

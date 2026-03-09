@@ -7,6 +7,7 @@ import Layout from "@/layouts/layout.astro";
 import podcastBanner from "@/assets/banners/podcast.jpg";
 import climbingBanner from "@/assets/banners/climbing.jpg";
 import DiveInto from "@/components/astro/dive-into.astro";
+import FeaturedEpisodes from "@/components/astro/featured-episodes.astro";
 
 export const prerender = true;
 ---
@@ -20,6 +21,7 @@ export const prerender = true;
     className="bg-secondary"
   />
   <AboutUs />
+  <FeaturedEpisodes />
   <GuestsWhoInspire />
   <MarqueeWrapper
     imageSrc={climbingBanner}

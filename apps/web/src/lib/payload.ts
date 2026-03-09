@@ -264,7 +264,7 @@ export async function getAdjacentEpisodes(episodeNumber: number): Promise<{
   prev: Episode | null;
   next: Episode | null;
 }> {
-  const [prevRes, nextRes] = await Promise.all([
+  const [nextRes, prevRes] = await Promise.all([
     fetch(
       `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][greater_than]=${episodeNumber}&sort=episodeNumber&limit=1&depth=0`,
       { headers: { "Content-Type": "application/json" } }

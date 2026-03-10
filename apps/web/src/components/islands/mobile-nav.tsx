@@ -19,13 +19,13 @@ interface NavItem {
 
 interface MobileNavProps {
   isHome: boolean;
-  pathname: string;
+  // pathname: string;
   navItems: NavItem[];
 }
 
 export default function MobileNav({
   isHome,
-  pathname,
+  // pathname,
   navItems,
 }: MobileNavProps) {
   const textColor = isHome ? "text-primary-foreground" : "text-secondary";
@@ -87,7 +87,7 @@ export default function MobileNav({
                   //   "underline decoration-2 underline-offset-8"
                 )}
               >
-                <Typography tag="h1" variant="h1">
+                <Typography tag="h4" variant="h1">
                   {item.name}
                 </Typography>
                 <ArrowRight className="size-12 shrink-0" />
@@ -104,6 +104,7 @@ export default function MobileNav({
               rel="noopener noreferrer"
               href="https://schnitzelshow.podbean.com/"
               className="flex size-10.5 items-center justify-center"
+              aria-label="Podbean Link"
             >
               <WifiSvg fill="currentColor" className="size-7" />
             </a>
@@ -112,6 +113,7 @@ export default function MobileNav({
               rel="noopener noreferrer"
               href="https://www.youtube.com/@schnitzelsnow"
               className="flex size-10.5 items-center justify-center"
+              aria-label="YouTube Link"
             >
               <Youtube className="size-7" />
             </a>
@@ -120,6 +122,7 @@ export default function MobileNav({
               rel="noopener noreferrer"
               href="https://www.instagram.com/schnitzelsnow"
               className="flex size-10.5 items-center justify-center"
+              aria-label="Instagram Link"
             >
               <Instagram className="size-7" />
             </a>

@@ -63,6 +63,7 @@ const navItems = [
               target="_blank"
               rel="noopener noreferrer"
               href="https://schnitzelshow.podbean.com/"
+              aria-label="Podbean Link"
             >
               <Wifi class="size-6" />
             </a>
@@ -70,6 +71,7 @@ const navItems = [
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.youtube.com/@schnitzelsnow"
+              aria-label="YouTube Link"
             >
               <Youtube className="size-6" />
             </a>
@@ -77,6 +79,7 @@ const navItems = [
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.instagram.com/schnitzelsnow"
+              aria-label="Instagram Link"
             >
               <Instagram className="size-6" />
             </a>
@@ -94,11 +97,6 @@ const navItems = [
     </div>
 
     <!-- Mobile Nav (burger + full-screen overlay) -->
-    <MobileNav
-      client:load
-      isHome={isHome}
-      pathname={pathname}
-      navItems={navItems}
-    />
+    <MobileNav client:load isHome={isHome} navItems={navItems} />
   </div>
 </header>

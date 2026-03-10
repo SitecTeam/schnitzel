@@ -59,9 +59,27 @@ const navItems = [
       {
         isHome ? (
           <div class="flex items-center gap-4 text-primary-foreground">
-            <Wifi fill="currentColor" class="size-6" />
-            <Youtube className="size-6" />
-            <Instagram className="size-6" />
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://schnitzelshow.podbean.com/"
+            >
+              <Wifi class="size-6" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.youtube.com/@schnitzelsnow"
+            >
+              <Youtube className="size-6" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.instagram.com/schnitzelsnow"
+            >
+              <Instagram className="size-6" />
+            </a>
           </div>
         ) : (
           <div class="flex max-w-full min-w-0 flex-row justify-center gap-2 xl:gap-4">

@@ -1,5 +1,4 @@
-import { Youtube, Instagram, Play, Menu, X } from "lucide-react";
-import LogoSvg from "@/assets/svgs/logo.svg?react";
+import { Youtube, Instagram, Menu, X, ArrowRight } from "lucide-react";
 import WifiSvg from "@/assets/svgs/wifi.svg?react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -30,7 +29,6 @@ export default function MobileNav({
   navItems,
 }: MobileNavProps) {
   const textColor = isHome ? "text-primary-foreground" : "text-secondary";
-  const bgColor = isHome ? "bg-secondary" : "bg-primary-foreground";
 
   return (
     <Sheet>
@@ -47,27 +45,30 @@ export default function MobileNav({
       </SheetTrigger>
 
       {/* Full-screen overlay from top */}
-      <SheetContent
-        side="top"
-        className={cn("h-dvh border-none pb-10", bgColor)}
-      >
+      <SheetContent side="top" className="h-dvh border-none bg-primary pb-10">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{
+            backgroundImage: `
+        linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px)
+      `,
+            backgroundSize: "38.5px 38.5px",
+          }}
+          aria-hidden="true"
+        ></div>
         <SheetTitle className="sr-only">Mobile navigation menu</SheetTitle>
         <SheetDescription className="sr-only">
           Use this menu to navigate between sections of the site.
         </SheetDescription>
         {/* Top bar — matches header height exactly */}
-        <div className="flex h-16 items-center justify-between px-4 md:px-8">
-          <SheetClose asChild>
-            <a href="/">
-              <LogoSvg />
-            </a>
-          </SheetClose>
+        <div className="flex h-16 items-center justify-end px-4 md:px-8">
           <SheetClose asChild>
             <Button
               variant="ghost"
               size="icon"
               aria-label="Close navigation menu"
-              className={cn("hover:bg-transparent", textColor)}
+              className="bg-primary text-primary-foreground hover:bg-transparent"
             >
               <X className="size-7" />
             </Button>
@@ -75,21 +76,21 @@ export default function MobileNav({
         </div>
 
         {/* Nav links — vertically centered */}
-        <nav className="flex flex-1 flex-col items-start justify-center gap-8 px-4 md:px-8">
+        <nav className="z-10 flex flex-1 flex-col items-start justify-center gap-12 px-6 md:px-8">
           {navItems.map(item => (
             <SheetClose key={item.href} asChild>
               <a
                 href={item.href}
                 className={cn(
-                  "transition-opacity hover:opacity-75",
-                  textColor,
-                  pathname === item.href &&
-                    "underline decoration-2 underline-offset-8"
+                  "flex h-20 w-full items-center justify-between bg-primary-foreground px-3 py-2 text-primary uppercase transition-opacity hover:opacity-75"
+                  // pathname === item.href &&
+                  //   "underline decoration-2 underline-offset-8"
                 )}
               >
-                <Typography tag="span" variant="h4">
+                <Typography tag="h1" variant="h1">
                   {item.name}
                 </Typography>
+                <ArrowRight className="size-12 shrink-0" />
               </a>
             </SheetClose>
           ))}
@@ -97,40 +98,32 @@ export default function MobileNav({
 
         {/* Bottom actions */}
         <div className="px-4 md:px-8">
-          {isHome ? (
-            <div className={cn("flex items-center gap-6", textColor)}>
+          <div className="flex items-center gap-5 text-primary-foreground">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://schnitzelshow.podbean.com/"
+              className="flex size-10.5 items-center justify-center"
+            >
               <WifiSvg fill="currentColor" className="size-7" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.youtube.com/@schnitzelsnow"
+              className="flex size-10.5 items-center justify-center"
+            >
               <Youtube className="size-7" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.instagram.com/schnitzelsnow"
+              className="flex size-10.5 items-center justify-center"
+            >
               <Instagram className="size-7" />
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button variant="primary" asChild>
-                <a
-                  href="https://schnitzelshow.podbean.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Typography tag="span" variant="subtitle">
-                    Listen Now
-                  </Typography>
-                  <Play className="size-4" />
-                </a>
-              </Button>
-              <Button variant="secondary" asChild>
-                <a
-                  href="https://www.youtube.com/@schnitzelsnow"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Typography tag="span" variant="subtitle">
-                    Watch On Youtube
-                  </Typography>
-                  <Play className="size-4" />
-                </a>
-              </Button>
-            </div>
-          )}
+            </a>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

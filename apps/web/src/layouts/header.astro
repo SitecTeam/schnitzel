@@ -59,9 +59,30 @@ const navItems = [
       {
         isHome ? (
           <div class="flex items-center gap-4 text-primary-foreground">
-            <Wifi fill="currentColor" class="size-6" />
-            <Youtube className="size-6" />
-            <Instagram className="size-6" />
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://schnitzelshow.podbean.com/"
+              aria-label="Podbean Link"
+            >
+              <Wifi class="size-6" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.youtube.com/@schnitzelsnow"
+              aria-label="YouTube Link"
+            >
+              <Youtube className="size-6" />
+            </a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.instagram.com/schnitzelsnow"
+              aria-label="Instagram Link"
+            >
+              <Instagram className="size-6" />
+            </a>
           </div>
         ) : (
           <div class="flex max-w-full min-w-0 flex-row justify-center gap-2 xl:gap-4">
@@ -76,11 +97,6 @@ const navItems = [
     </div>
 
     <!-- Mobile Nav (burger + full-screen overlay) -->
-    <MobileNav
-      client:load
-      isHome={isHome}
-      pathname={pathname}
-      navItems={navItems}
-    />
+    <MobileNav client:load isHome={isHome} navItems={navItems} />
   </div>
 </header>

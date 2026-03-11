@@ -67,6 +67,15 @@ const episodes = result.docs;
                   {`Episode #${episode.episodeNumber} ${episode.title}`}
                 </Typography>
               </div>
+              <Typography
+                variant="caption"
+                className="text-[#7492B2] lg:hidden"
+              >
+                {formattedPublishedAt}
+              </Typography>
+              <Typography variant="body-md" className="text-secondary">
+                {episode.description}
+              </Typography>
               <a
                 href={`/episodes/${episode.slug}`}
                 class="relative z-20 flex h-fit justify-between border-2 border-primary bg-transparent p-4 text-primary lg:hidden"
@@ -76,17 +85,6 @@ const episodes = result.docs;
                 </Typography>
                 <Play className="size-5 shrink-0" />
               </a>
-
-              <Typography variant="body-md" className="text-secondary">
-                {episode.description}
-              </Typography>
-
-              <Typography
-                variant="caption"
-                className="text-[#7492B2] lg:hidden"
-              >
-                {formattedPublishedAt}
-              </Typography>
             </div>
           </div>
         );

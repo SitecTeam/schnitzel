@@ -3,9 +3,10 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   class?: string;
+  disabled?: boolean;
 }
 
-const { class: className } = Astro.props;
+const { class: className, disabled = false } = Astro.props;
 const content = await Astro.slots.render("default");
 ---
 
@@ -16,11 +17,17 @@ const content = await Astro.slots.render("default");
   )}
 >
   <span
-    class="inline-flex items-center transition-transform duration-200 ease-in-out group-hover:-translate-y-[140%]"
+    class={cn(
+      "inline-flex items-center transition-transform duration-200 ease-in-out",
+      !disabled && "group-hover:-translate-y-[140%]"
+    )}
     set:html={content}
   />
   <span
-    class="absolute inset-0 inline-flex translate-y-[140%] items-center transition-transform duration-200 ease-in-out group-hover:translate-y-0"
+    class={cn(
+      "absolute inset-0 inline-flex translate-y-[140%] items-center transition-transform duration-200 ease-in-out",
+      !disabled && "group-hover:translate-y-0"
+    )}
     aria-hidden="true"
     set:html={content}
   />

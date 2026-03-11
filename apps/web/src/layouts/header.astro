@@ -45,7 +45,7 @@ const navItems = [
               },
             ]}
           >
-            <SlotMachine>
+            <SlotMachine disabled={pathname === item.href}>
               <Typography tag="span" variant="subtitle">
                 {item.name}
               </Typography>

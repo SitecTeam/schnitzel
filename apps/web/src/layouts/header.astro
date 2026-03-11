@@ -5,6 +5,7 @@ import Logo from "@/assets/svgs/logo.svg";
 import Wifi from "@/assets/svgs/wifi.svg";
 import { Youtube, Instagram } from "lucide-react";
 import Typography from "@/components/typography";
+import SlotMachine from "@/components/astro/slot-machine.astro";
 
 const pathname = Astro.url.pathname;
 const isHome = pathname === "/";
@@ -36,7 +37,7 @@ const navItems = [
           <a
             href={item.href}
             class:list={[
-              "relative px-2 py-0.5 transition-opacity hover:opacity-75",
+              "group relative px-2 py-0.5 transition-opacity",
               isHome ? "text-primary-foreground" : "text-secondary",
               {
                 "after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:bg-current":
@@ -44,9 +45,11 @@ const navItems = [
               },
             ]}
           >
-            <Typography tag="span" variant="subtitle">
-              {item.name}
-            </Typography>
+            <SlotMachine>
+              <Typography tag="span" variant="subtitle">
+                {item.name}
+              </Typography>
+            </SlotMachine>
           </a>
         ))
       }

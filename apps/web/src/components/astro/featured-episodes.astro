@@ -2,6 +2,7 @@
 import Typography from "../typography";
 import { ArrowRight } from "lucide-react";
 import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astro";
+import SlotMachine from "./slot-machine.astro";
 ---
 
 <section
@@ -15,10 +16,12 @@ import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astr
     <a
       href="/episodes"
       aria-label="See all featured episodes button"
-      class="mb-3.5 hidden h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:flex"
+      class="group mb-3.5 hidden h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:flex"
     >
-      <Typography variant="button-regular">See All Episodes</Typography>
-      <ArrowRight className="size-5 shrink-0" />
+      <SlotMachine>
+        <Typography variant="button-regular">See All Episodes</Typography>
+        <ArrowRight className="ml-4 size-5 shrink-0" />
+      </SlotMachine>
     </a>
   </div>
   <section class="w-full">

@@ -62,7 +62,7 @@ export default function MobileNav({
           Use this menu to navigate between sections of the site.
         </SheetDescription>
         {/* Top bar — matches header height exactly */}
-        <div className="flex h-16 items-center justify-end px-4 md:px-8">
+        <div className="flex h-15 items-center justify-end px-4 md:px-8">
           <SheetClose asChild>
             <Button
               variant="ghost"

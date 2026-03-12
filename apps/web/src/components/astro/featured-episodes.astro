@@ -2,24 +2,30 @@
 import Typography from "../typography";
 import { ArrowRight } from "lucide-react";
 import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astro";
+import SlotMachine from "./slot-machine.astro";
+import { Button } from "../ui/button";
 ---
 
 <section
-  class="mx-auto flex flex-col items-center justify-center gap-8 px-4 py-12 lg:max-w-432.5 lg:gap-10 lg:px-10 lg:pt-25 lg:pb-50"
+  class="mx-auto flex flex-col items-center justify-center gap-7 px-4 py-12 lg:max-w-432.5 lg:gap-10 lg:px-10 lg:pt-0 lg:pb-25 xl:pt-25 xl:pb-50"
 >
   <div class="flex w-full flex-col justify-between lg:flex-row lg:items-end">
     <Typography variant="h1" tag="h1" className="text-secondary uppercase">
       <span class="hidden lg:inline">Featured episodes</span>
       <span class="lg:hidden">Top episodes</span>
     </Typography>
-    <a
-      href="/episodes"
-      aria-label="See all featured episodes button"
-      class="mb-3.5 hidden h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:flex"
-    >
-      <Typography variant="button-regular">See All Episodes</Typography>
-      <ArrowRight className="size-5 shrink-0" />
-    </a>
+    <Button asChild>
+      <a
+        href="/episodes"
+        aria-label="See all featured episodes button"
+        class="group mb-3.5 hidden h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:flex"
+      >
+        <SlotMachine>
+          <Typography variant="button-regular">See All Episodes</Typography>
+          <ArrowRight className="ml-4 size-5 shrink-0" />
+        </SlotMachine>
+      </a>
+    </Button>
   </div>
   <section class="w-full">
     <FeaturedEpisodesList server:defer>
@@ -39,12 +45,14 @@ import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astr
       </div>
     </FeaturedEpisodesList>
   </section>
-  <a
-    href="/episodes"
-    aria-label="See all featured episodes button"
-    class="flex h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:hidden"
-  >
-    <Typography variant="button-regular">See All Episodes</Typography>
-    <ArrowRight className="size-5 shrink-0" />
-  </a>
+  <Button asChild>
+    <a
+      href="/episodes"
+      aria-label="See all featured episodes button"
+      class="mt-8 mb-4 flex h-fit w-full max-w-49 items-center gap-3 rounded-xs bg-primary px-4 py-3 text-primary-foreground lg:hidden"
+    >
+      <Typography variant="button-regular">See All Episodes</Typography>
+      <ArrowRight className="size-5 shrink-0" />
+    </a>
+  </Button>
 </section>

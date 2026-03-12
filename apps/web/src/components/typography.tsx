@@ -7,7 +7,7 @@ export const textVariants = cva("", {
   variants: {
     variant: {
       "display-lg":
-        "font-anton text-[72px] leading-[86px]  lg:text-[128px] lg:leading-[140px]",
+        "font-anton text-[72px] leading-[86px] lg:text-[128px] lg:leading-[140px]",
       "display-md":
         "font-anton text-[64px] leading-[77px] lg:text-[112px] lg:leading-[124px]",
       h1: "font-anton text-[56px] leading-[67px] lg:text-[96px] lg:leading-[110px]",

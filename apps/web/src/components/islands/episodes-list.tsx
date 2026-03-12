@@ -4,6 +4,7 @@ import { formatDate } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveMediaUrl } from "@/lib/payload";
+import { Play } from "lucide-react";
 
 interface EpisodesListProps {
   initialDocs: Episode[];
@@ -26,11 +27,11 @@ function EpisodeCardSkeleton() {
     <div className="flex flex-col overflow-hidden md:h-122 md:flex-row">
       <Skeleton className="h-64 w-full shrink-0 md:aspect-814/488 md:h-full md:w-auto" />
 
-      <div className="flex flex-1 flex-col justify-center gap-4 px-4 py-6 md:px-10 md:py-10">
-        <Skeleton className="h-12 w-56 bg-secondary/25" />
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 md:px-10 md:py-10 lg:gap-4">
+        <Skeleton className="h-12 w-full rounded-none bg-secondary/25 md:w-56" />
         <Skeleton className="h-5 w-32" />
         <Skeleton className="h-7 w-full max-w-xl" />
-        <Skeleton className="h-7 w-11/12 max-w-xl" />
+        <Skeleton className="h-14 w-11/12 max-w-xl rounded-none bg-primary/25 lg:hidden" />
       </div>
     </div>
   );
@@ -45,10 +46,12 @@ function EpisodeCard({ episode }: { episode: Episode }) {
   const [isImageLoading, setIsImageLoading] = useState(Boolean(coverUrl));
 
   return (
-    <a
-      href={`/episodes/${episode.slug}`}
-      className="group flex flex-col overflow-hidden transition-opacity hover:opacity-90 md:h-122 md:flex-row"
-    >
+    <div className="group relative flex flex-col overflow-hidden md:h-122 md:flex-row lg:cursor-pointer">
+      <a
+        href={`/episodes/${episode.slug}`}
+        className="absolute inset-0 z-30 hidden lg:block"
+        aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
+      />
       <div className="relative h-64 w-full shrink-0 overflow-hidden md:aspect-814/488 md:h-full md:w-auto">
         {coverUrl && isImageLoading && (
           <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
@@ -64,20 +67,28 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             decoding="async"
             onLoad={() => setIsImageLoading(false)}
             onError={() => setIsImageLoading(false)}
-            className={`h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 ${isImageLoading ? "opacity-0" : "opacity-100"}`}
+            className={`h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 ${isImageLoading ? "opacity-0" : "opacity-100"}`}
           />
         ) : (
           <div className="h-full w-full bg-muted" />
         )}
+
+        <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:flex">
+          <span className="flex size-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg">
+            <Play className="size-7" />
+          </span>
+        </div>
       </div>
 
-      <div className="flex flex-1 flex-col justify-center gap-4 px-4 py-6 md:px-10 md:py-10">
-        <div className="inline-block self-start bg-secondary px-4 py-2.5">
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 md:px-10 md:py-10 lg:gap-4">
+        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 md:w-auto">
+          <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out group-hover:w-full" />
           <Typography
             tag="h3"
             variant="h3"
             uppercase={true}
-            className="text-primary-foreground"
+            className="relative z-10 text-primary-foreground"
           >
             Episode #{episode.episodeNumber}&nbsp;{episode.guestName}
           </Typography>
@@ -96,8 +107,17 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         >
           {episode.description}
         </Typography>
+        <a
+          href={`/episodes/${episode.slug}`}
+          className="relative z-20 flex h-fit w-full justify-between border-2 border-primary bg-transparent px-4 py-3.5 text-primary lg:hidden"
+        >
+          <Typography tag="span" variant="button-regular">
+            Listen Now
+          </Typography>
+          <Play className="size-5 shrink-0" />
+        </a>
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -242,7 +262,7 @@ export default function EpisodesList({
   return (
     <>
       {isReplacing && (
-        <div className="flex flex-col gap-10" aria-hidden="true">
+        <div className="flex flex-col gap-18 lg:gap-10" aria-hidden="true">
           <EpisodeCardSkeleton />
           <EpisodeCardSkeleton />
           <EpisodeCardSkeleton />
@@ -258,7 +278,7 @@ export default function EpisodesList({
             : "No episodes published yet."}
         </p>
       ) : !isReplacing ? (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-18 lg:gap-10">
           {docs.map(episode => (
             <EpisodeCard key={episode.id} episode={episode} />
           ))}

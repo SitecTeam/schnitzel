@@ -7,6 +7,7 @@ import {
 } from "@schnitzel/shared";
 import Typography, { textVariants } from "@/components/typography";
 import { Play } from "lucide-react";
+import { Button } from "../ui/button";
 
 const result = await getCollection<Episode>("episodes", {
   query: {
@@ -83,15 +84,17 @@ const episodes = result.docs;
               <Typography variant="body-md" className="text-secondary">
                 {episode.description}
               </Typography>
-              <a
-                href={`/episodes/${episode.slug}`}
-                class="relative z-20 flex h-fit justify-between border-2 border-primary bg-transparent p-4 text-primary lg:hidden"
-              >
-                <Typography tag="span" variant="button-regular">
-                  Listen Now
-                </Typography>
-                <Play className="size-5 shrink-0" />
-              </a>
+              <Button asChild>
+                <a
+                  href={`/episodes/${episode.slug}`}
+                  class="relative z-20 flex h-fit justify-between border-2 border-primary bg-transparent p-4 text-primary lg:hidden"
+                >
+                  <Typography tag="span" variant="button-regular">
+                    Listen Now
+                  </Typography>
+                  <Play className="size-5 shrink-0" />
+                </a>
+              </Button>
             </div>
           </div>
         );

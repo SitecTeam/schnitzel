@@ -43,7 +43,9 @@ const podbeanEpisodeId = extractPodbeanEpisodeId(episode.audioUrl);
 ---
 
 <Layout title={`${episode.title} — Schnitzel Podcast`}>
-  <main class="flex min-h-screen flex-col items-center justify-center lg:pb-24">
+  <main
+    class="flex min-h-screen flex-col items-center justify-center pb-18 lg:pb-24"
+  >
     <MarqueeWrapper
       imageSrc={coverUrl}
       imageAlt={episode.title}

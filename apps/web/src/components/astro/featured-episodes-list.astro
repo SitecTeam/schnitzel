@@ -7,6 +7,7 @@ import {
 } from "@schnitzel/shared";
 import Typography, { textVariants } from "@/components/typography";
 import { Play } from "lucide-react";
+import { Button } from "../ui/button";
 
 const result = await getCollection<Episode>("episodes", {
   query: {
@@ -37,56 +38,63 @@ const episodes = result.docs;
           : "";
 
         return (
-          <div class="group relative flex h-full w-full flex-col transition-opacity hover:opacity-90">
+          <div class="group relative flex h-full w-full flex-col">
             <a
               href={`/episodes/${episode.slug}`}
               class="absolute inset-0 z-10 hidden lg:block"
               aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
             />
-            <div class="w-full overflow-hidden bg-muted">
+            <div class="relative w-full overflow-hidden bg-muted">
               {coverUrl ? (
                 <img
                   src={coverUrl}
                   alt={episode.guestName}
                   width={640}
                   height={360}
-                  class="h-full max-h-110 w-full bg-secondary/20 object-contain grayscale-0 transition-all duration-500 group-hover:grayscale-0 sm:object-cover"
+                  class="h-full max-h-110 w-full bg-secondary/20 object-contain transition-transform duration-300 ease-out group-hover:scale-105 sm:object-cover lg:max-h-100"
                 />
               ) : (
                 <div class="h-full w-full bg-muted" />
               )}
+              <div class="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <div class="pointer-events-none absolute inset-0 z-20 hidden items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100 lg:flex">
+                <span class="flex size-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg">
+                  <Play className="size-7" />
+                </span>
+              </div>
             </div>
             <div class="mt-3 flex flex-col gap-3 lg:mt-4 lg:gap-4">
-              <div class="inline-block bg-secondary px-3 py-2">
+              <div class="relative inline-block overflow-hidden bg-secondary px-3 py-2">
+                <span class="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-all duration-300 ease-out group-hover:w-full" />
                 <Typography
                   tag="h5"
                   variant="h5"
                   uppercase={true}
-                  className="text-primary-foreground"
+                  className="relative z-10 text-primary-foreground"
                 >
                   {`Episode #${episode.episodeNumber} ${episode.title}`}
                 </Typography>
               </div>
-              <a
-                href={`/episodes/${episode.slug}`}
-                class="relative z-20 flex h-fit justify-between border-2 border-primary bg-transparent p-4 text-primary lg:hidden"
-              >
-                <Typography tag="span" variant="button-regular">
-                  Listen Now
-                </Typography>
-                <Play className="size-5 shrink-0" />
-              </a>
-
-              <Typography variant="body-md" className="text-secondary">
-                {episode.description}
-              </Typography>
-
               <Typography
                 variant="caption"
                 className="text-[#7492B2] lg:hidden"
               >
                 {formattedPublishedAt}
               </Typography>
+              <Typography variant="body-md" className="text-secondary">
+                {episode.description}
+              </Typography>
+              <Button asChild>
+                <a
+                  href={`/episodes/${episode.slug}`}
+                  class="relative z-20 flex h-fit justify-between border-2 border-primary bg-transparent p-4 text-primary lg:hidden"
+                >
+                  <Typography tag="span" variant="button-regular">
+                    Listen Now
+                  </Typography>
+                  <Play className="size-5 shrink-0" />
+                </a>
+              </Button>
             </div>
           </div>
         );

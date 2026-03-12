@@ -1,8 +1,9 @@
 ---
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Play } from "lucide-react";
 import Typography from "@/components/typography";
+import SlotMachine from "@/components/astro/slot-machine.astro";
 
 interface Props {
   variant?: "primary" | "secondary";
@@ -13,22 +14,29 @@ interface Props {
 const { class: className, variant = "primary", href } = Astro.props;
 ---
 
-<a
-  target="_blank"
-  rel="noopener noreferrer"
-  href={href
-    ? href
-    : variant === "primary"
-      ? "https://schnitzelshow.podbean.com/"
-      : "https://www.youtube.com/@schnitzelsnow"}
-  class={cn(
-    buttonVariants({ variant }),
-    variant === "secondary" && "xl:pr-6",
-    className
-  )}
->
-  <Typography tag="span" variant="button-regular">
-    {variant === "primary" ? "Listen Now" : "Watch On Youtube"}
-  </Typography>
-  <Play className="size-4 xl:size-5" />
-</a>
+<Button asChild>
+  <a
+    target="_blank"
+    rel="noopener noreferrer"
+    href={href
+      ? href
+      : variant === "primary"
+        ? "https://schnitzelshow.podbean.com/"
+        : "https://www.youtube.com/@schnitzelsnow"}
+    class={cn(
+      buttonVariants({ variant }),
+      variant === "secondary" && "xl:pr-6",
+      "group",
+      className
+    )}
+  >
+    <SlotMachine>
+      <Typography tag="span" variant="button-regular">
+        {variant === "primary" ? "Listen Now" : "Watch On Youtube"}
+      </Typography>
+    </SlotMachine>
+    <SlotMachine class="size-4 xl:size-5">
+      <Play className="size-4 xl:size-5" />
+    </SlotMachine>
+  </a>
+</Button>

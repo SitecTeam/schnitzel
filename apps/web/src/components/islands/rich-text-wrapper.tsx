@@ -94,7 +94,7 @@ const RichTextWrapper = ({ data }: RichTextWrapperProps) => {
               <img
                 src={image.url || ""}
                 alt={image.alt || "Episode image"}
-                className="block h-auto w-full"
+                className="mx-auto block h-auto max-h-[70vh] w-auto max-w-full"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw"
                 loading="lazy"
                 decoding="sync"

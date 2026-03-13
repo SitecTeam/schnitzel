@@ -4,13 +4,7 @@ export const Episodes: CollectionConfig = {
   slug: "episodes",
   admin: {
     useAsTitle: "title",
-    defaultColumns: [
-      "episodeNumber",
-      "title",
-      "guestName",
-      "status",
-      "publishedAt",
-    ],
+    defaultColumns: ["episodeNumber", "title", "status", "publishedAt"],
   },
   access: {
     read: () => true,
@@ -37,12 +31,6 @@ export const Episodes: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
-    },
-    {
-      name: "guestName",
-      type: "text",
-      required: true,
-      label: "Guest Name",
     },
     {
       name: "description",
@@ -90,9 +78,9 @@ export const Episodes: CollectionConfig = {
       },
     },
     {
-      name: "audioUrl",
+      name: "podbeanUrl",
       type: "text",
-      label: "Audio URL (mp3 or embed link)",
+      label: "Podbean Embed Link",
     },
     {
       name: "publishedAt",

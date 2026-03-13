@@ -29,7 +29,7 @@ const coverUrl = resolveMediaUrl(coverImage?.url);
       coverUrl ? (
         <img
           src={coverUrl}
-          alt={episode.guestName}
+          alt={episode.title}
           width={814}
           height={488}
           loading="lazy"
@@ -54,7 +54,7 @@ const coverUrl = resolveMediaUrl(coverImage?.url);
         uppercase={true}
         className="text-primary-foreground"
       >
-        Episode #{episode.episodeNumber}&nbsp;{episode.guestName}
+        Episode #{episode.episodeNumber}&nbsp;{episode.title}
       </Typography>
     </div>
 

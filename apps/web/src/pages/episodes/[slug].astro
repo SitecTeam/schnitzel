@@ -39,7 +39,7 @@ const formattedPublishedAt = episode.publishedAt
   ? formatDateWithOrdinal(episode.publishedAt)
   : "";
 const content = episode.content as SerializedEditorState | null;
-const podbeanEpisodeId = extractPodbeanEpisodeId(episode.audioUrl);
+const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
 ---
 
 <Layout title={`${episode.title} — Schnitzel Podcast`}>

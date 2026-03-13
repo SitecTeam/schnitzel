@@ -1,5 +1,7 @@
-import { useRef } from "react";
-import { Search } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Search, X } from "lucide-react";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 interface EpisodesFiltersProps {
   initialSearch?: string;
   initialSort?: string;
@@ -8,28 +10,33 @@ interface EpisodesFiltersProps {
 const SORT_OPTIONS = [
   { value: "-episodeNumber", label: "Newest First" },
   { value: "episodeNumber", label: "Oldest First" },
-  { value: "guestName", label: "Guest Name (A-Z)" },
   { value: "-publishedAt", label: "Recently Published" },
 ];
+
+const SEARCH_DEBOUNCE_MS = 500;
 
 export default function EpisodesFilters({
   initialSearch = "",
   initialSort = "-episodeNumber",
 }: EpisodesFiltersProps) {
   const searchRef = useRef<HTMLInputElement>(null);
+  const [searchValue, setSearchValue] = useState(initialSearch);
+  const [appliedSearch, setAppliedSearch] = useState(initialSearch.trim());
 
   function navigate(search: string, sort: string) {
+    const trimmedSearch = search.trim();
     const params = new URLSearchParams();
-    if (search.trim()) params.set("search", search.trim());
+    if (trimmedSearch) params.set("search", trimmedSearch);
     if (sort && sort !== "-episodeNumber") params.set("sort", sort);
-    const qs = params.toString();
-    const nextPath = qs ? `/episodes?${qs}` : "/episodes";
+    const slug = params.toString();
+    const nextPath = slug ? `/episodes?${slug}` : "/episodes";
     window.history.replaceState({}, "", nextPath);
+    setAppliedSearch(trimmedSearch);
 
     window.dispatchEvent(
       new CustomEvent("episodes:filters-change", {
         detail: {
-          search: search.trim(),
+          search: trimmedSearch,
           sort,
         },
       })
@@ -37,20 +44,25 @@ export default function EpisodesFilters({
   }
 
   function handleSortChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const currentSearch = searchRef.current?.value ?? initialSearch;
-    navigate(currentSearch, e.target.value);
+    navigate(searchValue, e.target.value);
   }
 
-  function handleSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter") {
-      navigate(e.currentTarget.value, getSelectedSort());
-    }
-  }
+  useEffect(() => {
+    const trimmedSearch = searchValue.trim();
+    if (trimmedSearch === appliedSearch) return;
 
-  function handleSearchBlur(e: React.FocusEvent<HTMLInputElement>) {
-    if (e.target.value !== initialSearch) {
-      navigate(e.target.value, getSelectedSort());
-    }
+    const timer = window.setTimeout(() => {
+      navigate(searchValue, getSelectedSort());
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [searchValue, appliedSearch]);
+
+  function handleClearSearch() {
+    if (!searchValue) return;
+    setSearchValue("");
+    navigate("", getSelectedSort());
+    searchRef.current?.focus();
   }
 
   function getSelectedSort(): string {
@@ -63,27 +75,43 @@ export default function EpisodesFilters({
     "font-inter text-[16px] leading-[27px] font-bold text-secondary";
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
-      <div className="relative flex min-w-48 flex-1 items-center sm:flex-none">
-        <input
+    <div className="flex min-w-0 flex-col gap-6 sm:flex-row sm:items-center lg:flex-1 lg:justify-end">
+      <div className="relative flex min-w-0 flex-1 items-center lg:max-w-87.5">
+        <Input
           ref={searchRef}
           type="text"
-          defaultValue={initialSearch}
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
           placeholder="Search Episodes"
-          onKeyDown={handleSearchKeyDown}
-          onBlur={handleSearchBlur}
-          className={`h-9 w-full rounded-none border border-secondary bg-transparent px-3 pr-8 placeholder:text-secondary/50 focus:border-secondary focus:ring-1 focus:ring-secondary focus:outline-none sm:w-48 lg:w-56 ${btnCls}`}
+          className={cn(
+            "min-h-12.5 w-full rounded-none border-2 border-[#7492B2] bg-transparent px-3 pr-8 placeholder:text-[#7492B2] focus:border-[#7492B2] focus:ring-0 focus:ring-[#7492B2] focus:outline-none",
+            btnCls
+          )}
         />
-        <Search className="absolute right-2.5 h-4 w-4 text-secondary" />
+        {searchValue ? (
+          <button
+            type="button"
+            onClick={handleClearSearch}
+            aria-label="Clear search"
+            className="absolute right-2.5 text-[#7492B2]"
+          >
+            <X className="size-5" />
+          </button>
+        ) : (
+          <Search className="pointer-events-none absolute right-2.5 size-5 text-[#7492B2]" />
+        )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center justify-end gap-2">
         <span className={btnCls}>Sort by:</span>
         <select
           data-sort-select
           defaultValue={initialSort}
           onChange={handleSortChange}
-          className={`h-9 rounded-none border-0 bg-transparent focus:ring-0 focus:outline-none ${btnCls}`}
+          className={cn(
+            "h-9 rounded-none border-0 bg-transparent focus:ring-0 focus:outline-none",
+            btnCls
+          )}
         >
           {SORT_OPTIONS.map(opt => (
             <option key={opt.value} value={opt.value}>

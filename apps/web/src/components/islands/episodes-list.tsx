@@ -24,11 +24,11 @@ const LIMIT = 12;
 
 function EpisodeCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden md:h-122 md:flex-row">
-      <Skeleton className="h-64 w-full shrink-0 md:aspect-814/488 md:h-full md:w-auto" />
+    <div className="flex flex-col overflow-hidden lg:h-122 lg:flex-row">
+      <Skeleton className="h-64 w-full shrink-0 lg:aspect-814/488 lg:h-full lg:w-auto" />
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 md:px-10 md:py-10 lg:gap-4">
-        <Skeleton className="h-12 w-full rounded-none bg-secondary/25 md:w-56" />
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:gap-4 lg:px-10 lg:py-10">
+        <Skeleton className="h-12 w-full rounded-none bg-secondary/25 lg:w-56" />
         <Skeleton className="h-5 w-32" />
         <Skeleton className="h-7 w-full max-w-xl" />
         <Skeleton className="h-14 w-11/12 max-w-xl rounded-none bg-primary/25 lg:hidden" />
@@ -46,13 +46,13 @@ function EpisodeCard({ episode }: { episode: Episode }) {
   const [isImageLoading, setIsImageLoading] = useState(Boolean(coverUrl));
 
   return (
-    <div className="group relative flex flex-col overflow-hidden md:h-122 md:flex-row lg:cursor-pointer">
+    <div className="group relative flex flex-col overflow-hidden lg:h-122 lg:cursor-pointer lg:flex-row">
       <a
         href={`/episodes/${episode.slug}`}
         className="absolute inset-0 z-30 hidden lg:block"
         aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
       />
-      <div className="relative h-64 w-full shrink-0 overflow-hidden md:aspect-814/488 md:h-full md:w-auto">
+      <div className="relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:aspect-814/488 lg:h-full lg:w-auto">
         {coverUrl && isImageLoading && (
           <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
         )}
@@ -60,7 +60,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         {coverUrl ? (
           <img
             src={coverUrl}
-            alt={episode.guestName}
+            alt={episode.title}
             width={814}
             height={488}
             loading="lazy"
@@ -74,15 +74,15 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         )}
 
         <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 md:flex">
+        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 lg:flex">
           <span className="flex size-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg">
             <Play className="size-7" />
           </span>
         </div>
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 md:px-10 md:py-10 lg:gap-4">
-        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 md:w-auto">
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:gap-4 lg:px-10 lg:py-10">
+        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-auto">
           <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out group-hover:w-full" />
           <Typography
             tag="h3"
@@ -90,7 +90,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             uppercase={true}
             className="relative z-10 text-primary-foreground"
           >
-            Episode #{episode.episodeNumber}&nbsp;{episode.guestName}
+            Episode #{episode.episodeNumber}&nbsp;{episode.title}
           </Typography>
         </div>
 

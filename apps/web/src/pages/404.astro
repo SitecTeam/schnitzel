@@ -1,0 +1,34 @@
+---
+import SlotMachine from "@/components/astro/slot-machine.astro";
+import Typography from "@/components/typography";
+import { Button } from "@/components/ui/button";
+import Layout from "@/layouts/layout.astro";
+
+export const prerender = true;
+---
+
+<Layout
+  title="Page Not Found | Schnitzel"
+  description="The page you are looking for does not exist."
+>
+  <main
+    class="flex h-full min-h-[60dvh] flex-col items-center justify-center gap-4 px-4 py-20 text-center text-pretty text-secondary"
+  >
+    <Typography variant="h1" tag="h2"> Page not found </Typography>
+    <Typography variant="h6" className="mt-10">
+      The page you are looking for does not exist.
+    </Typography>
+    <Button asChild>
+      <a
+        href="/"
+        class="group mt-8 inline-flex h-12.5 items-center justify-center rounded-xs border-2 border-primary bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors"
+      >
+        <SlotMachine>
+          <Typography tag="span" variant="button-regular"
+            >Back to home</Typography
+          >
+        </SlotMachine>
+      </a>
+    </Button>
+  </main>
+</Layout>

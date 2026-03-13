@@ -9,7 +9,11 @@
 import type { PayloadListResponse, Episode } from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
-  import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
+  // Runtime wrangler var (Cloudflare Workers) — set in wrangler.json or via --var at deploy time.
+  import.meta.env.PAYLOAD_API_URL ??
+  // Build-time var — set in .env for local dev.
+  import.meta.env.PUBLIC_PAYLOAD_API_URL ??
+  "http://localhost:3000/api";
 const EPISODES_CACHE_TTL_MS = 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)

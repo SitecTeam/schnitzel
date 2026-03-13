@@ -45,13 +45,12 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
-      # ── Web (Astro) – built after CMS so the API URL is already live ────────
+      # ── Web (Astro) ───────────────────────────────────────────────────────────
+      # PAYLOAD_API_URL is set as a wrangler var in wrangler.json — no build-time
+      # env injection needed for production.
       - name: Build Web
         run: bun run build
         working-directory: apps/web
-        env:
-          # Points at the fixed production CMS worker URL
-          PUBLIC_PAYLOAD_API_URL: https://schnitzel-cms.${{ secrets.CF_WORKERS_SUBDOMAIN }}.workers.dev/api
 
       - name: Deploy Web
         run: bunx wrangler deploy

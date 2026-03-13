@@ -28,6 +28,8 @@ jobs:
       - name: Build CMS
         run: bun run build
         working-directory: apps/cms
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
       - name: Set CMS PAYLOAD_SECRET
         run: echo "${{ secrets.PAYLOAD_SECRET }}" | wrangler secret put PAYLOAD_SECRET

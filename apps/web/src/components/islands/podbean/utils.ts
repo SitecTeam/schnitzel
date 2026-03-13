@@ -4,7 +4,6 @@ export const buildPodbeanEmbedUrl = (episodeId: string) => {
     i: episodeId,
     share: "1",
     download: "1",
-    fonts: "Anton",
     skin: "1C39FF",
     rtl: "0",
     logo_link: "episode_page",

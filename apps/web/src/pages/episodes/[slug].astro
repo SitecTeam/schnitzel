@@ -50,7 +50,7 @@ const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
       imageSrc={coverUrl}
       imageAlt={episode.title}
       textPosition="below"
-      marqueeText={episode.title}
+      marqueeText="TAKE A DEEPER LOOK AT THE CONVERSATION BEHIND THIS EPISODE AND EXPLORE THE THOUGHTS, CHALLENGES, AND BREAKTHROUGHS THAT DEFINE IT."
       className="mb-28"
       transition:animate="fade"
     />
@@ -72,11 +72,7 @@ const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
     }
     {
       podbeanEpisodeId && (
-        <PodbeanEpisodePlayer
-          id={podbeanEpisodeId}
-          title={episode.title}
-          client:load
-        />
+        <PodbeanEpisodePlayer id={podbeanEpisodeId} title={episode.title} />
       )
     }
     <EpisodePagination prev={prev} next={next} />

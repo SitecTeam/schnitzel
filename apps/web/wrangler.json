@@ -8,7 +8,7 @@
     "directory": "./dist"
   },
   "vars": {
-    "PAYLOAD_API_URL": "https://schnitzel-cms.react-spa.workers.dev/api"
+    "PUBLIC_PAYLOAD_API_URL": "https://schnitzel-cms.react-spa.workers.dev/api"
   },
   "observability": {
     "enabled": true,

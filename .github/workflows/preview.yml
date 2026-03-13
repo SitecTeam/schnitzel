@@ -48,17 +48,15 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
-      # ── Web ───────────────────────────────────────────────────────────────────
       - name: Build Web
         run: bun run build
         working-directory: apps/web
         env:
-          # Points at the PR-specific CMS worker, not production.
           PUBLIC_PAYLOAD_API_URL: https://schnitzel-cms-pr-${{ github.event.pull_request.number }}.${{ secrets.CF_WORKERS_SUBDOMAIN }}.workers.dev/api
 
       - name: Deploy Web Preview
-        # --var overrides the wrangler.json PAYLOAD_API_URL to point at the PR-specific CMS worker.
-        run: bunx wrangler deploy --name schnitzel-web-pr-${{ github.event.pull_request.number }} --var PAYLOAD_API_URL:https://schnitzel-cms-pr-${{ github.event.pull_request.number }}.${{ secrets.CF_WORKERS_SUBDOMAIN }}.workers.dev/api
+        # PUBLIC_PAYLOAD_API_URL is already baked into the build above.
+        run: bunx wrangler deploy --name schnitzel-web-pr-${{ github.event.pull_request.number }}
         working-directory: apps/web
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

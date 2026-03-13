@@ -21,7 +21,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Delete CMS Preview Worker
-        run: wrangler delete --name schnitzel-cms-pr-${{ github.event.pull_request.number }} --force
+        run: bunx wrangler delete --name schnitzel-cms-pr-${{ github.event.pull_request.number }} --force
         working-directory: apps/cms
         continue-on-error: true
         env:
@@ -29,7 +29,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
       - name: Delete Web Preview Worker
-        run: wrangler delete --name schnitzel-web-pr-${{ github.event.pull_request.number }} --force
+        run: bunx wrangler delete --name schnitzel-web-pr-${{ github.event.pull_request.number }} --force
         working-directory: apps/web
         continue-on-error: true
         env:

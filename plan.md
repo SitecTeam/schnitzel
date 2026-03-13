@@ -284,4 +284,4 @@ Use **Cloudflare Workers Builds** (zero-config, Git-connected):
 - **Cloudflare Workers Routes** for same-domain routing over gateway Worker — simpler, fewer deployables, route specificity handles the path matching natively
 - **`eslint-plugin-unused-imports`** over `knip` for pre-commit — provides autofix on staged files; `knip` is better as a periodic audit tool
 - **REST API** for Astro↔Payload communication over GraphQL — GraphQL has known issues on Cloudflare Workers (`workerd` runtime bug)
-- **OpenNext** (`@opennextjs/cloudflare`) to run Next.js on Workers — it's the official adapter, actively maintained, used by Payload's own D1 template
+- **OpenNext** (`@opennextjs/cloudflare`) to run Next.js on Workers — it's the official adapter, actively maintained, used by Payload's own D1 template.

@@ -165,11 +165,11 @@ export async function getEpisodes(
     "select[episodeNumber]=true",
     "select[title]=true",
     "select[slug]=true",
-    "select[guestName]=true",
     "select[description]=true",
     "select[coverImage]=true",
     "select[publishedAt]=true",
-    "select[audioUrl]=true",
+    "select[podbeanUrl]=true",
+    "select[youtubeUrl]=true",
     "select[status]=true",
     `limit=${limit}`,
     `page=${page}`,
@@ -178,9 +178,6 @@ export async function getEpisodes(
   if (search?.trim()) {
     parts.push(
       `where[or][0][title][like]=${encodeURIComponent(search.trim())}`
-    );
-    parts.push(
-      `where[or][1][guestName][like]=${encodeURIComponent(search.trim())}`
     );
   }
 
@@ -222,7 +219,7 @@ export async function getEpisodes(
  * Returns `null` when not found.
  */
 export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
-  const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`;
+  const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&depth=1&limit=1`;
 
   const cached = getCachedResponse<PayloadListResponse<Episode>>(url);
   if (cached) return cached.docs[0] ?? null;

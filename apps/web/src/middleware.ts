@@ -7,11 +7,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Inject the CMS service binding as the fetcher so Worker-to-Worker
   // communication goes through Cloudflare's internal network.
   // Falls back to global fetch in local dev where the binding isn't present.
-  const cmsFetcher =
-    context.locals.runtime?.env?.CMS?.fetch.bind(
-      context.locals.runtime.env.CMS
-    ) ?? fetch;
-  context.locals.cmsFetcher = cmsFetcher;
+  const cms = context.locals.runtime?.env?.CMS;
+  context.locals.cmsFetcher = cms
+    ? (input: RequestInfo | URL, init?: RequestInit) =>
+        cms.fetch(input as Request, init)
+    : fetch;
 
   const response = await next();
   const pathname = context.url.pathname;

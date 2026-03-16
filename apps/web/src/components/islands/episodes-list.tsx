@@ -24,10 +24,10 @@ const LIMIT = 12;
 
 function EpisodeCardSkeleton() {
   return (
-    <div className="flex flex-col overflow-hidden lg:h-122 lg:flex-row">
-      <Skeleton className="h-100 w-full shrink-0 sm:h-110 lg:aspect-814/488 lg:h-full lg:w-auto" />
+    <div className="flex flex-col overflow-hidden lg:flex-row">
+      <Skeleton className="h-100 w-full shrink-0 sm:h-110 lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]" />
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:gap-4 lg:px-10 lg:py-10">
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
         <Skeleton className="h-15 w-full rounded-none bg-secondary/25 lg:h-19.5 lg:w-140" />
         <Skeleton className="h-6 w-32" />
         <Skeleton className="h-7.5 w-full max-w-xl" />
@@ -46,13 +46,13 @@ function EpisodeCard({ episode }: { episode: Episode }) {
   const [isImageLoading, setIsImageLoading] = useState(Boolean(coverUrl));
 
   return (
-    <div className="group relative flex flex-col overflow-hidden lg:h-122 lg:cursor-pointer lg:flex-row">
+    <div className="group relative flex flex-col overflow-hidden lg:cursor-pointer lg:flex-row">
       <a
         href={`/episodes/${episode.slug}`}
         className="absolute inset-0 z-30 hidden lg:block"
         aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
       />
-      <div className="relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:aspect-814/488 lg:h-full lg:w-auto">
+      <div className="relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]">
         {coverUrl && isImageLoading && (
           <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
         )}
@@ -81,16 +81,17 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:gap-4 lg:px-10 lg:py-10">
+      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
         <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-auto">
           <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out group-hover:w-full" />
           <Typography
             tag="h3"
             variant="h3"
             uppercase={true}
-            className="relative z-10 text-primary-foreground"
+            className="relative z-10 line-clamp-2 text-primary-foreground"
           >
-            Episode #{episode.episodeNumber}&nbsp;{episode.title}
+            Episode #{episode.episodeNumber} <wbr />
+            {episode.title}
           </Typography>
         </div>
 

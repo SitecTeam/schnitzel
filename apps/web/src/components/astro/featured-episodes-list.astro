@@ -41,7 +41,7 @@ const episodes = result.docs;
           <div class="group relative flex h-full w-full flex-col">
             <a
               href={`/episodes/${episode.slug}`}
-              class="absolute inset-0 z-10 hidden lg:block"
+              class="absolute inset-0 z-20 hidden lg:block"
               aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
             />
             <div class="relative h-110 w-full overflow-hidden bg-muted lg:h-100">
@@ -70,7 +70,7 @@ const episodes = result.docs;
                   tag="h5"
                   variant="h5"
                   uppercase={true}
-                  className="relative z-10 text-primary-foreground"
+                  className="relative z-10 text-primary-foreground truncate"
                 >
                   {`Episode #${episode.episodeNumber} ${episode.title}`}
                 </Typography>
@@ -81,7 +81,10 @@ const episodes = result.docs;
               >
                 {formattedPublishedAt}
               </Typography>
-              <Typography variant="body-md" className="text-secondary">
+              <Typography
+                variant="body-md"
+                className="text-secondary line-clamp-3"
+              >
                 {episode.description}
               </Typography>
               <Button asChild>

@@ -11,6 +11,7 @@ export function formatDate(
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "UTC",
   }
 ): string {
   return new Date(dateString).toLocaleDateString("en-US", options);
@@ -31,6 +32,7 @@ export function formatDateWithOrdinal(dateString: string): string {
     day: "numeric",
     month: "long",
     year: "numeric",
+    timeZone: "UTC",
   }).formatToParts(date);
 
   const day = Number(parts.find(part => part.type === "day")?.value ?? 0);

@@ -27,9 +27,14 @@ const isCLI = process.argv.some(value =>
   realpath(value)?.endsWith(path.join("payload", "bin.js"))
 );
 const isProduction = process.env.NODE_ENV === "production";
+const payloadSecret = process.env.PAYLOAD_SECRET?.trim();
 const cloudflareEnvironment = isProduction
   ? (process.env.CLOUDFLARE_ENV?.trim() ?? undefined)
   : undefined;
+
+if (isProduction && !payloadSecret) {
+  throw new Error("PAYLOAD_SECRET must be set in production");
+}
 
 // pino-pretty uses Node.js fs APIs not available in Workers — route logs through
 // console.* instead in production so Cloudflare observability picks them up.
@@ -81,13 +86,14 @@ export default buildConfig({
 
   editor: lexicalEditor(),
 
-  secret: process.env.PAYLOAD_SECRET || "dev-secret-change-me-in-production",
+  // Keep local/dev ergonomic while failing fast in production when missing.
+  secret: payloadSecret || "dev-secret-change-me-in-production",
 
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
 
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  db: sqliteD1Adapter({ binding: cloudflare.env.D1, push: false }),
 
   // Use console-based logger in production — pino-pretty (default) calls
   // fs.write which is not available in Cloudflare Workers (workerd).

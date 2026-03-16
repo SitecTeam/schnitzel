@@ -4,7 +4,7 @@ import { getEpisodes } from "@/lib/payload";
 const DEFAULT_LIMIT = 12;
 const MAX_LIMIT = 24;
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, locals }) => {
   try {
     const search = url.searchParams.get("search") ?? undefined;
     const sort = url.searchParams.get("sort") ?? "newest";
@@ -20,7 +20,10 @@ export const GET: APIRoute = async ({ url }) => {
         ? Math.min(limitParam, MAX_LIMIT)
         : DEFAULT_LIMIT;
 
-    const result = await getEpisodes({ search, sort, page, limit });
+    const result = await getEpisodes(
+      { search, sort, page, limit },
+      locals.cmsFetcher
+    );
 
     return new Response(JSON.stringify(result), {
       status: 200,
@@ -28,7 +31,8 @@ export const GET: APIRoute = async ({ url }) => {
         "Content-Type": "application/json",
       },
     });
-  } catch {
+  } catch (e) {
+    console.error("[api/episodes]", e);
     return new Response(
       JSON.stringify({
         message: "Could not load episodes. Please try again later.",

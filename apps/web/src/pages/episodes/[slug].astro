@@ -21,13 +21,16 @@ if (!slug) {
   return Astro.redirect("/episodes");
 }
 
-const episode = await getEpisodeBySlug(slug);
+const episode = await getEpisodeBySlug(slug, Astro.locals.cmsFetcher);
 
 if (!episode) {
   return new Response(null, { status: 404 });
 }
 
-const { prev, next } = await getAdjacentEpisodes(episode.episodeNumber);
+const { prev, next } = await getAdjacentEpisodes(
+  episode.episodeNumber,
+  Astro.locals.cmsFetcher
+);
 
 const coverImage =
   episode.coverImage && typeof episode.coverImage === "object"

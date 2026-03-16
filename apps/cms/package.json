@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env CLOUDFLARE_REMOTE_BINDINGS=true next dev",
     "dev:local": "next dev",
-    "build": "next build",
+    "build": "next build && opennextjs-cloudflare build --skipNextBuild && node scripts/patch-wasm-imports.mjs",
     "start": "next start",
     "lint": "eslint .",
     "deploy": "bun run build && wrangler deploy",
@@ -18,6 +18,8 @@
     "db:migrate:remote": "cross-env NODE_ENV=production payload migrate",
     "db:migrate:status": "payload migrate:status",
     "db:migrate:status:remote": "cross-env NODE_ENV=production payload migrate:status",
+    "release:check": "bun run db:migrate:status:remote",
+    "release:migrate": "bun run db:migrate:remote",
     "db:migrate:rollback": "payload migrate:rollback",
     "db:migrate:rollback:remote": "cross-env NODE_ENV=production payload migrate:rollback",
     "db:query": "wrangler d1 execute schnitzel-db --local --command",

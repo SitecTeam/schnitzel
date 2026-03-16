@@ -7,8 +7,10 @@
   "assets": {
     "directory": "./dist"
   },
+  "services": [{ "binding": "CMS", "service": "schnitzel-cms" }],
+  "vars": {},
   "observability": {
-    "enabled": false,
+    "enabled": true,
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,

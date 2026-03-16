@@ -24,9 +24,10 @@
       "remote": true
     }
   ],
+  "rules": [{ "type": "CompiledWasm", "globs": ["**/*.wasm"] }],
   "vars": {},
   "observability": {
-    "enabled": false,
+    "enabled": true,
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,

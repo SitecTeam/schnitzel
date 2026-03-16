@@ -11,36 +11,54 @@ interface Props {
 const { prev, next } = Astro.props;
 ---
 
-<nav class="mt-6 flex w-full items-center justify-between lg:mt-33 lg:px-10">
-  {
-    prev ? (
-      <a
-        href={`/episodes/${prev.slug}`}
-        class="flex items-center gap-2 text-secondary transition-opacity hover:opacity-80"
-      >
-        <ChevronLeft className="size-6 shrink-0 md:size-12" />
-        <Typography variant="h4" className="uppercase">
-          {prev.title}
-        </Typography>
-      </a>
-    ) : (
-      <div />
-    )
-  }
+<nav class="mt-6 mb-18 w-full lg:mt-33" aria-label="Episode pagination">
+  <div
+    class="grid w-full grid-cols-2 items-center justify-between gap-4 lg:flex lg:gap-6"
+  >
+    {
+      prev ? (
+        <a
+          href={`/episodes/${prev.slug}`}
+          class="group flex max-w-100 min-w-0 items-center gap-2 text-secondary transition-colors"
+          aria-label={`Previous episode: ${prev.title}`}
+        >
+          <ChevronLeft className="size-9 shrink-0 lg:size-12" />
+          <div class="min-w-0">
+            <Typography variant="h4" className="uppercase sm:truncate">
+              <span class="block sm:hidden">Episode #{prev.episodeNumber}</span>
+              <span class="block truncate sm:hidden">{prev.title}</span>
+              <span class="hidden sm:inline">
+                Episode #{prev.episodeNumber} {prev.title}
+              </span>
+            </Typography>
+          </div>
+        </a>
+      ) : (
+        <div class="hidden md:block" aria-hidden="true" />
+      )
+    }
 
-  {
-    next ? (
-      <a
-        href={`/episodes/${next.slug}`}
-        class="flex items-center gap-2 text-secondary transition-opacity hover:opacity-70"
-      >
-        <Typography variant="h4" className="uppercase">
-          {next.title}
-        </Typography>
-        <ChevronRight className="size-6 shrink-0 md:size-12" />
-      </a>
-    ) : (
-      <div />
-    )
-  }
+    {
+      next ? (
+        <a
+          href={`/episodes/${next.slug}`}
+          class="group flex max-w-100 min-w-0 items-center gap-2 text-right text-secondary transition-colors"
+          aria-label={`Next episode: ${next.title}`}
+        >
+          <div class="min-w-0">
+            <Typography variant="h4" className="uppercase sm:truncate">
+              <span class="block sm:hidden">Episode #{next.episodeNumber}</span>
+              <span class="block truncate sm:hidden">{next.title}</span>
+              <span class="hidden sm:inline">
+                Episode #{next.episodeNumber} {next.title}
+              </span>
+            </Typography>
+          </div>
+          <ChevronRight className="size-9 shrink-0 lg:size-12" />
+        </a>
+      ) : (
+        <div class="hidden md:block" aria-hidden="true" />
+      )
+    }
+  </div>
 </nav>

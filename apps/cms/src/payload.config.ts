@@ -93,7 +93,7 @@ export default buildConfig({
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
 
-  db: sqliteD1Adapter({ binding: cloudflare.env.D1 }),
+  db: sqliteD1Adapter({ binding: cloudflare.env.D1, push: false }),
 
   // Use console-based logger in production — pino-pretty (default) calls
   // fs.write which is not available in Cloudflare Workers (workerd).

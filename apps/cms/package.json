@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env CLOUDFLARE_REMOTE_BINDINGS=true next dev",
     "dev:local": "next dev",
-    "build": "next build && opennextjs-cloudflare build --skipNextBuild",
+    "build": "next build && opennextjs-cloudflare build --skipNextBuild && node scripts/patch-wasm-imports.mjs",
     "start": "next start",
     "lint": "eslint .",
     "deploy": "bun run build && wrangler deploy",

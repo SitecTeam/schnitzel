@@ -9,19 +9,23 @@ import Typography, { textVariants } from "@/components/typography";
 import { Play } from "lucide-react";
 import { Button } from "../ui/button";
 
-const result = await getCollection<Episode>(
-  "episodes",
-  {
-    query: {
-      limit: 3,
-      sort: "-episodeNumber",
-      "where[status][equals]": "published",
+let episodes: Episode[] = [];
+try {
+  const result = await getCollection<Episode>(
+    "episodes",
+    {
+      query: {
+        limit: 3,
+        sort: "-episodeNumber",
+        "where[status][equals]": "published",
+      },
     },
-  },
-  Astro.locals.cmsFetcher
-);
-
-const episodes = result.docs;
+    Astro.locals.cmsFetcher
+  );
+  episodes = result.docs;
+} catch {
+  // CMS unavailable (e.g. still starting up in dev) — render empty state
+}
 ---
 
 {

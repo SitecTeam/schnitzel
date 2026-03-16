@@ -10,10 +10,52 @@ import type { PayloadListResponse, Episode } from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
+const PAYLOAD_FALLBACK_API_URL =
+  import.meta.env.PUBLIC_PAYLOAD_API_FALLBACK_URL ??
+  "https://schnitzel-cms.react-spa.workers.dev/api";
 const EPISODES_CACHE_TTL_MS = 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)
 const PAYLOAD_SERVER_URL = PAYLOAD_API_URL.replace(/\/api\/?$/, "");
+
+function toFallbackUrl(url: string): string | null {
+  if (!import.meta.env.DEV) return null;
+  if (!PAYLOAD_FALLBACK_API_URL) return null;
+  if (PAYLOAD_FALLBACK_API_URL === PAYLOAD_API_URL) return null;
+  if (!url.startsWith(PAYLOAD_API_URL)) return null;
+  return `${PAYLOAD_FALLBACK_API_URL}${url.slice(PAYLOAD_API_URL.length)}`;
+}
+
+async function fetchPayload(
+  url: string,
+  fetcher: typeof fetch,
+  init?: RequestInit
+): Promise<Response> {
+  try {
+    const response = await fetcher(url, init);
+    if (response.ok || response.status < 500) {
+      return response;
+    }
+
+    const fallbackUrl = toFallbackUrl(url);
+    if (!fallbackUrl) return response;
+
+    const fallbackResponse = await fetch(fallbackUrl, init);
+    if (fallbackResponse.ok) {
+      console.warn(`[payload] Falling back to deployed CMS for ${url}`);
+    }
+    return fallbackResponse;
+  } catch (error) {
+    const fallbackUrl = toFallbackUrl(url);
+    if (!fallbackUrl) throw error;
+
+    const fallbackResponse = await fetch(fallbackUrl, init);
+    if (fallbackResponse.ok) {
+      console.warn(`[payload] Falling back to deployed CMS for ${url}`);
+    }
+    return fallbackResponse;
+  }
+}
 
 /**
  * Resolve a Payload media URL to an absolute URL.
@@ -87,7 +129,7 @@ export async function getCollection<T = Record<string, unknown>>(
     }
   }
 
-  const response = await fetcher(url.toString(), {
+  const response = await fetchPayload(url.toString(), fetcher, {
     ...options.fetchOptions,
     headers: {
       "Content-Type": "application/json",
@@ -121,7 +163,7 @@ export async function getDocument<T = Record<string, unknown>>(
     }
   }
 
-  const response = await fetcher(url.toString(), {
+  const response = await fetchPayload(url.toString(), fetcher, {
     ...options.fetchOptions,
     headers: {
       "Content-Type": "application/json",
@@ -196,7 +238,7 @@ export async function getEpisodes(
   if (inflight) return inflight;
 
   const request = (async () => {
-    const response = await fetcher(url, {
+    const response = await fetchPayload(url, fetcher, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -240,7 +282,7 @@ export async function getEpisodeBySlug(
   }
 
   const request = (async () => {
-    const response = await fetcher(url, {
+    const response = await fetchPayload(url, fetcher, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -274,12 +316,14 @@ export async function getAdjacentEpisodes(
   next: Episode | null;
 }> {
   const [nextRes, prevRes] = await Promise.all([
-    fetcher(
+    fetchPayload(
       `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][greater_than]=${episodeNumber}&sort=episodeNumber&limit=1&depth=0`,
+      fetcher,
       { headers: { "Content-Type": "application/json" } }
     ),
-    fetcher(
+    fetchPayload(
       `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][less_than]=${episodeNumber}&sort=-episodeNumber&limit=1&depth=0`,
+      fetcher,
       { headers: { "Content-Type": "application/json" } }
     ),
   ]);

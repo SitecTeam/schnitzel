@@ -1,6 +1,7 @@
 ---
 import Typography from "@/components/typography";
 import { cn } from "@/lib/utils";
+import Star from "@/assets/svgs/star.svg";
 
 interface Props {
   marqueeText?: string;
@@ -14,7 +15,7 @@ const {
   compact = false,
 } = Astro.props;
 
-const marqueeItems = Array.from({ length: 20 });
+const marqueeItems = Array.from({ length: 10 });
 const rotationClass = rotation === "negative" ? "-rotate-2" : "rotate-2";
 const typographyVariant = compact ? "h4" : "h2";
 ---
@@ -37,9 +38,7 @@ const typographyVariant = compact ? "h4" : "h2";
         marqueeItems.map(() => (
           <div class="inline-flex items-center gap-4 pr-4">
             <h2 class="uppercase">{marqueeText}</h2>
-            <span class="relative -top-1 inline-block" aria-hidden="true">
-              ✷
-            </span>
+            <Star class="relative inline-block" aria-hidden="true" />
           </div>
         ))
       }

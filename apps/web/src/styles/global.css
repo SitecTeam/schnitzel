@@ -156,6 +156,14 @@
   animation: marquee 30s linear infinite;
   will-change: transform;
 }
+
+/* Keep desktop speed, but run marquee 2x faster below lg. */
+@media (max-width: 1023px) {
+  .marquee-track {
+    animation-duration: 10s;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;

@@ -191,6 +191,18 @@ interface GetEpisodesOptions {
   limit?: number;
 }
 
+function normalizeEpisodesSort(sort?: string): string {
+  if (!sort || sort === "newest" || sort === "-episodeNumber") {
+    return "-episodeNumber";
+  }
+
+  if (sort === "oldest" || sort === "episodeNumber") {
+    return "episodeNumber";
+  }
+
+  return "-episodeNumber";
+}
+
 /**
  * Fetch published episodes from the Payload REST API.
  *
@@ -201,20 +213,21 @@ export async function getEpisodes(
   options: GetEpisodesOptions = {},
   fetcher: typeof fetch = fetch
 ): Promise<PayloadListResponse<Episode>> {
-  const { search, sort = "-episodeNumber", page = 1, limit = 12 } = options;
+  const { search, sort = "newest", page = 1, limit = 12 } = options;
+  const payloadSort = normalizeEpisodesSort(sort);
 
   const parts: string[] = [
     "where[status][equals]=published",
-    `sort=${encodeURIComponent(sort)}`,
+    `sort=${encodeURIComponent(payloadSort)}`,
     "depth=1",
     "select[episodeNumber]=true",
     "select[title]=true",
     "select[slug]=true",
-    "select[guestName]=true",
     "select[description]=true",
     "select[coverImage]=true",
     "select[publishedAt]=true",
-    "select[audioUrl]=true",
+    "select[podbeanUrl]=true",
+    "select[youtubeUrl]=true",
     "select[status]=true",
     `limit=${limit}`,
     `page=${page}`,
@@ -223,9 +236,6 @@ export async function getEpisodes(
   if (search?.trim()) {
     parts.push(
       `where[or][0][title][like]=${encodeURIComponent(search.trim())}`
-    );
-    parts.push(
-      `where[or][1][guestName][like]=${encodeURIComponent(search.trim())}`
     );
   }
 
@@ -270,7 +280,7 @@ export async function getEpisodeBySlug(
   slug: string,
   fetcher: typeof fetch = fetch
 ): Promise<Episode | null> {
-  const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`;
+  const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&depth=1&limit=1`;
 
   const cached = getCachedResponse<PayloadListResponse<Episode>>(url);
   if (cached) return cached.docs[0] ?? null;

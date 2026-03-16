@@ -42,26 +42,28 @@ const guests = [
 ];
 ---
 
-<section class="h-[min(900px,100dvh)] overflow-hidden bg-secondary text-white">
+<section
+  class="overflow-hidden bg-secondary text-white sm:h-[min(900px,100dvh)]"
+>
   <div
     class="mx-auto h-full w-full max-w-432.5 px-4 md:px-8 xl:pr-14.75 xl:pl-24"
   >
     <div
       class="grid h-full grid-cols-1 items-center gap-10 md:gap-12 lg:grid-cols-2"
     >
-      <div class="relative z-10 max-w-152.5">
+      <div class="relative z-10 mt-10 max-w-152.5 lg:mt-0">
         <Typography
           tag="h2"
           variant="h1"
           uppercase
-          className="mb-5 text-primary-foreground max-lg:text-7xl max-lg:leading-[0.9] max-md:mb-6 max-md:text-6xl max-md:leading-[0.9] max-sm:text-5xl 3xl:whitespace-nowrap"
+          className="mb-8 text-primary-foreground 3xl:whitespace-nowrap lg:mb-9"
         >
           Guests Who Inspire
         </Typography>
         <Typography
           tag="p"
           variant="body-xl"
-          className="text-primary-foreground max-md:text-lg max-md:leading-relaxed max-sm:text-base"
+          className="text-[18px] leading-[31px] text-primary-foreground"
         >
           <span>I chat with outdoor nutters whose noodles have been</span><span>
             properly mushed by adventure. Less ego, more grit.</span
@@ -75,16 +77,24 @@ const guests = [
 
       <div class="relative flex w-full justify-center">
         <div
-          class="relative aspect-4/5 w-full max-w-80 cursor-grab pr-8 pl-8 sm:max-w-96 sm:pr-10 sm:pl-10 lg:max-w-100 lg:pr-12 lg:pl-0"
+          class="relative aspect-4/5 w-full max-w-80 cursor-grab pr-8 pl-8 sm:max-w-full sm:pr-10 sm:pl-10 lg:max-w-100 lg:pr-12 lg:pl-0"
         >
-          {/* Circular text decoration */}
           <div
-            class="absolute -top-8 -right-6 z-20 h-24 w-24 animate-[spin_10s_linear_infinite] sm:-top-10 sm:-right-10 sm:h-32 sm:w-32 lg:-top-14 lg:-right-10 lg:h-40 lg:w-40"
+            class="relative mx-auto w-full max-w-72 sm:max-w-80 md:max-w-sm lg:max-w-md"
           >
-            <img src={swipeCards} alt="Swipe cards" class="h-full w-full" />
-          </div>
+            {/* Circular text decoration */}
+            <div
+              class="absolute -top-11 -right-12 z-20 h-24 w-24 animate-[spin_10s_linear_infinite] sm:-top-14 sm:-right-16 sm:h-32 sm:w-32 lg:-top-18 lg:-right-20 lg:h-40 lg:w-40"
+            >
+              <img
+                src={swipeCards}
+                alt="Swipe cards"
+                class="h-full w-full drop-shadow-[0_0_1px_rgba(0,0,0,0.55),0_4px_10px_rgba(0,0,0,0.35)]"
+              />
+            </div>
 
-          <SwipeCards guests={guests} client:load />
+            <SwipeCards guests={guests} client:load />
+          </div>
         </div>
       </div>
     </div>

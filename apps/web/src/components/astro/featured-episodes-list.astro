@@ -49,17 +49,17 @@ try {
           <div class="group relative flex h-full w-full flex-col">
             <a
               href={`/episodes/${episode.slug}`}
-              class="absolute inset-0 z-10 hidden lg:block"
+              class="absolute inset-0 z-20 hidden lg:block"
               aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
             />
-            <div class="relative w-full overflow-hidden bg-muted">
+            <div class="relative h-110 w-full overflow-hidden bg-muted lg:h-100">
               {coverUrl ? (
                 <img
                   src={coverUrl}
-                  alt={episode.guestName}
+                  alt={episode.title}
                   width={640}
                   height={360}
-                  class="h-full max-h-110 w-full bg-secondary/20 object-contain transition-transform duration-300 ease-out group-hover:scale-105 sm:object-cover lg:max-h-100"
+                  class="h-full w-full bg-secondary/20 object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                 />
               ) : (
                 <div class="h-full w-full bg-muted" />
@@ -78,7 +78,7 @@ try {
                   tag="h5"
                   variant="h5"
                   uppercase={true}
-                  className="relative z-10 text-primary-foreground"
+                  className="relative z-10 text-primary-foreground truncate"
                 >
                   {`Episode #${episode.episodeNumber} ${episode.title}`}
                 </Typography>
@@ -89,7 +89,10 @@ try {
               >
                 {formattedPublishedAt}
               </Typography>
-              <Typography variant="body-md" className="text-secondary">
+              <Typography
+                variant="body-md"
+                className="text-secondary line-clamp-3"
+              >
                 {episode.description}
               </Typography>
               <Button asChild>

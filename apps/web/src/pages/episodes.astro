@@ -6,7 +6,7 @@ import Typography from "@/components/typography";
 import { getEpisodes } from "@/lib/payload";
 
 const search = Astro.url.searchParams.get("search") ?? undefined;
-const sort = Astro.url.searchParams.get("sort") ?? "-episodeNumber";
+const sort = Astro.url.searchParams.get("sort") ?? "newest";
 
 let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
 let initialPage = 1;
@@ -27,19 +27,14 @@ if (!fetchOnMount) {
 }
 ---
 
-<Layout title="All Episodes — Schnitzel Podcast">
+<Layout title="Episodes — Schnitzel">
   <main class="min-h-screen bg-primary-foreground pt-10 pb-18 md:pt-14">
     <div class="mx-auto w-full max-w-432.5 px-4 md:px-8 lg:px-6 xl:px-10">
       <!-- Page header -->
       <div
-        class="mb-7 flex flex-col gap-4 md:flex-row md:items-center md:justify-between lg:mb-10"
+        class="mb-7 flex flex-col gap-7 text-secondary lg:mb-16 lg:items-center lg:justify-between lg:gap-12.5"
       >
-        <Typography
-          tag="h1"
-          variant="h1"
-          uppercase={true}
-          className="text-secondary"
-        >
+        <Typography tag="h1" variant="h1" uppercase={true}>
           All Episodes
         </Typography>
 

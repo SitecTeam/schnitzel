@@ -10,6 +10,14 @@ import SlotMachine from "@/components/astro/slot-machine.astro";
 const pathname = Astro.url.pathname;
 const isHome = pathname === "/";
 
+const isNavItemActive = (href: string) => {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Episodes", href: "/episodes" },
@@ -41,11 +49,11 @@ const navItems = [
               isHome ? "text-primary-foreground" : "text-secondary",
               {
                 "after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:bg-current":
-                  pathname === item.href,
+                  isNavItemActive(item.href),
               },
             ]}
           >
-            <SlotMachine disabled={pathname === item.href}>
+            <SlotMachine disabled={isNavItemActive(item.href)}>
               <Typography tag="span" variant="subtitle">
                 {item.name}
               </Typography>

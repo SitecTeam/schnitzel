@@ -10,6 +10,12 @@ import type { PayloadListResponse, Episode } from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
+
+if (!PAYLOAD_API_URL || PAYLOAD_API_URL === "undefined") {
+  console.error(
+    "[payload] PUBLIC_PAYLOAD_API_URL is not set. CMS API calls will fail."
+  );
+}
 const EPISODES_CACHE_TTL_MS = 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)

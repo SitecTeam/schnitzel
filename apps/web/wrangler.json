@@ -7,9 +7,8 @@
   "assets": {
     "directory": "./dist"
   },
-  "vars": {
-    "PUBLIC_PAYLOAD_API_URL": "https://schnitzel-cms.react-spa.workers.dev/api"
-  },
+  "services": [{ "binding": "CMS", "service": "schnitzel-cms" }],
+  "vars": {},
   "observability": {
     "enabled": true,
     "logs": {

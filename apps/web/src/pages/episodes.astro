@@ -16,7 +16,7 @@ const fetchOnMount = import.meta.env.DEV;
 
 if (!fetchOnMount) {
   try {
-    const result = await getEpisodes({ search, sort });
+    const result = await getEpisodes({ search, sort }, Astro.locals.cmsFetcher);
     episodes = result.docs;
     initialPage = result.page;
     initialHasNextPage = result.hasNextPage;

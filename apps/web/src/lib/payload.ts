@@ -10,12 +10,6 @@ import type { PayloadListResponse, Episode } from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
-
-if (!PAYLOAD_API_URL || PAYLOAD_API_URL === "undefined") {
-  console.error(
-    "[payload] PUBLIC_PAYLOAD_API_URL is not set. CMS API calls will fail."
-  );
-}
 const EPISODES_CACHE_TTL_MS = 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)
@@ -82,7 +76,8 @@ function clearInflightRequest(key: string): void {
  */
 export async function getCollection<T = Record<string, unknown>>(
   collection: string,
-  options: PayloadRequestOptions = {}
+  options: PayloadRequestOptions = {},
+  fetcher: typeof fetch = fetch
 ): Promise<PayloadListResponse<T>> {
   const url = new URL(`${PAYLOAD_API_URL}/${collection}`);
 
@@ -92,7 +87,7 @@ export async function getCollection<T = Record<string, unknown>>(
     }
   }
 
-  const response = await fetch(url.toString(), {
+  const response = await fetcher(url.toString(), {
     ...options.fetchOptions,
     headers: {
       "Content-Type": "application/json",
@@ -115,7 +110,8 @@ export async function getCollection<T = Record<string, unknown>>(
 export async function getDocument<T = Record<string, unknown>>(
   collection: string,
   id: string,
-  options: PayloadRequestOptions = {}
+  options: PayloadRequestOptions = {},
+  fetcher: typeof fetch = fetch
 ): Promise<T> {
   const url = new URL(`${PAYLOAD_API_URL}/${collection}/${id}`);
 
@@ -125,7 +121,7 @@ export async function getDocument<T = Record<string, unknown>>(
     }
   }
 
-  const response = await fetch(url.toString(), {
+  const response = await fetcher(url.toString(), {
     ...options.fetchOptions,
     headers: {
       "Content-Type": "application/json",
@@ -160,7 +156,8 @@ interface GetEpisodesOptions {
  * encoding) so that Payload's qs-based parser sees literal bracket notation.
  */
 export async function getEpisodes(
-  options: GetEpisodesOptions = {}
+  options: GetEpisodesOptions = {},
+  fetcher: typeof fetch = fetch
 ): Promise<PayloadListResponse<Episode>> {
   const { search, sort = "-episodeNumber", page = 1, limit = 12 } = options;
 
@@ -199,7 +196,7 @@ export async function getEpisodes(
   if (inflight) return inflight;
 
   const request = (async () => {
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -227,7 +224,10 @@ export async function getEpisodes(
  * Fetch a single episode by its slug.
  * Returns `null` when not found.
  */
-export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
+export async function getEpisodeBySlug(
+  slug: string,
+  fetcher: typeof fetch = fetch
+): Promise<Episode | null> {
   const url = `${PAYLOAD_API_URL}/episodes?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`;
 
   const cached = getCachedResponse<PayloadListResponse<Episode>>(url);
@@ -240,7 +240,7 @@ export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
   }
 
   const request = (async () => {
-    const response = await fetch(url, {
+    const response = await fetcher(url, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -266,16 +266,19 @@ export async function getEpisodeBySlug(slug: string): Promise<Episode | null> {
  * episode number. Uses two targeted queries (limit=1 each) so it scales
  * to any number of episodes without fetching the full list.
  */
-export async function getAdjacentEpisodes(episodeNumber: number): Promise<{
+export async function getAdjacentEpisodes(
+  episodeNumber: number,
+  fetcher: typeof fetch = fetch
+): Promise<{
   prev: Episode | null;
   next: Episode | null;
 }> {
   const [nextRes, prevRes] = await Promise.all([
-    fetch(
+    fetcher(
       `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][greater_than]=${episodeNumber}&sort=episodeNumber&limit=1&depth=0`,
       { headers: { "Content-Type": "application/json" } }
     ),
-    fetch(
+    fetcher(
       `${PAYLOAD_API_URL}/episodes?where[status][equals]=published&where[episodeNumber][less_than]=${episodeNumber}&sort=-episodeNumber&limit=1&depth=0`,
       { headers: { "Content-Type": "application/json" } }
     ),

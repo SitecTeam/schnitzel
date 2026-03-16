@@ -9,3 +9,18 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// Cloudflare Workers runtime bindings for the web worker
+interface CloudflareEnv {
+  /** Service binding to the schnitzel-cms Worker */
+  CMS: Fetcher;
+}
+
+type Runtime = import("@astrojs/cloudflare").Runtime<CloudflareEnv>;
+
+declare namespace App {
+  interface Locals extends Runtime {
+    /** Bound fetch to the CMS worker — falls back to global fetch in local dev */
+    cmsFetcher: typeof fetch;
+  }
+}

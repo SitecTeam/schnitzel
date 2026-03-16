@@ -19,15 +19,10 @@ interface NavItem {
 
 interface MobileNavProps {
   isHome: boolean;
-  // pathname: string;
   navItems: NavItem[];
 }
 
-export default function MobileNav({
-  isHome,
-  // pathname,
-  navItems,
-}: MobileNavProps) {
+export default function MobileNav({ isHome, navItems }: MobileNavProps) {
   const textColor = isHome ? "text-primary-foreground" : "text-secondary";
 
   return (
@@ -81,11 +76,7 @@ export default function MobileNav({
             <SheetClose key={item.href} asChild>
               <a
                 href={item.href}
-                className={cn(
-                  "flex h-20 w-full items-center justify-between bg-primary-foreground px-3 py-2 text-primary uppercase transition-opacity hover:opacity-75"
-                  // pathname === item.href &&
-                  //   "underline decoration-2 underline-offset-8"
-                )}
+                className="flex h-20 w-full items-center justify-between bg-primary-foreground px-3 py-2 text-primary uppercase transition-opacity hover:opacity-75"
               >
                 <Typography tag="h4" variant="h1">
                   {item.name}

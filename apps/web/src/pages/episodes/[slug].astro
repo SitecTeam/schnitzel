@@ -1,5 +1,4 @@
 ---
-import MarqueeWrapper from "@/components/astro/marquee/marquee-wrapper.astro";
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import PodbeanEpisodePlayer from "@/components/islands/podbean";
 import { extractPodbeanEpisodeId } from "@/components/islands/podbean/utils";
@@ -14,6 +13,7 @@ import {
 } from "@/lib/payload";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import { formatDateWithOrdinal, type Media } from "@schnitzel/shared";
+import Star from "@/assets/svgs/star.svg";
 
 const { slug } = Astro.params;
 
@@ -43,41 +43,106 @@ const formattedPublishedAt = episode.publishedAt
   : "";
 const content = episode.content as SerializedEditorState | null;
 const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
+const marqueeItems = Array.from({ length: 10 });
 ---
 
 <Layout title={`${episode.title} | Schnitzel`}>
-  <main
-    class="flex min-h-screen flex-col items-center justify-center pb-18 lg:pb-24"
-  >
-    <MarqueeWrapper
-      imageSrc={coverUrl}
-      imageAlt={episode.title}
-      textPosition="below"
-      marqueeText="TAKE A DEEPER LOOK AT THE CONVERSATION BEHIND THIS EPISODE AND EXPLORE THE THOUGHTS, CHALLENGES, AND BREAKTHROUGHS THAT DEFINE IT."
-      className="mb-28"
-      transition:animate="fade"
-    />
-    <Typography variant="caption" className="text-[#7492B2]">
-      {formattedPublishedAt}
-    </Typography>
-    <Typography
-      tag="h1"
-      variant="h1"
-      className="text-center text-pretty text-secondary uppercase lg:mt-6"
-    >
-      {episode.title}
-    </Typography>
-    <RichTextWrapper data={content} />
-    {
-      episode.youtubeUrl && (
-        <PodcastButton variant="secondary" href={episode.youtubeUrl} />
-      )
-    }
-    {
-      podbeanEpisodeId && (
-        <PodbeanEpisodePlayer id={podbeanEpisodeId} title={episode.title} />
-      )
-    }
-    <EpisodePagination prev={prev} next={next} />
+  <main class="flex flex-col items-center justify-center bg-secondary lg:pb-16">
+    <div class="max-w-full overflow-x-clip bg-primary-foreground">
+      <div class="relative isolate">
+        {/* Grid Background */}
+        <div
+          class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+          aria-hidden="true"
+        >
+          <div
+            class="absolute inset-x-0 -top-5.25 bottom-0 bg-[linear-gradient(to_right,rgba(225,98,172,0.67)_1px,transparent_1px),linear-gradient(to_bottom,rgba(225,98,172,0.67)_1px,transparent_1px)] bg-size-[42px_42px] opacity-80"
+          >
+          </div>
+        </div>
+        <div
+          class="relative z-10 mx-auto -mb-6 w-full max-w-342.5 bg-secondary/25 md:-mb-8 lg:-mb-11.5"
+        >
+          <img
+            src={coverUrl}
+            alt={episode.title}
+            width={1280}
+            height={720}
+            class="h-100 w-full bg-secondary/20 object-cover sm:h-110 lg:h-180"
+          />
+        </div>
+      </div>
+      <div
+        class="relative z-10 scale-x-105 -rotate-2 bg-primary py-2.5 3xl:py-5"
+      >
+        <div class="marquee-track flex whitespace-nowrap">
+          <Typography
+            className="inline-flex items-center whitespace-nowrap text-primary-foreground"
+            tag="h4"
+            variant="h4"
+            aria-hidden="true"
+          >
+            {
+              marqueeItems.map(() => (
+                <div class="inline-flex items-center gap-4 pr-4">
+                  <h2 class="uppercase">
+                    TAKE A DEEPER LOOK AT THE CONVERSATION BEHIND THIS EPISODE
+                    AND EXPLORE THE THOUGHTS, CHALLENGES, AND BREAKTHROUGHS THAT
+                    DEFINE IT.
+                  </h2>
+                  <Star
+                    class="relative inline-block size-5 lg:size-6.5"
+                    aria-hidden="true"
+                  />
+                </div>
+              ))
+            }
+          </Typography>
+        </div>
+      </div>
+    </div>
+    <section class="-mt-10 w-full bg-secondary 3xl:-mt-11.25">
+      <div
+        class="mx-auto flex w-full max-w-342.5 flex-col bg-primary-foreground"
+      >
+        <div
+          class="mx-auto flex min-h-[50vh] w-full max-w-270.5 flex-col justify-between px-4 pt-14"
+        >
+          <div class="flex flex-col items-center">
+            <Typography variant="caption" className="text-[#7492B2]">
+              {formattedPublishedAt}
+            </Typography>
+            <Typography
+              tag="h1"
+              variant="h1"
+              className="text-center text-pretty text-secondary uppercase lg:mt-6"
+            >
+              {episode.title}
+            </Typography>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <RichTextWrapper data={content} />
+            {
+              episode.youtubeUrl && (
+                <PodcastButton variant="secondary" href={episode.youtubeUrl} />
+              )
+            }
+            {
+              podbeanEpisodeId && (
+                <PodbeanEpisodePlayer
+                  id={podbeanEpisodeId}
+                  title={episode.title}
+                />
+              )
+            }
+          </div>
+        </div>
+
+        <div class="w-full px-4">
+          <EpisodePagination prev={prev} next={next} />
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>

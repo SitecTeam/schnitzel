@@ -25,12 +25,12 @@ const LIMIT = 12;
 function EpisodeCardSkeleton() {
   return (
     <div className="flex flex-col overflow-hidden lg:h-122 lg:flex-row">
-      <Skeleton className="h-64 w-full shrink-0 lg:aspect-814/488 lg:h-full lg:w-auto" />
+      <Skeleton className="h-100 w-full shrink-0 sm:h-110 lg:aspect-814/488 lg:h-full lg:w-auto" />
 
       <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:gap-4 lg:px-10 lg:py-10">
-        <Skeleton className="h-12 w-full rounded-none bg-secondary/25 lg:w-56" />
-        <Skeleton className="h-5 w-32" />
-        <Skeleton className="h-7 w-full max-w-xl" />
+        <Skeleton className="h-15 w-full rounded-none bg-secondary/25 lg:h-19.5 lg:w-140" />
+        <Skeleton className="h-6 w-32" />
+        <Skeleton className="h-7.5 w-full max-w-xl" />
         <Skeleton className="h-14 w-11/12 max-w-xl rounded-none bg-primary/25 lg:hidden" />
       </div>
     </div>
@@ -124,18 +124,19 @@ function EpisodeCard({ episode }: { episode: Episode }) {
 export default function EpisodesList({
   initialDocs,
   initialSearch = "",
-  initialSort = "-episodeNumber",
+  initialSort = "newest",
   initialPage = 1,
   initialHasNextPage = false,
   fetchOnMount = false,
 }: EpisodesListProps) {
+  const shouldShowInitialSkeleton = fetchOnMount && initialDocs.length === 0;
   const [docs, setDocs] = useState<Episode[]>(initialDocs);
   const [search, setSearch] = useState(initialSearch);
   const [sort, setSort] = useState(initialSort);
   const [page, setPage] = useState(initialPage);
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage);
   const [isLoading, setIsLoading] = useState(false);
-  const [isReplacing, setIsReplacing] = useState(false);
+  const [isReplacing, setIsReplacing] = useState(shouldShowInitialSkeleton);
   const [error, setError] = useState<string | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -159,7 +160,7 @@ export default function EpisodesList({
     try {
       const params = new URLSearchParams();
       if (nextSearch.trim()) params.set("search", nextSearch.trim());
-      if (nextSort && nextSort !== "-episodeNumber") {
+      if (nextSort && nextSort !== "newest") {
         params.set("sort", nextSort);
       }
       params.set("page", String(nextPage));
@@ -196,7 +197,7 @@ export default function EpisodesList({
     function onFiltersChange(event: Event) {
       const customEvent = event as CustomEvent<FiltersChangeDetail>;
       const nextSearch = customEvent.detail?.search ?? "";
-      const nextSort = customEvent.detail?.sort ?? "-episodeNumber";
+      const nextSort = customEvent.detail?.sort ?? "newest";
 
       setSearch(nextSearch);
       setSort(nextSort);
@@ -213,7 +214,7 @@ export default function EpisodesList({
     function onPopState() {
       const params = new URLSearchParams(window.location.search);
       const nextSearch = params.get("search") ?? "";
-      const nextSort = params.get("sort") ?? "-episodeNumber";
+      const nextSort = params.get("sort") ?? "newest";
 
       setSearch(nextSearch);
       setSort(nextSort);

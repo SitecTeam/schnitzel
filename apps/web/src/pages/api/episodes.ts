@@ -7,7 +7,7 @@ const MAX_LIMIT = 24;
 export const GET: APIRoute = async ({ url }) => {
   try {
     const search = url.searchParams.get("search") ?? undefined;
-    const sort = url.searchParams.get("sort") ?? "-episodeNumber";
+    const sort = url.searchParams.get("sort") ?? "newest";
     const pageParam = Number.parseInt(url.searchParams.get("page") ?? "1", 10);
     const limitParam = Number.parseInt(
       url.searchParams.get("limit") ?? String(DEFAULT_LIMIT),

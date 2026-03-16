@@ -6,7 +6,7 @@ import Typography from "@/components/typography";
 import { getEpisodes } from "@/lib/payload";
 
 const search = Astro.url.searchParams.get("search") ?? undefined;
-const sort = Astro.url.searchParams.get("sort") ?? "-episodeNumber";
+const sort = Astro.url.searchParams.get("sort") ?? "newest";
 
 let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
 let initialPage = 1;
@@ -32,14 +32,9 @@ if (!fetchOnMount) {
     <div class="mx-auto w-full max-w-432.5 px-4 md:px-8 lg:px-6 xl:px-10">
       <!-- Page header -->
       <div
-        class="mb-7 flex flex-col gap-7 lg:mb-16 lg:flex-row lg:items-center lg:justify-between"
+        class="mb-7 flex flex-col gap-7 text-secondary lg:mb-16 lg:items-center lg:justify-between lg:gap-12.5"
       >
-        <Typography
-          tag="h1"
-          variant="h1"
-          uppercase={true}
-          className="text-secondary lg:text-[72px] lg:leading-[86px] xl:text-[96px] xl:leading-[110px]"
-        >
+        <Typography tag="h1" variant="h1" uppercase={true}>
           All Episodes
         </Typography>
 

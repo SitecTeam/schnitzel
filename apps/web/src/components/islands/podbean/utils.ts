@@ -49,7 +49,9 @@ export const extractPodbeanEpisodeId = (value: string | null | undefined) => {
     }
 
     // e.g. https://www.podbean.com/eas/pb-xyz123-abc456
-    const pbPathMatch = parsedUrl.pathname.match(/\/pb-([a-z0-9-]+)/i);
+    // e.g. https://www.podbean.com/ew/pb-k6q9t-1a1f277
+    // The full "pb-XXXXX-YYYYYYY" token is the episode ID expected by the player.
+    const pbPathMatch = parsedUrl.pathname.match(/\/(pb-[a-z0-9-]+)/i);
     if (pbPathMatch?.[1]) {
       return pbPathMatch[1];
     }

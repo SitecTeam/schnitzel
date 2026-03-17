@@ -20,10 +20,20 @@ export const extractPodbeanEpisodeId = (value: string | null | undefined) => {
     return "";
   }
 
-  const normalized = value.trim();
+  let normalized = value.trim();
 
   if (!normalized) {
     return "";
+  }
+
+  // Handle full <iframe> HTML pasted from Podbean's "Embed" button.
+  // Extract the src attribute value and continue with that URL.
+  if (normalized.trimStart().startsWith("<")) {
+    const srcMatch = normalized.match(/\bsrc=["']([^"']+)["']/i);
+    if (!srcMatch) {
+      return "";
+    }
+    normalized = srcMatch[1];
   }
 
   if (/^[a-z0-9]+(?:-[a-z0-9]+)+$/i.test(normalized)) {

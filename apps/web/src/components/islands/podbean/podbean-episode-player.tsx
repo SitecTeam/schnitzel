@@ -23,7 +23,6 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
           }}
           data-name="pb-iframe-player"
           src={iframeSrc}
-          loading="lazy"
         />
       </div>
     </section>

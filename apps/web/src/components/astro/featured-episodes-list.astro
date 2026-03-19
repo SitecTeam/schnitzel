@@ -59,6 +59,9 @@ try {
                   alt={episode.title}
                   width={640}
                   height={360}
+                  loading="eager"
+                  fetchpriority="high"
+                  decoding="async"
                   class="h-full w-full bg-secondary/20 object-cover transition-transform duration-300 ease-out group-hover:scale-105"
                 />
               ) : (

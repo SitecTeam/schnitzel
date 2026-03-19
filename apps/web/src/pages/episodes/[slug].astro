@@ -44,6 +44,8 @@ const formattedPublishedAt = episode.publishedAt
 const content = episode.content as SerializedEditorState | null;
 const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
 const marqueeItems = Array.from({ length: 10 });
+
+console.log("podbeanEpisodeId:", podbeanEpisodeId);
 ---
 
 <Layout title={`${episode.title} | Schnitzel`}>
@@ -129,7 +131,7 @@ const marqueeItems = Array.from({ length: 10 });
               )
             }
             {
-              podbeanEpisodeId && (
+              (
                 <PodbeanEpisodePlayer
                   id={podbeanEpisodeId}
                   title={episode.title}

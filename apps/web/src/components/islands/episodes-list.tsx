@@ -5,6 +5,7 @@ import Typography from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveMediaUrl } from "@/lib/payload";
 import { Play } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface EpisodesListProps {
   initialDocs: Episode[];
@@ -87,14 +88,17 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             height={488}
             loading="lazy"
             decoding="async"
-            className={`h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
+            className={cn(
+              "h-full w-full object-cover transition-transform duration-200 ease-out lg:group-hover:scale-105",
+              isImageLoaded ? "opacity-100" : "opacity-0"
+            )}
           />
         ) : (
           <div className="h-full w-full bg-muted" />
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100 lg:flex">
+        <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 lg:group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 lg:flex lg:group-hover:opacity-100">
           <span className="flex size-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg">
             <Play className="size-7" />
           </span>
@@ -103,7 +107,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
 
       <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
         <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-auto">
-          <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out group-hover:w-full" />
+          <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out lg:group-hover:w-full" />
           <Typography
             tag="h3"
             variant="h3"

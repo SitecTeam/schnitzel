@@ -62,12 +62,15 @@ const {
       <picture>
         <source media="(min-width: 1024px)" srcset={heroImage.src} />
         <img
+          id="hero-img"
           src={heroMobileImage.src}
           alt={heroImageAlt}
           width={756}
           height={756}
-          class="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain drop-shadow-xl sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100"
+          class="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain opacity-0 drop-shadow-xl transition-opacity duration-300 sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100"
           loading="eager"
+          fetchpriority="high"
+          decoding="async"
         />
       </picture>
     </div>
@@ -84,3 +87,14 @@ const {
     }
   }
 </style>
+
+<script>
+  const img = document.getElementById("hero-img") as HTMLImageElement | null;
+  if (img) {
+    const show = () => {
+      img.style.opacity = "1";
+    };
+    if (img.complete) show();
+    else img.addEventListener("load", show, { once: true });
+  }
+</script>

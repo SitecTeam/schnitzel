@@ -15,21 +15,34 @@ export const buildPodbeanEmbedUrl = (episodeId: string) => {
   return `https://www.podbean.com/player-v2/?${params.toString()}`;
 };
 
-export const extractPodbeanEpisodeId = (
-  url: string | null | undefined
-): string => {
-  if (!url?.trim()) return "";
+export const extractPodbeanEpisodeId = (value: string | null | undefined) => {
+  if (!value) {
+    return "";
+  }
+
+  const normalized = value.trim();
+
+  if (!normalized) {
+    return "";
+  }
+
+  if (/^[a-z0-9]+(?:-[a-z0-9]+)+$/i.test(normalized)) {
+    return normalized;
+  }
 
   try {
-    const parsed = new URL(url.trim());
+    const parsedUrl = new URL(normalized);
+    const fromQuery = parsedUrl.searchParams.get("i");
 
-    // Player embed URL: https://www.podbean.com/player-v2/?i=pb-xxxx-yyyy
-    const fromQuery = parsed.searchParams.get("i");
-    if (fromQuery) return fromQuery;
+    if (fromQuery) {
+      return fromQuery;
+    }
 
-    // Episode page URL: https://www.podbean.com/ew/pb-xxxx-yyyy
-    const match = parsed.pathname.match(/\/(pb-[a-z0-9-]+)/i);
-    if (match?.[1]) return match[1];
+    const pathMatch = parsedUrl.pathname.match(/\/pb-([a-z0-9-]+)/i);
+
+    if (pathMatch?.[1]) {
+      return pathMatch[1];
+    }
   } catch {
     return "";
   }

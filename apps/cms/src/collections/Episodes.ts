@@ -80,11 +80,7 @@ export const Episodes: CollectionConfig = {
     {
       name: "podbeanUrl",
       type: "text",
-      label: "Podbean URL",
-      admin: {
-        description:
-          "Paste the Podbean episode URL (e.g. https://www.podbean.com/ew/pb-xxxx-yyyy).",
-      },
+      label: "Podbean Embed Link",
     },
     {
       name: "publishedAt",

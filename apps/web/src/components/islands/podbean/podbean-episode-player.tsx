@@ -22,6 +22,7 @@ const PodbeanEpisodePlayer = ({ id, title }: PodbeanEpisodePlayerProps) => {
             height: "150",
           }}
           data-name="pb-iframe-player"
+          referrerPolicy="no-referrer-when-downgrade"
           src={iframeSrc}
         />
       </div>

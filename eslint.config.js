@@ -11,6 +11,7 @@ export default tseslint.config(
       "**/.astro/**",
       "**/.next/**",
       "**/.open-next/**",
+      "**/.wrangler/**",
       "**/node_modules/**",
       "**/.turbo/**",
       "**/*.json",
@@ -60,6 +61,21 @@ export default tseslint.config(
     files: ["**/*.config.{js,mjs,ts}", "**/wrangler.*"],
     rules: {
       "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+
+  // Node.js scripts — grant process, console, Buffer, __dirname, etc.
+  {
+    files: ["**/scripts/**/*.mjs", "**/scripts/**/*.js", "**/scripts/**/*.ts"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        console: "readonly",
+        Buffer: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        URL: "readonly",
+      },
     },
   }
 );

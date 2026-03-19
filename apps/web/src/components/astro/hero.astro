@@ -1,8 +1,8 @@
 ---
 import Typography from "@/components/typography";
 import PodcastButton from "@/components/astro/podcast-button.astro";
-import heroImage from "@/assets/hero.png";
-import heroMobileImage from "@/assets/hero-mobile.png";
+import heroImage from "@/assets/hero.webp";
+import heroMobileImage from "@/assets/hero-mobile.webp";
 
 interface Props {
   title?: string;
@@ -68,6 +68,8 @@ const {
           height={756}
           class="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain drop-shadow-xl sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100"
           loading="eager"
+          fetchpriority="high"
+          decoding="async"
         />
       </picture>
     </div>

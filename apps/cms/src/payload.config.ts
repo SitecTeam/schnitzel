@@ -27,6 +27,12 @@ const isCLI = process.argv.some(value =>
   realpath(value)?.endsWith(path.join("payload", "bin.js"))
 );
 const isProduction = process.env.NODE_ENV === "production";
+// During `next build`, Next.js sets NEXT_PHASE to 'phase-production-build'.
+// In that phase it executes API routes to collect page data, but no real
+// requests are served — so Cloudflare bindings are never actually called.
+// Skipping the wrangler initialisation here prevents remote D1/R2 auth
+// failures in CI where wrangler credentials are not present.
+const isBuild = process.env.NEXT_PHASE === "phase-production-build";
 const payloadSecret = process.env.PAYLOAD_SECRET?.trim();
 const cloudflareEnvironment = isProduction
   ? (process.env.CLOUDFLARE_ENV?.trim() ?? undefined)
@@ -65,8 +71,9 @@ const cloudflareLogger = {
   silent: () => {},
 } as unknown as Logger; // minimal implementation — Payload only calls log-level methods at runtime
 
-const cloudflare =
-  isCLI || !isProduction
+const cloudflare = isBuild
+  ? ({ env: {} } as unknown as CloudflareContext)
+  : isCLI || !isProduction
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true });
 

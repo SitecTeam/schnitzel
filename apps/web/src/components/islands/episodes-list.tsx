@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Episode, Media, PayloadListResponse } from "@schnitzel/shared";
 import { formatDate } from "@schnitzel/shared";
 import Typography from "@/components/typography";
@@ -43,7 +43,28 @@ function EpisodeCard({ episode }: { episode: Episode }) {
       ? (episode.coverImage as Media)
       : null;
   const coverUrl = resolveMediaUrl(coverImage?.url);
-  const [isImageLoading, setIsImageLoading] = useState(Boolean(coverUrl));
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img) return;
+
+    // Already loaded (cached or fast response before hydration)
+    if (img.complete && img.naturalWidth > 0) {
+      setIsImageLoaded(true);
+      return;
+    }
+
+    const onLoad = () => setIsImageLoaded(true);
+    const onError = () => setIsImageLoaded(true);
+    img.addEventListener("load", onLoad);
+    img.addEventListener("error", onError);
+    return () => {
+      img.removeEventListener("load", onLoad);
+      img.removeEventListener("error", onError);
+    };
+  }, [coverUrl]);
 
   return (
     <div className="group relative flex flex-col overflow-hidden lg:cursor-pointer lg:flex-row">
@@ -53,21 +74,20 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
       />
       <div className="relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]">
-        {coverUrl && isImageLoading && (
+        {coverUrl && !isImageLoaded && (
           <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
         )}
 
         {coverUrl ? (
           <img
+            ref={imgRef}
             src={coverUrl}
             alt={episode.title}
             width={814}
             height={488}
             loading="lazy"
             decoding="async"
-            onLoad={() => setIsImageLoading(false)}
-            onError={() => setIsImageLoading(false)}
-            className={`h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 ${isImageLoading ? "opacity-0" : "opacity-100"}`}
+            className={`h-full w-full object-cover transition-transform duration-200 ease-out group-hover:scale-105 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
           />
         ) : (
           <div className="h-full w-full bg-muted" />
@@ -130,76 +150,87 @@ export default function EpisodesList({
   initialHasNextPage = false,
   fetchOnMount = false,
 }: EpisodesListProps) {
-  const shouldShowInitialSkeleton = fetchOnMount && initialDocs.length === 0;
   const [docs, setDocs] = useState<Episode[]>(initialDocs);
   const [search, setSearch] = useState(initialSearch);
   const [sort, setSort] = useState(initialSort);
   const [page, setPage] = useState(initialPage);
   const [hasNextPage, setHasNextPage] = useState(initialHasNextPage);
   const [isLoading, setIsLoading] = useState(false);
-  const [isReplacing, setIsReplacing] = useState(shouldShowInitialSkeleton);
+  const [isReplacing, setIsReplacing] = useState(
+    fetchOnMount && initialDocs.length === 0
+  );
   const [error, setError] = useState<string | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
-  async function fetchPage({
-    nextSearch,
-    nextSort,
-    nextPage,
-    replace,
-  }: {
-    nextSearch: string;
-    nextSort: string;
-    nextPage: number;
-    replace: boolean;
-  }) {
-    if (isLoading) return;
+  const fetchPage = useCallback(
+    async ({
+      nextSearch,
+      nextSort,
+      nextPage,
+      replace,
+    }: {
+      nextSearch: string;
+      nextSort: string;
+      nextPage: number;
+      replace: boolean;
+    }) => {
+      // Cancel any in-flight request to avoid race conditions
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
 
-    setIsLoading(true);
-    setIsReplacing(replace);
-    setError(null);
+      setIsLoading(true);
+      setIsReplacing(replace);
+      setError(null);
 
-    try {
-      const params = new URLSearchParams();
-      if (nextSearch.trim()) params.set("search", nextSearch.trim());
-      if (nextSort && nextSort !== "newest") {
-        params.set("sort", nextSort);
+      try {
+        const params = new URLSearchParams();
+        if (nextSearch.trim()) params.set("search", nextSearch.trim());
+        if (nextSort && nextSort !== "newest") params.set("sort", nextSort);
+        params.set("page", String(nextPage));
+        params.set("limit", String(LIMIT));
+
+        const response = await fetch(`/api/episodes?${params.toString()}`, {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Failed to fetch episodes");
+
+        const data: PayloadListResponse<Episode> = await response.json();
+
+        setDocs(current => (replace ? data.docs : [...current, ...data.docs]));
+        setPage(data.page);
+        setHasNextPage(data.hasNextPage);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError("Could not load episodes. Please try again later.");
+      } finally {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+          setIsReplacing(false);
+        }
       }
-      params.set("page", String(nextPage));
-      params.set("limit", String(LIMIT));
+    },
+    []
+  );
 
-      const response = await fetch(`/api/episodes?${params.toString()}`);
-      if (!response.ok) throw new Error("Failed to fetch episodes");
-
-      const data: PayloadListResponse<Episode> = await response.json();
-
-      setDocs(current => (replace ? data.docs : [...current, ...data.docs]));
-      setPage(data.page);
-      setHasNextPage(data.hasNextPage);
-    } catch {
-      setError("Could not load episodes. Please try again later.");
-    } finally {
-      setIsLoading(false);
-      setIsReplacing(false);
-    }
-  }
-
+  // Initial fetch when rendering client-side only (dev mode)
   useEffect(() => {
     if (!fetchOnMount) return;
-
     void fetchPage({
       nextSearch: initialSearch,
       nextSort: initialSort,
       nextPage: 1,
       replace: true,
     });
-  }, [fetchOnMount, initialSearch, initialSort]);
+  }, [fetchOnMount, fetchPage, initialSearch, initialSort]);
 
+  // Listen for filter changes + browser back/forward
   useEffect(() => {
     function onFiltersChange(event: Event) {
-      const customEvent = event as CustomEvent<FiltersChangeDetail>;
-      const nextSearch = customEvent.detail?.search ?? "";
-      const nextSort = customEvent.detail?.sort ?? "newest";
-
+      const { search: nextSearch = "", sort: nextSort = "newest" } = (
+        event as CustomEvent<FiltersChangeDetail>
+      ).detail;
       setSearch(nextSearch);
       setSort(nextSort);
       setPage(1);
@@ -216,35 +247,28 @@ export default function EpisodesList({
       const params = new URLSearchParams(window.location.search);
       const nextSearch = params.get("search") ?? "";
       const nextSort = params.get("sort") ?? "newest";
-
       setSearch(nextSearch);
       setSort(nextSort);
       setPage(1);
       setHasNextPage(false);
-      void fetchPage({
-        nextSearch,
-        nextSort,
-        nextPage: 1,
-        replace: true,
-      });
+      void fetchPage({ nextSearch, nextSort, nextPage: 1, replace: true });
     }
 
     window.addEventListener("episodes:filters-change", onFiltersChange);
     window.addEventListener("popstate", onPopState);
-
     return () => {
       window.removeEventListener("episodes:filters-change", onFiltersChange);
       window.removeEventListener("popstate", onPopState);
     };
-  }, [isLoading]);
+  }, [fetchPage]);
 
+  // Infinite scroll via IntersectionObserver
   useEffect(() => {
     if (!sentinelRef.current || !hasNextPage || isLoading) return;
 
     const observer = new IntersectionObserver(
       entries => {
-        const [entry] = entries;
-        if (entry?.isIntersecting && !isLoading && hasNextPage) {
+        if (entries[0]?.isIntersecting) {
           void fetchPage({
             nextSearch: search,
             nextSort: sort,
@@ -257,9 +281,13 @@ export default function EpisodesList({
     );
 
     observer.observe(sentinelRef.current);
-
     return () => observer.disconnect();
-  }, [hasNextPage, isLoading, page, search, sort]);
+  }, [hasNextPage, isLoading, page, search, sort, fetchPage]);
+
+  // Cleanup abort controller on unmount
+  useEffect(() => {
+    return () => abortRef.current?.abort();
+  }, []);
 
   return (
     <>

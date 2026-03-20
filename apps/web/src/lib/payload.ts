@@ -65,6 +65,13 @@ async function fetchPayload(
  */
 export function resolveMediaUrl(url: string | undefined | null): string | null {
   if (!url) return null;
+  // Rewrite absolute localhost URLs (CMS serverURL misconfigured — falls back to
+  // http://localhost:3000 when PAYLOAD_PUBLIC_SERVER_URL secret is not set in the
+  // Cloudflare Worker runtime).
+  if (url.startsWith("http://localhost")) {
+    const withoutOrigin = url.replace(/^http:\/\/localhost(:\d+)?/, "");
+    return `${PAYLOAD_SERVER_URL}${withoutOrigin.startsWith("/") ? "" : "/"}${withoutOrigin}`;
+  }
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
   return `${PAYLOAD_SERVER_URL}${url.startsWith("/") ? "" : "/"}${url}`;
 }

@@ -25,7 +25,9 @@
     }
   ],
   "rules": [{ "type": "CompiledWasm", "globs": ["**/*.wasm"] }],
-  "vars": {},
+  "vars": {
+    "NODE_ENV": "production"
+  },
   "observability": {
     "enabled": true,
     "logs": {

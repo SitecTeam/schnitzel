@@ -43,6 +43,7 @@ const formattedPublishedAt = episode.publishedAt
   : "";
 const content = episode.content as SerializedEditorState | null;
 const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
+const musicCredits = episode.music ?? [];
 const marqueeItems = Array.from({ length: 10 });
 ---
 
@@ -126,16 +127,53 @@ const marqueeItems = Array.from({ length: 10 });
           <div class="flex flex-col items-center">
             <RichTextWrapper data={content} />
             {
+              (musicCredits.length > 0 || episode.thanksTo) && (
+                <div class="mt-9 w-full px-4 lg:mt-12">
+                  {musicCredits.length > 0 && (
+                    <div class="text-center">
+                      <Typography
+                        variant="body-lg"
+                        fontWeight="bold"
+                        className="text-primary"
+                      >
+                        Music
+                      </Typography>
+                      {musicCredits.map(item => (
+                        <Typography variant="body-lg" className="text-primary">
+                          {item.credit}
+                        </Typography>
+                      ))}
+                    </div>
+                  )}
+                  {episode.thanksTo && (
+                    <Typography
+                      variant="body-xl"
+                      className="mt-9 text-center text-secondary lg:mt-12"
+                    >
+                      <span class="font-bold">Thanks to</span>{" "}
+                      {episode.thanksTo}
+                    </Typography>
+                  )}
+                </div>
+              )
+            }
+            {
               episode.youtubeUrl && (
-                <PodcastButton variant="secondary" href={episode.youtubeUrl} />
+                <PodcastButton
+                  variant="secondary"
+                  href={episode.youtubeUrl}
+                  class="mt-16 lg:mt-24"
+                />
               )
             }
             {
               podbeanEpisodeId && (
-                <PodbeanEpisodePlayer
-                  id={podbeanEpisodeId}
-                  title={episode.title}
-                />
+                <div class="mt-7 w-full lg:mt-[42px]">
+                  <PodbeanEpisodePlayer
+                    id={podbeanEpisodeId}
+                    title={episode.title}
+                  />
+                </div>
               )
             }
           </div>

@@ -48,7 +48,7 @@ export interface Episode extends PayloadDocument {
   coverImage: string | Media;
   podbeanUrl?: string;
   youtubeUrl?: string;
-  music?: string;
+  music?: { id: string; credit: string }[];
   thanksTo?: string;
   publishedAt?: string;
   status: "draft" | "published";

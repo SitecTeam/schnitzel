@@ -111,12 +111,20 @@ export const Episodes: CollectionConfig = {
     },
     {
       name: "music",
-      type: "textarea",
+      type: "array",
       label: "Music Credits",
       admin: {
         description:
           "Music credits shown in episode show notes (displayed in primary pink colour).",
       },
+      fields: [
+        {
+          name: "credit",
+          type: "text",
+          label: "Credit",
+          required: true,
+        },
+      ],
     },
     {
       name: "thanksTo",

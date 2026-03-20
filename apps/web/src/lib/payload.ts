@@ -13,7 +13,7 @@ const PAYLOAD_API_URL =
 const PAYLOAD_FALLBACK_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_FALLBACK_URL ??
   "https://schnitzel-cms.react-spa.workers.dev/api";
-const EPISODES_CACHE_TTL_MS = 30_000;
+const EPISODES_CACHE_TTL_MS = import.meta.env.DEV ? 0 : 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)
 const PAYLOAD_SERVER_URL = PAYLOAD_API_URL.replace(/\/api\/?$/, "");

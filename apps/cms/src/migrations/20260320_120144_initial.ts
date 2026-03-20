@@ -50,9 +50,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`mime_type\` text,
   	\`filesize\` numeric,
   	\`width\` numeric,
-  	\`height\` numeric,
-  	\`focal_x\` numeric,
-  	\`focal_y\` numeric
+  	\`height\` numeric
   );
   `);
   await db.run(
@@ -88,6 +86,46 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(
     sql`CREATE INDEX \`pages_created_at_idx\` ON \`pages\` (\`created_at\`);`
   );
+  await db.run(sql`CREATE TABLE \`episodes\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`episode_number\` numeric NOT NULL,
+  	\`title\` text NOT NULL,
+  	\`slug\` text NOT NULL,
+  	\`description\` text NOT NULL,
+  	\`content\` text,
+  	\`cover_image_id\` integer NOT NULL,
+  	\`youtube_url\` text,
+  	\`podbean_url\` text,
+  	\`music\` text,
+  	\`thanks_to\` text,
+  	\`published_at\` text,
+  	\`status\` text DEFAULT 'draft' NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	FOREIGN KEY (\`cover_image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  );
+  `);
+  await db.run(
+    sql`CREATE INDEX \`episodes_episode_number_idx\` ON \`episodes\` (\`episode_number\`);`
+  );
+  await db.run(
+    sql`CREATE UNIQUE INDEX \`episodes_slug_idx\` ON \`episodes\` (\`slug\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`episodes_cover_image_idx\` ON \`episodes\` (\`cover_image_id\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`episodes_published_at_idx\` ON \`episodes\` (\`published_at\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`episodes_status_idx\` ON \`episodes\` (\`status\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`episodes_updated_at_idx\` ON \`episodes\` (\`updated_at\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`episodes_created_at_idx\` ON \`episodes\` (\`created_at\`);`
+  );
   await db.run(sql`CREATE TABLE \`payload_kv\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`key\` text NOT NULL,
@@ -121,10 +159,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`users_id\` integer,
   	\`media_id\` integer,
   	\`pages_id\` integer,
+  	\`episodes_id\` integer,
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`episodes_id\`) REFERENCES \`episodes\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `);
   await db.run(
@@ -144,6 +184,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   );
   await db.run(
     sql`CREATE INDEX \`payload_locked_documents_rels_pages_id_idx\` ON \`payload_locked_documents_rels\` (\`pages_id\`);`
+  );
+  await db.run(
+    sql`CREATE INDEX \`payload_locked_documents_rels_episodes_id_idx\` ON \`payload_locked_documents_rels\` (\`episodes_id\`);`
   );
   await db.run(sql`CREATE TABLE \`payload_preferences\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -209,6 +252,7 @@ export async function down({
   await db.run(sql`DROP TABLE \`users\`;`);
   await db.run(sql`DROP TABLE \`media\`;`);
   await db.run(sql`DROP TABLE \`pages\`;`);
+  await db.run(sql`DROP TABLE \`episodes\`;`);
   await db.run(sql`DROP TABLE \`payload_kv\`;`);
   await db.run(sql`DROP TABLE \`payload_locked_documents\`;`);
   await db.run(sql`DROP TABLE \`payload_locked_documents_rels\`;`);

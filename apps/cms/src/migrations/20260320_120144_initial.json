@@ -255,20 +255,6 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        },
-        "focal_x": {
-          "name": "focal_x",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "focal_y": {
-          "name": "focal_y",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
         }
       },
       "indexes": {
@@ -384,6 +370,170 @@
           "tableFrom": "pages",
           "tableTo": "media",
           "columnsFrom": ["featured_image_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "episodes": {
+      "name": "episodes",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "episode_number": {
+          "name": "episode_number",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "cover_image_id": {
+          "name": "cover_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "youtube_url": {
+          "name": "youtube_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "podbean_url": {
+          "name": "podbean_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "music": {
+          "name": "music",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "thanks_to": {
+          "name": "thanks_to",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'draft'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        }
+      },
+      "indexes": {
+        "episodes_episode_number_idx": {
+          "name": "episodes_episode_number_idx",
+          "columns": ["episode_number"],
+          "isUnique": false
+        },
+        "episodes_slug_idx": {
+          "name": "episodes_slug_idx",
+          "columns": ["slug"],
+          "isUnique": true
+        },
+        "episodes_cover_image_idx": {
+          "name": "episodes_cover_image_idx",
+          "columns": ["cover_image_id"],
+          "isUnique": false
+        },
+        "episodes_published_at_idx": {
+          "name": "episodes_published_at_idx",
+          "columns": ["published_at"],
+          "isUnique": false
+        },
+        "episodes_status_idx": {
+          "name": "episodes_status_idx",
+          "columns": ["status"],
+          "isUnique": false
+        },
+        "episodes_updated_at_idx": {
+          "name": "episodes_updated_at_idx",
+          "columns": ["updated_at"],
+          "isUnique": false
+        },
+        "episodes_created_at_idx": {
+          "name": "episodes_created_at_idx",
+          "columns": ["created_at"],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "episodes_cover_image_id_media_id_fk": {
+          "name": "episodes_cover_image_id_media_id_fk",
+          "tableFrom": "episodes",
+          "tableTo": "media",
+          "columnsFrom": ["cover_image_id"],
           "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
@@ -537,6 +687,13 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "episodes_id": {
+          "name": "episodes_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -568,6 +725,11 @@
         "payload_locked_documents_rels_pages_id_idx": {
           "name": "payload_locked_documents_rels_pages_id_idx",
           "columns": ["pages_id"],
+          "isUnique": false
+        },
+        "payload_locked_documents_rels_episodes_id_idx": {
+          "name": "payload_locked_documents_rels_episodes_id_idx",
+          "columns": ["episodes_id"],
           "isUnique": false
         }
       },
@@ -604,6 +766,15 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "pages",
           "columnsFrom": ["pages_id"],
+          "columnsTo": ["id"],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_episodes_fk": {
+          "name": "payload_locked_documents_rels_episodes_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "episodes",
+          "columnsFrom": ["episodes_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -829,6 +1000,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "28244c43-b23c-4df9-a0d7-a0303ef8c81e",
+  "id": "8911dc78-b8f1-4543-ae9c-9eef4c595050",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

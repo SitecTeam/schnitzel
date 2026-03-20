@@ -73,6 +73,7 @@ export const Episodes: CollectionConfig = {
       name: "coverImage",
       type: "upload",
       relationTo: "media",
+      required: true,
       label: "Cover Image",
     },
     {
@@ -107,6 +108,23 @@ export const Episodes: CollectionConfig = {
       name: "podbeanUrl",
       type: "text",
       label: "Podbean Embed Link",
+    },
+    {
+      name: "music",
+      type: "textarea",
+      label: "Music Credits",
+      admin: {
+        description:
+          "Music credits shown in episode show notes (displayed in primary pink colour).",
+      },
+    },
+    {
+      name: "thanksTo",
+      type: "text",
+      label: "Thanks To",
+      admin: {
+        description: "Acknowledgement line shown below the music credits.",
+      },
     },
     {
       name: "publishedAt",

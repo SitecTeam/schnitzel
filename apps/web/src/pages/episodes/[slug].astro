@@ -12,7 +12,7 @@ import {
   resolveMediaUrl,
 } from "@/lib/payload";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
-import { formatDateWithOrdinal, type Media } from "@schnitzel/shared";
+import { formatDateWithOrdinal, resolveMedia } from "@schnitzel/shared";
 import Star from "@/assets/svgs/star.svg";
 
 const { slug } = Astro.params;
@@ -32,10 +32,7 @@ const { prev, next } = await getAdjacentEpisodes(
   Astro.locals.cmsFetcher
 );
 
-const coverImage =
-  episode.coverImage && typeof episode.coverImage === "object"
-    ? (episode.coverImage as Media)
-    : null;
+const coverImage = resolveMedia(episode.coverImage);
 
 const coverUrl = resolveMediaUrl(coverImage?.url);
 const formattedPublishedAt = episode.publishedAt
@@ -68,7 +65,7 @@ const marqueeItems = Array.from({ length: 10 });
             alt={episode.title}
             width={1280}
             height={720}
-            class="h-100 w-full bg-secondary/20 object-cover object-[100%_15%] sm:h-110 lg:h-180"
+            class="h-100 w-full bg-secondary/20 object-cover object-[100%_20%] sm:h-110 lg:h-180"
           />
         </div>
       </div>

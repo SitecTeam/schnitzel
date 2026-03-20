@@ -1,6 +1,6 @@
 ---
-import type { Episode, Media } from "@schnitzel/shared";
-import { formatDate } from "@schnitzel/shared";
+import type { Episode } from "@schnitzel/shared";
+import { formatDate, resolveMedia } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { resolveMediaUrl } from "@/lib/payload";
 
@@ -10,10 +10,7 @@ interface Props {
 
 const { episode } = Astro.props;
 
-const coverImage =
-  episode.coverImage && typeof episode.coverImage === "object"
-    ? (episode.coverImage as Media)
-    : null;
+const coverImage = resolveMedia(episode.coverImage);
 const coverUrl = resolveMediaUrl(coverImage?.url);
 ---
 

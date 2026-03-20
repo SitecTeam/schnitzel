@@ -6,7 +6,12 @@
  * In dev, it runs on localhost:3000.
  */
 
-import type { PayloadListResponse, Episode } from "@schnitzel/shared";
+import type {
+  CollectionSlug,
+  CollectionDocument,
+  PayloadListResponse,
+  Episode,
+} from "@schnitzel/shared";
 
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
@@ -115,12 +120,15 @@ function clearInflightRequest(key: string): void {
 
 /**
  * Fetch a list of documents from a Payload collection.
+ *
+ * The return type is automatically inferred from the collection slug,
+ * so `getCollection("episodes")` returns `PayloadListResponse<Episode>`.
  */
-export async function getCollection<T = Record<string, unknown>>(
-  collection: string,
+export async function getCollection<S extends CollectionSlug>(
+  collection: S,
   options: PayloadRequestOptions = {},
   fetcher: typeof fetch = fetch
-): Promise<PayloadListResponse<T>> {
+): Promise<PayloadListResponse<CollectionDocument<S>>> {
   const url = new URL(`${PAYLOAD_API_URL}/${collection}`);
 
   if (options.query) {
@@ -148,13 +156,15 @@ export async function getCollection<T = Record<string, unknown>>(
 
 /**
  * Fetch a single document by ID from a Payload collection.
+ *
+ * The return type is automatically inferred from the collection slug.
  */
-export async function getDocument<T = Record<string, unknown>>(
-  collection: string,
+export async function getDocument<S extends CollectionSlug>(
+  collection: S,
   id: string,
   options: PayloadRequestOptions = {},
   fetcher: typeof fetch = fetch
-): Promise<T> {
+): Promise<CollectionDocument<S>> {
   const url = new URL(`${PAYLOAD_API_URL}/${collection}/${id}`);
 
   if (options.query) {

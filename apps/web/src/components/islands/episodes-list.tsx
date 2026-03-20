@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Episode, Media, PayloadListResponse } from "@schnitzel/shared";
-import { formatDate } from "@schnitzel/shared";
+import type { Episode, PayloadListResponse } from "@schnitzel/shared";
+import { formatDate, resolveMedia } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveMediaUrl } from "@/lib/payload";
@@ -39,10 +39,7 @@ function EpisodeCardSkeleton() {
 }
 
 function EpisodeCard({ episode }: { episode: Episode }) {
-  const coverImage =
-    episode.coverImage && typeof episode.coverImage === "object"
-      ? (episode.coverImage as Media)
-      : null;
+  const coverImage = resolveMedia(episode.coverImage);
   const coverUrl = resolveMediaUrl(coverImage?.url);
   const imgRef = useRef<HTMLImageElement>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);

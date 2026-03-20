@@ -21,7 +21,7 @@ type FiltersChangeDetail = {
   sort?: string;
 };
 
-const LIMIT = 12;
+const LIMIT = 6;
 
 function EpisodeCardSkeleton() {
   return (
@@ -89,7 +89,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             loading="lazy"
             decoding="async"
             className={cn(
-              "h-full w-full object-cover transition-transform duration-200 ease-out lg:group-hover:scale-105",
+              "h-full w-full object-cover object-[100%_15%] transition-transform duration-200 ease-out lg:group-hover:scale-105",
               isImageLoaded ? "opacity-100" : "opacity-0"
             )}
           />

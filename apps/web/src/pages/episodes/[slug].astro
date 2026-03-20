@@ -68,7 +68,7 @@ const marqueeItems = Array.from({ length: 10 });
             alt={episode.title}
             width={1280}
             height={720}
-            class="h-100 w-full bg-secondary/20 object-cover sm:h-110 lg:h-180"
+            class="h-100 w-full bg-secondary/20 object-cover object-[100%_15%] sm:h-110 lg:h-180"
           />
         </div>
       </div>
@@ -141,7 +141,7 @@ const marqueeItems = Array.from({ length: 10 });
           </div>
         </div>
 
-        <div class="w-full px-4">
+        <div class="w-full px-2 sm:px-4">
           <EpisodePagination prev={prev} next={next} />
         </div>
       </div>

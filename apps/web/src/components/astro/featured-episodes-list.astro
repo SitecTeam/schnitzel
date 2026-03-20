@@ -1,17 +1,14 @@
 ---
 import { getCollection, resolveMediaUrl } from "@/lib/payload";
-import {
-  formatDateWithOrdinal,
-  type Episode,
-  type Media,
-} from "@schnitzel/shared";
+import { formatDateWithOrdinal, resolveMedia } from "@schnitzel/shared";
 import Typography, { textVariants } from "@/components/typography";
 import { Play } from "lucide-react";
 import { Button } from "../ui/button";
 
-let episodes: Episode[] = [];
+let episodes: Awaited<ReturnType<typeof getCollection<"episodes">>>["docs"] =
+  [];
 try {
-  const result = await getCollection<Episode>(
+  const result = await getCollection(
     "episodes",
     {
       query: {
@@ -36,10 +33,7 @@ try {
   ) : (
     <div class="flex h-fit w-full flex-col gap-16 lg:grid lg:grid-cols-3 lg:gap-5">
       {episodes.map(episode => {
-        const coverImage =
-          episode.coverImage && typeof episode.coverImage === "object"
-            ? (episode.coverImage as Media)
-            : null;
+        const coverImage = resolveMedia(episode.coverImage);
         const coverUrl = resolveMediaUrl(coverImage?.url);
         const formattedPublishedAt = episode.publishedAt
           ? formatDateWithOrdinal(episode.publishedAt)
@@ -62,7 +56,7 @@ try {
                   loading="eager"
                   fetchpriority="high"
                   decoding="async"
-                  class="h-full w-full bg-secondary/20 object-cover transition-transform duration-300 ease-out lg:group-hover:scale-105"
+                  class="h-full w-full bg-secondary/20 object-cover object-[100%_15%] transition-transform duration-300 ease-out lg:group-hover:scale-105"
                 />
               ) : (
                 <div class="h-full w-full bg-muted" />

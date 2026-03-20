@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Episode, Media, PayloadListResponse } from "@schnitzel/shared";
-import { formatDate } from "@schnitzel/shared";
+import type { Episode, PayloadListResponse } from "@schnitzel/shared";
+import { formatDate, resolveMedia } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveMediaUrl } from "@/lib/payload";
@@ -21,7 +21,7 @@ type FiltersChangeDetail = {
   sort?: string;
 };
 
-const LIMIT = 12;
+const LIMIT = 6;
 
 function EpisodeCardSkeleton() {
   return (
@@ -39,10 +39,7 @@ function EpisodeCardSkeleton() {
 }
 
 function EpisodeCard({ episode }: { episode: Episode }) {
-  const coverImage =
-    episode.coverImage && typeof episode.coverImage === "object"
-      ? (episode.coverImage as Media)
-      : null;
+  const coverImage = resolveMedia(episode.coverImage);
   const coverUrl = resolveMediaUrl(coverImage?.url);
   const imgRef = useRef<HTMLImageElement>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -89,7 +86,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             loading="lazy"
             decoding="async"
             className={cn(
-              "h-full w-full object-cover transition-transform duration-200 ease-out lg:group-hover:scale-105",
+              "h-full w-full object-cover object-[100%_15%] transition-transform duration-200 ease-out lg:group-hover:scale-105",
               isImageLoaded ? "opacity-100" : "opacity-0"
             )}
           />

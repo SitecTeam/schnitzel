@@ -19,8 +19,31 @@ export const Pages: CollectionConfig = {
       type: "text",
       required: true,
       unique: true,
+      index: true,
       admin: {
         position: "sidebar",
+        components: {
+          Field: {
+            path: "@/components/SlugInput#SlugInput",
+            clientProps: { useAsSlug: "title" },
+          },
+        },
+      },
+      validate: async (value, { req, id }) => {
+        if (!value) return "Slug is required.";
+        const existing = await req.payload.find({
+          collection: "pages",
+          where: { slug: { equals: value } },
+          limit: 1,
+          depth: 0,
+        });
+        if (
+          existing.docs.length > 0 &&
+          String(existing.docs[0].id) !== String(id)
+        ) {
+          return `Slug "${value}" is already in use by another page. Please choose a different slug.`;
+        }
+        return true;
       },
     },
     {

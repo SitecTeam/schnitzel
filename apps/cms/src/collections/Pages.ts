@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, PayloadRequest } from "payload";
 
 export const Pages: CollectionConfig = {
   slug: "pages",
@@ -29,7 +29,10 @@ export const Pages: CollectionConfig = {
           },
         },
       },
-      validate: async (value, { req, id }) => {
+      validate: async (
+        value: string | null | undefined,
+        { req, id }: { req: PayloadRequest; id?: string | number | null }
+      ) => {
         if (!value) return "Slug is required.";
         const existing = await req.payload.find({
           collection: "pages",

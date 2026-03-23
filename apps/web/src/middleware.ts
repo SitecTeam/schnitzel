@@ -4,10 +4,11 @@ const EPISODES_CACHE_CONTROL =
   "public, s-maxage=60, stale-while-revalidate=300";
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  // Inject the CMS service binding as the fetcher so Worker-to-Worker
-  // communication goes through Cloudflare's internal network.
-  // Falls back to global fetch in local dev where the binding isn't present.
-  const cms = context.locals.runtime?.env?.CMS;
+  // In production, use the Cloudflare service binding (Worker-to-Worker, no
+  // public internet hop). In local dev (astro dev), the binding routes through
+  // wrangler's virtual dispatch which has no local CMS worker target — always
+  // use plain fetch so requests go directly to localhost:3000.
+  const cms = !import.meta.env.DEV ? context.locals.runtime?.env?.CMS : null;
   context.locals.cmsFetcher = cms
     ? (input: RequestInfo | URL, init?: RequestInit) =>
         cms.fetch(input as Request, init)

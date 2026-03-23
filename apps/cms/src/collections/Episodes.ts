@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, PayloadRequest } from "payload";
 
 export const Episodes: CollectionConfig = {
   slug: "episodes",
@@ -27,9 +27,35 @@ export const Episodes: CollectionConfig = {
       type: "text",
       required: true,
       unique: true,
+      index: true,
       label: "Slug",
       admin: {
         position: "sidebar",
+        components: {
+          Field: {
+            path: "@/components/SlugInput#SlugInput",
+            clientProps: { useAsSlug: "title" },
+          },
+        },
+      },
+      validate: async (
+        value: string | null | undefined,
+        { req, id }: { req: PayloadRequest; id?: string | number | null }
+      ) => {
+        if (!value) return "Slug is required.";
+        const existing = await req.payload.find({
+          collection: "episodes",
+          where: { slug: { equals: value } },
+          limit: 1,
+          depth: 0,
+        });
+        if (
+          existing.docs.length > 0 &&
+          String(existing.docs[0].id) !== String(id)
+        ) {
+          return `Slug "${value}" is already in use by another episode. Please choose a different slug.`;
+        }
+        return true;
       },
     },
     {
@@ -47,6 +73,7 @@ export const Episodes: CollectionConfig = {
       name: "coverImage",
       type: "upload",
       relationTo: "media",
+      required: true,
       label: "Cover Image",
     },
     {
@@ -81,6 +108,31 @@ export const Episodes: CollectionConfig = {
       name: "podbeanUrl",
       type: "text",
       label: "Podbean Embed Link",
+    },
+    {
+      name: "music",
+      type: "array",
+      label: "Music Credits",
+      admin: {
+        description:
+          "Music credits shown in episode show notes (displayed in primary pink colour).",
+      },
+      fields: [
+        {
+          name: "credit",
+          type: "text",
+          label: "Credit",
+          required: true,
+        },
+      ],
+    },
+    {
+      name: "thanksTo",
+      type: "text",
+      label: "Thanks To",
+      admin: {
+        description: "Acknowledgement line shown below the music credits.",
+      },
     },
     {
       name: "publishedAt",

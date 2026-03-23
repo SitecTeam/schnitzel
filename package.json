@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "deploy:web": "turbo run deploy --filter=@schnitzel/web",
     "deploy:cms": "turbo run deploy --filter=@schnitzel/cms",
+    "generate:types": "turbo run generate:types --filter=@schnitzel/cms && node scripts/sync-types.mjs",
     "postinstall": "husky"
   },
   "devDependencies": {

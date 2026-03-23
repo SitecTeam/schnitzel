@@ -220,9 +220,22 @@ export interface Episode {
     };
     [k: string]: unknown;
   } | null;
-  coverImage?: (number | null) | Media;
+  coverImage: number | Media;
   youtubeUrl?: string | null;
   podbeanUrl?: string | null;
+  /**
+   * Music credits shown in episode show notes (displayed in primary pink colour).
+   */
+  music?:
+    | {
+        credit: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Acknowledgement line shown below the music credits.
+   */
+  thanksTo?: string | null;
   publishedAt?: string | null;
   status: "draft" | "published";
   updatedAt: string;
@@ -375,6 +388,13 @@ export interface EpisodesSelect<T extends boolean = true> {
   coverImage?: T;
   youtubeUrl?: T;
   podbeanUrl?: T;
+  music?:
+    | T
+    | {
+        credit?: T;
+        id?: T;
+      };
+  thanksTo?: T;
   publishedAt?: T;
   status?: T;
   updatedAt?: T;

@@ -16,9 +16,8 @@ import type {
 const PAYLOAD_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
 const PAYLOAD_FALLBACK_API_URL =
-  import.meta.env.PUBLIC_PAYLOAD_API_FALLBACK_URL ??
-  "https://schnitzel-cms.react-spa.workers.dev/api";
-const EPISODES_CACHE_TTL_MS = 30_000;
+  import.meta.env.PUBLIC_PAYLOAD_API_FALLBACK_URL ?? "";
+const EPISODES_CACHE_TTL_MS = import.meta.env.DEV ? 0 : 30_000;
 
 // CMS server root (strips trailing /api so we can resolve relative media URLs)
 const PAYLOAD_SERVER_URL = PAYLOAD_API_URL.replace(/\/api\/?$/, "");
@@ -70,6 +69,13 @@ async function fetchPayload(
  */
 export function resolveMediaUrl(url: string | undefined | null): string | null {
   if (!url) return null;
+  // Rewrite absolute localhost URLs (CMS serverURL misconfigured — falls back to
+  // http://localhost:3000 when PAYLOAD_PUBLIC_SERVER_URL secret is not set in the
+  // Cloudflare Worker runtime).
+  if (url.startsWith("http://localhost")) {
+    const withoutOrigin = url.replace(/^http:\/\/localhost(:\d+)?/, "");
+    return `${PAYLOAD_SERVER_URL}${withoutOrigin.startsWith("/") ? "" : "/"}${withoutOrigin}`;
+  }
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
   return `${PAYLOAD_SERVER_URL}${url.startsWith("/") ? "" : "/"}${url}`;
 }

@@ -26,7 +26,7 @@
   ],
   "rules": [{ "type": "CompiledWasm", "globs": ["**/*.wasm"] }],
   "vars": {
-    "PAYLOAD_PUBLIC_SERVER_URL": "https://schnitzel-cms.react-spa.workers.dev"
+    "NODE_ENV": "production"
   },
   "observability": {
     "enabled": true,

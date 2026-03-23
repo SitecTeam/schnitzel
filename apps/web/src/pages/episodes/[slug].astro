@@ -71,8 +71,13 @@ console.log("episode", episode);
             alt={episode.title}
             width={1280}
             height={720}
-            class="h-100 w-full bg-secondary/20 object-cover object-[100%_20%] sm:h-110 lg:h-180"
+            class="h-100 w-full bg-secondary/20 object-cover object-[100%_20%] grayscale sm:h-110 lg:h-180"
           />
+          <div
+            class="pointer-events-none absolute inset-0 bg-[#FF62AC4D]"
+            aria-hidden="true"
+          >
+          </div>
         </div>
       </div>
       <div
@@ -180,7 +185,7 @@ console.log("episode", episode);
             }
           </div>
 
-          <div class="w-full px-2 sm:px-4">
+          <div class="w-full">
             <EpisodePagination prev={prev} next={next} />
           </div>
         </div>

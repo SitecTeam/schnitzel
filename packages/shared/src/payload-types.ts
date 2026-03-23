@@ -157,6 +157,14 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  /**
+   * Horizontal focus: 0 = left edge, 50 = center, 100 = right edge
+   */
+  focalX?: number | null;
+  /**
+   * Vertical focus: 0 = top edge, 50 = center, 100 = bottom edge
+   */
+  focalY?: number | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -352,6 +360,8 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  focalX?: T;
+  focalY?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

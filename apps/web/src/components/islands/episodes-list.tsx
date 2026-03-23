@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Episode, PayloadListResponse } from "@schnitzel/shared";
-import { formatDate, resolveMedia } from "@schnitzel/shared";
+import { formatDate, resolveMedia, focalPosition } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { Skeleton } from "@/components/ui/skeleton";
 import { resolveMediaUrl } from "@/lib/payload";
@@ -85,6 +85,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             height={488}
             loading="lazy"
             decoding="async"
+            style={{ objectPosition: focalPosition(coverImage) }}
             className={cn(
               "h-full w-full object-cover object-[100%_15%] grayscale transition-transform duration-200 ease-out lg:group-hover:scale-105",
               isImageLoaded ? "opacity-100" : "opacity-0"

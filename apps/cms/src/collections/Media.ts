@@ -20,5 +20,31 @@ export const Media: CollectionConfig = {
       type: "text",
       required: true,
     },
+    {
+      name: "focalX",
+      type: "number",
+      label: "Focal Point X (%)",
+      min: 0,
+      max: 100,
+      defaultValue: 50,
+      admin: {
+        description:
+          "Horizontal focus: 0 = left edge, 50 = center, 100 = right edge",
+        step: 1,
+      },
+    },
+    {
+      name: "focalY",
+      type: "number",
+      label: "Focal Point Y (%)",
+      min: 0,
+      max: 100,
+      defaultValue: 50,
+      admin: {
+        description:
+          "Vertical focus: 0 = top edge, 50 = center, 100 = bottom edge",
+        step: 1,
+      },
+    },
   ],
 };

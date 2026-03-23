@@ -51,3 +51,13 @@ export function resolveMedia(
   if (field != null && typeof field === "object") return field;
   return null;
 }
+
+/**
+ * Build a CSS `object-position` value from a Media's focal point.
+ * Defaults to "50% 50%" (center) when focal point fields are missing.
+ */
+export function focalPosition(media: Media | null | undefined): string {
+  const x = media?.focalX ?? 50;
+  const y = media?.focalY ?? 50;
+  return `${x}% ${y}%`;
+}

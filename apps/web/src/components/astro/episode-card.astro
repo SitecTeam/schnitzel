@@ -1,6 +1,6 @@
 ---
 import type { Episode } from "@schnitzel/shared";
-import { formatDate, resolveMedia } from "@schnitzel/shared";
+import { formatDate, resolveMedia, focalPosition } from "@schnitzel/shared";
 import Typography from "@/components/typography";
 import { resolveMediaUrl } from "@/lib/payload";
 
@@ -31,6 +31,7 @@ const coverUrl = resolveMediaUrl(coverImage?.url);
           height={488}
           loading="lazy"
           decoding="async"
+          style={`object-position: ${focalPosition(coverImage)}`}
           class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
         />
       ) : (

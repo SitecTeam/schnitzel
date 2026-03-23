@@ -16,7 +16,7 @@ const RichTextWrapper = ({ data }: RichTextWrapperProps) => {
   return (
     <RichText
       data={data}
-      className="mt-8 mb-0 px-4 lg:mt-16 [&>*:last-child]:mb-0"
+      className="mt-8 mb-0 lg:mt-16 [&>*:last-child]:mb-0"
       converters={({ defaultConverters }) => ({
         ...defaultConverters,
         // Basic text elements

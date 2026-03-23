@@ -97,7 +97,10 @@ export default buildConfig({
   secret: payloadSecret || "dev-secret-change-me-in-production",
 
   typescript: {
-    outputFile: path.resolve(dirname, "payload-types.ts"),
+    outputFile: path.resolve(
+      dirname,
+      "../../../packages/shared/src/payload-types.ts"
+    ),
   },
 
   db: sqliteD1Adapter({ binding: cloudflare.env.D1, push: false }),

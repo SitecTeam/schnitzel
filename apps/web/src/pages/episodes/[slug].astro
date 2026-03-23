@@ -12,7 +12,7 @@ import {
   resolveMediaUrl,
 } from "@/lib/payload";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
-import { formatDateWithOrdinal, type Media } from "@schnitzel/shared";
+import { formatDateWithOrdinal } from "@schnitzel/shared";
 import Star from "@/assets/svgs/star.svg";
 
 const { slug } = Astro.params;
@@ -34,7 +34,7 @@ const { prev, next } = await getAdjacentEpisodes(
 
 const coverImage =
   episode.coverImage && typeof episode.coverImage === "object"
-    ? (episode.coverImage as Media)
+    ? episode.coverImage
     : null;
 
 const coverUrl = resolveMediaUrl(coverImage?.url);
@@ -45,6 +45,8 @@ const content = episode.content as SerializedEditorState | null;
 const podbeanEpisodeId = extractPodbeanEpisodeId(episode.podbeanUrl);
 const musicCredits = episode.music ?? [];
 const marqueeItems = Array.from({ length: 10 });
+
+console.log("episode", episode);
 ---
 
 <Layout title={`${episode.title} | Schnitzel`}>
@@ -69,7 +71,7 @@ const marqueeItems = Array.from({ length: 10 });
             alt={episode.title}
             width={1280}
             height={720}
-            class="h-100 w-full bg-secondary/20 object-cover sm:h-110 lg:h-180"
+            class="h-100 w-full bg-secondary/20 object-cover object-[100%_20%] sm:h-110 lg:h-180"
           />
         </div>
       </div>
@@ -177,10 +179,10 @@ const marqueeItems = Array.from({ length: 10 });
               )
             }
           </div>
-        </div>
 
-        <div class="w-full px-4">
-          <EpisodePagination prev={prev} next={next} />
+          <div class="w-full px-2 sm:px-4">
+            <EpisodePagination prev={prev} next={next} />
+          </div>
         </div>
       </div>
     </section>

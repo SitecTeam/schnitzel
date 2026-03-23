@@ -2,6 +2,7 @@
 import type { Episode } from "@schnitzel/shared";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Typography from "../typography";
+import { cn } from "@/lib/utils";
 
 interface Props {
   prev: Episode | null;
@@ -22,7 +23,7 @@ const { prev, next } = Astro.props;
           class="group flex max-w-100 min-w-0 items-center gap-2 text-secondary transition-colors"
           aria-label={`Previous episode: ${prev.title}`}
         >
-          <ChevronLeft className="size-9 shrink-0 lg:size-12" />
+          <ChevronLeft className="size-7 sm:size-9 shrink-0 lg:size-12" />
           <div class="min-w-0">
             <Typography variant="h4" className="uppercase sm:truncate">
               <span class="block sm:hidden">Episode #{prev.episodeNumber}</span>
@@ -42,7 +43,10 @@ const { prev, next } = Astro.props;
       next ? (
         <a
           href={`/episodes/${next.slug}`}
-          class="group flex max-w-100 min-w-0 items-center gap-2 text-right text-secondary transition-colors"
+          class={cn(
+            "group flex max-w-100 min-w-0 items-center justify-end gap-2 text-right text-secondary transition-colors",
+            !prev && "col-start-2 justify-self-end"
+          )}
           aria-label={`Next episode: ${next.title}`}
         >
           <div class="min-w-0">
@@ -54,7 +58,7 @@ const { prev, next } = Astro.props;
               </span>
             </Typography>
           </div>
-          <ChevronRight className="size-9 shrink-0 lg:size-12" />
+          <ChevronRight className="size-7 sm:size-9 shrink-0 lg:size-12" />
         </a>
       ) : (
         <div class="hidden md:block" aria-hidden="true" />

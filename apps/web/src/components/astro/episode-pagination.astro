@@ -25,7 +25,7 @@ const { prev, next } = Astro.props;
         >
           <ChevronLeft className="size-7 sm:size-9 shrink-0 lg:size-12" />
           <div class="min-w-0">
-            <Typography variant="h4" className="uppercase sm:truncate">
+            <Typography variant="h5" className="uppercase ">
               <span class="block sm:hidden">Episode #{prev.episodeNumber}</span>
               <span class="block truncate sm:hidden">{prev.title}</span>
               <span class="hidden sm:inline">
@@ -50,7 +50,7 @@ const { prev, next } = Astro.props;
           aria-label={`Next episode: ${next.title}`}
         >
           <div class="min-w-0">
-            <Typography variant="h4" className="uppercase sm:truncate">
+            <Typography variant="h5" className="uppercase ">
               <span class="block sm:hidden">Episode #{next.episodeNumber}</span>
               <span class="block truncate sm:hidden">{next.title}</span>
               <span class="hidden sm:inline">

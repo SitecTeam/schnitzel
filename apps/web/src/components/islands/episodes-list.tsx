@@ -103,14 +103,14 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
-        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-auto">
+      <div className="mt-3 flex w-full flex-col justify-center gap-3 lg:m-10 lg:mr-0 lg:ml-6 lg:max-w-155 lg:gap-4 xl:ml-10">
+        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-full">
           <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out lg:group-hover:w-full" />
           <Typography
             tag="h3"
             variant="h3"
             uppercase={true}
-            className="relative z-10 line-clamp-2 text-primary-foreground"
+            className="relative z-10 line-clamp-2 w-full text-primary-foreground"
           >
             Episode #{episode.episodeNumber} <wbr />
             {episode.title}
@@ -126,7 +126,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         <Typography
           tag="p"
           variant="body-lg"
-          className="line-clamp-4 max-w-xl text-secondary"
+          className="line-clamp-4 w-full text-secondary"
         >
           {episode.description}
         </Typography>

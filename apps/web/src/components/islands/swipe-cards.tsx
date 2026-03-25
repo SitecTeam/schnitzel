@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "motion/react";
 import type { PanInfo } from "motion";
+import type { ComponentType, SVGProps } from "react";
+import Name1 from "@/assets/svgs/name-1.svg?react";
+import Name2 from "@/assets/svgs/name-2.svg?react";
+import Name3 from "@/assets/svgs/name-3.svg?react";
+import Name4 from "@/assets/svgs/name-4.svg?react";
+import Name5 from "@/assets/svgs/name-5.svg?react";
 
 interface Guest {
   id: string;
   image: string;
-  nameBadge: string;
 }
 
 interface SwipeCardsProps {
   guests: Guest[];
 }
+
+const nameBadgeByGuestId: Record<
+  Guest["id"],
+  ComponentType<SVGProps<SVGSVGElement>>
+> = {
+  "1": Name1,
+  "2": Name2,
+  "3": Name3,
+  "4": Name4,
+  "5": Name5,
+};
 
 export function SwipeCards({ guests }: SwipeCardsProps) {
   const [cards, setCards] = useState(guests);
@@ -49,6 +65,7 @@ export function SwipeCards({ guests }: SwipeCardsProps) {
         const isTop = index === 0;
         const isSecond = index === 1;
         const isThird = index === 2;
+        const NameBadge = nameBadgeByGuestId[guest.id];
 
         // Calculate rotation and scale based on index
         const rotation = isTop ? 0 : isSecond ? 4 : isThird ? 7 : 0;
@@ -92,9 +109,9 @@ export function SwipeCards({ guests }: SwipeCardsProps) {
             />
             {isTop && (
               <div className="pointer-events-none absolute -bottom-12 -left-10 z-20 sm:-bottom-16 sm:-left-14 md:-bottom-18 md:-left-16 lg:-bottom-20 lg:-left-18">
-                <img
-                  src={guest.nameBadge}
-                  alt="Guest name"
+                <NameBadge
+                  aria-label="Guest name"
+                  role="img"
                   className="h-auto w-36 sm:w-44 md:w-48 lg:w-52"
                 />
               </div>

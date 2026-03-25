@@ -14,7 +14,6 @@ import { r2Storage } from "@payloadcms/storage-r2";
 
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
-import { Pages } from "./collections/Pages";
 import { Episodes } from "./collections/Episodes";
 
 const filename = fileURLToPath(import.meta.url);
@@ -89,7 +88,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Media, Pages, Episodes],
+  collections: [Users, Media, Episodes],
 
   editor: lexicalEditor(),
 

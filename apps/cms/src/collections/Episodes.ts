@@ -139,6 +139,16 @@ export const Episodes: CollectionConfig = {
       type: "date",
       label: "Published At",
       index: true,
+      validate: (value, { siblingData }) => {
+        const siblingStatus = (siblingData as { status?: string } | undefined)
+          ?.status;
+
+        if (siblingStatus === "published" && !value) {
+          return "Published At is required when status is Published.";
+        }
+
+        return true;
+      },
       admin: {
         position: "sidebar",
         date: {

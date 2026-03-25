@@ -9,10 +9,10 @@
  */
 
 // Re-export the auto-generated Payload document types
-export type { Config, Episode, Media, Page, User } from "./payload-types";
+export type { Config, Episode, Media, User } from "./payload-types";
 
 // Re-export for CMS-internal typing if needed
-export type { EpisodesSelect, MediaSelect, PagesSelect } from "./payload-types";
+export type { EpisodesSelect, MediaSelect } from "./payload-types";
 
 /**
  * Map from collection slug to its document type.

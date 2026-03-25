@@ -28,10 +28,15 @@ function EpisodeCardSkeleton() {
     <div className="flex flex-col overflow-hidden lg:flex-row">
       <Skeleton className="h-100 w-full shrink-0 sm:h-110 lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]" />
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
-        <Skeleton className="h-15 w-full rounded-none bg-secondary/25 lg:h-19.5 lg:w-140" />
+      <div className="mt-3 flex w-full flex-col justify-center gap-3 lg:m-10 lg:mr-0 lg:ml-6 lg:max-w-155 lg:gap-4 xl:ml-10">
+        <Skeleton className="h-15 w-full rounded-none bg-secondary/25 lg:h-19.5 lg:max-w-155" />
         <Skeleton className="h-6 w-32" />
-        <Skeleton className="h-7.5 w-full max-w-xl" />
+        <div className="flex flex-col gap-0.5">
+          <Skeleton className="h-7.5 w-full lg:max-w-155" />
+          <Skeleton className="h-7.5 w-full lg:max-w-155" />
+          <Skeleton className="h-7.5 w-full lg:max-w-155" />
+          <Skeleton className="h-7.5 w-full lg:max-w-155" />
+        </div>
         <Skeleton className="h-14 w-11/12 max-w-xl rounded-none bg-primary/25 lg:hidden" />
       </div>
     </div>
@@ -65,13 +70,14 @@ function EpisodeCard({ episode }: { episode: Episode }) {
   }, [coverUrl]);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden lg:cursor-pointer lg:flex-row">
+    <div className="group/card relative flex flex-col overflow-hidden lg:flex-row">
       <a
         href={`/episodes/${episode.slug}`}
-        className="absolute inset-0 z-30 hidden lg:block"
+        data-card-target
+        className="pointer-events-none relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:pointer-events-auto lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]"
         aria-label={`Episode #${episode.episodeNumber} ${episode.title}`}
-      />
-      <div className="relative h-100 w-full shrink-0 overflow-hidden sm:h-110 lg:aspect-814/488 lg:h-auto lg:max-h-122 lg:w-3/5 xl:w-[49.5%]">
+        tabIndex={-1}
+      >
         {coverUrl && !isImageLoaded && (
           <Skeleton className="absolute inset-0 h-full w-full rounded-none" />
         )}
@@ -87,7 +93,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             decoding="async"
             style={{ objectPosition: focalPosition(coverImage) }}
             className={cn(
-              "h-full w-full object-cover object-[100%_15%] grayscale transition-transform duration-200 ease-out lg:group-hover:scale-105",
+              "h-full w-full object-cover grayscale transition-transform duration-200 ease-out lg:group-has-[[data-card-target]:hover]/card:scale-105",
               isImageLoaded ? "opacity-100" : "opacity-0"
             )}
           />
@@ -95,22 +101,31 @@ function EpisodeCard({ episode }: { episode: Episode }) {
           <div className="h-full w-full bg-muted" />
         )}
 
-        <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 lg:group-hover:opacity-100" />
-        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 lg:flex lg:group-hover:opacity-100">
+        <div className="pointer-events-none absolute inset-0 bg-[#FF62AC4D] opacity-0 transition-opacity duration-200 lg:group-has-[[data-card-target]:hover]/card:opacity-100" />
+        <div className="pointer-events-none absolute inset-0 z-10 hidden items-center justify-center opacity-0 transition-opacity duration-200 lg:flex lg:group-has-[[data-card-target]:hover]/card:opacity-100">
           <span className="flex size-16 items-center justify-center rounded-full bg-primary/90 text-primary-foreground shadow-lg">
             <Play className="size-7" />
           </span>
         </div>
-      </div>
+      </a>
 
-      <div className="mt-3 flex flex-1 flex-col justify-center gap-3 lg:mt-0 lg:gap-4 lg:px-10 lg:py-10">
-        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-auto">
-          <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out lg:group-hover:w-full" />
+      <div
+        data-card-target
+        className="relative mt-3 flex w-full max-w-165 flex-col justify-center gap-3 lg:mt-0 lg:cursor-pointer lg:gap-4 lg:p-10 lg:pr-0 lg:pl-10"
+      >
+        <a
+          href={`/episodes/${episode.slug}`}
+          className="absolute inset-0 z-10 hidden lg:block"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+        <div className="relative inline-block w-full self-start overflow-hidden bg-secondary px-4 py-2.5 lg:w-full">
+          <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-primary transition-[width] duration-200 ease-out lg:group-has-[[data-card-target]:hover]/card:w-full" />
           <Typography
             tag="h3"
             variant="h3"
             uppercase={true}
-            className="relative z-10 line-clamp-2 text-primary-foreground"
+            className="relative z-10 line-clamp-2 w-full text-primary-foreground"
           >
             Episode #{episode.episodeNumber} <wbr />
             {episode.title}
@@ -126,7 +141,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
         <Typography
           tag="p"
           variant="body-lg"
-          className="line-clamp-4 max-w-xl text-secondary"
+          className="line-clamp-4 w-full text-secondary"
         >
           {episode.description}
         </Typography>

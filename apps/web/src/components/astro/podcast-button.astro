@@ -35,8 +35,8 @@ const { class: className, variant = "primary", href } = Astro.props;
         {variant === "primary" ? "Listen Now" : "Watch On Youtube"}
       </Typography>
     </SlotMachine>
-    <SlotMachine class="size-4 xl:size-5">
-      <Play className="size-4 xl:size-5" />
+    <SlotMachine>
+      <Play className="size-5" strokeWidth={2.3} />
     </SlotMachine>
   </a>
 </Button>

@@ -9,6 +9,7 @@ import {
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { CustomTooltip } from "./custom-tooltip";
 interface EpisodesFiltersProps {
   initialSearch?: string;
   initialSort?: string;
@@ -105,46 +106,50 @@ export default function EpisodesFilters({
       </div>
 
       <div className="flex shrink-0 items-center justify-end gap-2">
-        <Button
-          type="button"
-          onClick={handleSortToggle}
-          className="h-12.5 cursor-pointer justify-start border-2 border-[#7492B2] bg-transparent p-3 text-[#7492B2] hover:bg-transparent hover:text-[#7492B2] sm:min-w-41.5 sm:px-4 sm:py-3 xl:h-12.5 xl:px-4 xl:py-3"
-        >
-          <span className={cn("hidden min-w-0 sm:flex sm:min-w-26.25", btnCls)}>
-            <span>Date:&nbsp;</span>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={sortValue}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.14, ease: "easeOut" }}
-                className="inline-flex"
-              >
-                {sortValue === "newest" ? "Newest" : "Oldest"}
-              </motion.span>
-            </AnimatePresence>
-          </span>
+        <CustomTooltip text="Change date order">
+          <Button
+            type="button"
+            onClick={handleSortToggle}
+            className="h-12.5 cursor-pointer justify-start border-2 border-[#7492B2] bg-transparent p-3 text-[#7492B2] hover:bg-transparent hover:text-[#7492B2] sm:min-w-41.5 sm:px-4 sm:py-3 xl:h-12.5 xl:px-4 xl:py-3"
+          >
+            <span
+              className={cn("hidden min-w-0 sm:flex sm:min-w-26.25", btnCls)}
+            >
+              <span>Date:&nbsp;</span>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={sortValue}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.14, ease: "easeOut" }}
+                  className="inline-flex"
+                >
+                  {sortValue === "newest" ? "Newest" : "Oldest"}
+                </motion.span>
+              </AnimatePresence>
+            </span>
 
-          <span className="relative inline-flex size-6 items-center justify-center sm:size-5">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span
-                key={`icon-${sortValue}`}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.14, ease: "easeOut" }}
-                className="absolute inset-0 inline-flex items-center justify-center"
-              >
-                {sortValue === "newest" ? (
-                  <ArrowDownWideNarrow className="size-6 sm:size-5" />
-                ) : (
-                  <ArrowUpNarrowWide className="size-6 sm:size-5" />
-                )}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        </Button>
+            <span className="relative inline-flex size-6 items-center justify-center sm:size-5">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={`icon-${sortValue}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.14, ease: "easeOut" }}
+                  className="absolute inset-0 inline-flex items-center justify-center"
+                >
+                  {sortValue === "newest" ? (
+                    <ArrowDownWideNarrow className="size-6 sm:size-5" />
+                  ) : (
+                    <ArrowUpNarrowWide className="size-6 sm:size-5" />
+                  )}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </Button>
+        </CustomTooltip>
       </div>
     </div>
   );

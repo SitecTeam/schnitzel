@@ -5,11 +5,12 @@ export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.run(
     sql`DELETE FROM \`payload_locked_documents_rels\` WHERE \`pages_id\` IS NOT NULL;`
   );
-  await db.run(
-    sql`ALTER TABLE \`payload_locked_documents_rels\` DROP COLUMN \`pages_id\`;`
-  );
 
-  // Drop the pages table
+  // D1/SQLite doesn't reliably support DROP COLUMN — leave the orphaned
+  // pages_id column in payload_locked_documents_rels (it will stay NULL
+  // forever since the collection is removed from the Payload config).
+
+  // Drop the pages table and its indexes
   await db.run(sql`DROP TABLE IF EXISTS \`pages\`;`);
 }
 

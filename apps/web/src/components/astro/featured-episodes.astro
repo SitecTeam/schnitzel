@@ -41,8 +41,12 @@ import { Skeleton } from "../ui/skeleton";
 
               <div class="mt-3 flex flex-1 flex-col gap-3 lg:mt-4 lg:gap-4">
                 <Skeleton className="h-12 w-full rounded-none bg-secondary/25" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-7 w-full lg:hidden" />
+                <Skeleton className="h-5 w-full lg:hidden" />
+                <div class="flex flex-col gap-0.5">
+                  <Skeleton className="h-7 w-full" />
+                  <Skeleton className="h-7 w-full" />
+                  <Skeleton className="h-7 w-full" />
+                </div>
                 <Skeleton className="h-14 w-11/12 rounded-none bg-primary/25 lg:hidden" />
               </div>
             </div>

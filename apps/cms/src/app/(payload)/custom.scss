@@ -1,1 +1,19 @@
 /* Custom styles for the Payload admin panel */
+
+.slug-field-component {
+  .field-error.tooltip {
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, calc(var(--caret-size) * -1));
+  }
+
+  .field-error.tooltip:after {
+    left: 50%;
+    right: auto;
+    transform: translate3d(-50%, 100%, 0);
+  }
+
+  .field-error.tooltip .tooltip-content {
+    text-align: center;
+  }
+}

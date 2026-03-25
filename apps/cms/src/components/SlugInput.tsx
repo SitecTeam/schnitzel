@@ -29,7 +29,7 @@ export const SlugInput: React.FC<Props> = ({
   const { label, required } = field;
   const fieldPath = path || field.name;
 
-  const { setValue, value } = useField<string>({ path: fieldPath });
+  const { setValue, showError, value } = useField<string>({ path: fieldPath });
   const { getDataByPath } = useForm();
 
   const handleGenerate = (e: React.MouseEvent) => {
@@ -54,7 +54,12 @@ export const SlugInput: React.FC<Props> = ({
           Generate
         </Button>
       </div>
-      <TextInput onChange={setValue} path={fieldPath} value={value ?? ""} />
+      <TextInput
+        onChange={setValue}
+        path={fieldPath}
+        showError={showError}
+        value={value ?? ""}
+      />
     </div>
   );
 };

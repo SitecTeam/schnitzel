@@ -35,6 +35,8 @@ const { title, className } = Astro.props;
 
   gsap.registerPlugin(SplitText);
 
+  console.log("AnimatedHeroTitle mounted");
+
   async function animateTitle() {
     const element = document.querySelector(".title");
     if (!element) return;

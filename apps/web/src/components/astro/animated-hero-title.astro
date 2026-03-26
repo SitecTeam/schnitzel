@@ -35,23 +35,23 @@ const { title, className } = Astro.props;
 
   gsap.registerPlugin(SplitText);
 
-  console.log("AnimatedHeroTitle mounted");
-
   async function animateTitle() {
     const element = document.querySelector(".title");
     if (!element) return;
 
-    const split = SplitText.create(element, {
-      type: "words",
-    });
+    document.fonts.ready.then(() => {
+      const split = SplitText.create(element, {
+        type: "words",
+      });
 
-    gsap.set(element, { visibility: "visible" });
+      gsap.set(element, { visibility: "visible" });
 
-    gsap.from(split.words, {
-      y: 100,
-      autoAlpha: 0,
-      stagger: 0.08,
-      ease: "power3.out",
+      gsap.from(split.words, {
+        y: 100,
+        autoAlpha: 0,
+        stagger: 0.08,
+        ease: "power3.out",
+      });
     });
   }
 

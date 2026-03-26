@@ -1,0 +1,59 @@
+---
+import { textVariants } from "@/components/typography";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  title: string;
+  className?: string;
+}
+
+const { title, className } = Astro.props;
+---
+
+<h1
+  class={cn(
+    "title",
+    textVariants({ variant: "display-md", uppercase: true }),
+    className
+  )}
+  style="visibility: hidden;"
+>
+  {title}
+</h1>
+
+<noscript>
+  <style>
+    .title {
+      visibility: visible !important;
+    }
+  </style>
+</noscript>
+
+<script>
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+
+  gsap.registerPlugin(SplitText);
+
+  async function animateTitle() {
+    const element = document.querySelector(".title");
+    if (!element) return;
+
+    document.fonts.ready.then(() => {
+      const split = SplitText.create(element, {
+        type: "words",
+      });
+
+      gsap.set(element, { visibility: "visible" });
+
+      gsap.from(split.words, {
+        y: 100,
+        autoAlpha: 0,
+        stagger: 0.08,
+        ease: "power3.out",
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", animateTitle);
+</script>

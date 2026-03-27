@@ -1,6 +1,6 @@
 ---
 import Typography from "@/components/typography";
-import AnimatedTitle from "./animated-title.astro";
+import AnimatedTitle from "@/components/islands/animated-title";
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import heroImage from "@/assets/hero.webp";
 import heroMobileImage from "@/assets/hero-mobile.webp";
@@ -26,6 +26,7 @@ const {
     <div class="flex flex-col gap-5 md:gap-6 xl:gap-8">
       <!-- Heading: scales across all breakpoints -->
       <AnimatedTitle
+        client:load
         title={title}
         className="text-balance text-primary-foreground 3xl:text-[112px] 3xl:leading-31 sm:text-pretty md:text-[64px] md:leading-19.25 lg:text-[64px] lg:leading-19.25 xl:text-[72px] xl:leading-21 2xl:text-[96px] 2xl:leading-27.5"
       />

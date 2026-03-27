@@ -1,14 +1,19 @@
 ---
 import Typography from "../typography";
+import AnimatedTitle from "@/components/islands/animated-title";
 ---
 
 <section
   class="flex w-full max-w-175 flex-col items-center justify-center gap-8 px-4 py-8 text-secondary lg:h-183 lg:gap-24 lg:p-0"
 >
   <div class="space-y-6 lg:space-y-9">
-    <Typography variant="display-lg" tag="h2" className="text-center uppercase">
-      Get in touch
-    </Typography>
+    <AnimatedTitle
+      text="Get in touch"
+      variant="display-lg"
+      tag="h2"
+      className="justify-center text-center"
+      client:visible
+    />
     <Typography variant="body-xl" className="text-center sm:px-10">
       Want to suggest a guest, collaborate, or just say hi? Drop a message, we
       read every note.

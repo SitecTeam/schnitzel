@@ -2,8 +2,8 @@
 import Layout from "@/layouts/layout.astro";
 import EpisodesFilters from "@/components/islands/episodes-filters";
 import EpisodesList from "@/components/islands/episodes-list";
-import Typography from "@/components/typography";
 import { getEpisodes } from "@/lib/payload";
+import AnimatedTitle from "@/components/islands/animated-title";
 
 const search = Astro.url.searchParams.get("search") ?? undefined;
 const sort = Astro.url.searchParams.get("sort") ?? "newest";
@@ -34,10 +34,7 @@ if (!fetchOnMount) {
       <div
         class="mb-7 flex flex-col gap-7 text-secondary lg:mb-16 lg:items-center lg:justify-between lg:gap-12.5"
       >
-        <Typography tag="h1" variant="h1" uppercase={true}>
-          All Episodes
-        </Typography>
-
+        <AnimatedTitle text="All Episodes" client:visible />
         <EpisodesFilters
           initialSearch={search ?? ""}
           initialSort={sort}

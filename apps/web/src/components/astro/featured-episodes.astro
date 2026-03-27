@@ -1,5 +1,6 @@
 ---
 import Typography from "../typography";
+import AnimatedTitle from "@/components/islands/animated-title";
 import { ArrowRight } from "lucide-react";
 import FeaturedEpisodesList from "@/components/astro/featured-episodes-list.astro";
 import SlotMachine from "./slot-machine.astro";
@@ -11,10 +12,18 @@ import { Skeleton } from "../ui/skeleton";
   class="mx-auto flex flex-col items-center justify-center gap-7 px-4 py-12 lg:max-w-432.5 lg:gap-10 lg:px-10 lg:pt-0 lg:pb-25 xl:pt-25 xl:pb-50"
 >
   <div class="flex w-full flex-col justify-between lg:flex-row lg:items-end">
-    <Typography variant="h1" tag="h1" className="text-secondary uppercase">
-      <span class="hidden lg:inline">Featured episodes</span>
-      <span class="lg:hidden">Top episodes</span>
-    </Typography>
+    <>
+      <AnimatedTitle
+        text="Featured episodes"
+        className="hidden text-secondary lg:flex"
+        client:visible
+      />
+      <AnimatedTitle
+        text="Top episodes"
+        className="text-secondary lg:hidden"
+        client:visible
+      />
+    </>
     <Button asChild>
       <a
         href="/episodes"

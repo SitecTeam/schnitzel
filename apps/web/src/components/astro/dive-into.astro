@@ -1,5 +1,6 @@
 ---
 import Typography from "../typography";
+import AnimatedTitle from "@/components/islands/animated-title";
 import PodcastButton from "./podcast-button.astro";
 import MediaPlayer from "./media-player.astro";
 ---
@@ -8,12 +9,11 @@ import MediaPlayer from "./media-player.astro";
   <div
     class="flex w-full flex-col items-center justify-center gap-8 px-4 text-secondary"
   >
-    <Typography
-      variant="h1"
-      tag="h1"
-      className="order-1 text-center text-pretty uppercase"
-      >Dive into the Schnitzel show</Typography
-    >
+    <AnimatedTitle
+      text="Dive into the Schnitzel show"
+      className="order-1 justify-center text-center text-pretty"
+      client:visible
+    />
     <Typography
       variant="body-xl"
       className="order-3 max-w-181 text-center text-[18px] leading-[31px] lg:order-2"

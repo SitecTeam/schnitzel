@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import AnimatedTitle from "@/components/islands/animated-title";
 import { ChevronDown } from "lucide-react";
 import Typography from "../typography";
 
@@ -40,13 +41,10 @@ const Faq = () => {
       <div className="z-20 -mt-10 w-full max-w-380 bg-secondary p-6 sm:p-8 lg:p-9 2xl:-mt-20 2xl:p-16">
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-10">
           <div className="basis-2/5 text-white xl:basis-[45%]">
-            <Typography
-              tag="h1"
-              variant="h1"
+            <AnimatedTitle
+              text="FAQ"
               className="text-[72px] leading-[86px] lg:-mt-2.5"
-            >
-              FAQ
-            </Typography>
+            />
             <Typography
               variant="body-xl"
               className="mt-6 w-full text-pretty text-primary-foreground lg:min-w-70 xl:max-w-88"

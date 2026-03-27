@@ -1,6 +1,7 @@
 ---
 import { ArrowDown } from "lucide-react";
 import Typography from "../typography";
+import AnimatedTitle from "@/components/islands/animated-title";
 ---
 
 <section
@@ -10,13 +11,9 @@ import Typography from "../typography";
     class="z-20 -mt-12 bg-primary px-4 py-9 text-primary-foreground sm:px-6 sm:py-10 lg:-mt-11 lg:p-10 xl:-mt-18 xl:p-16"
   >
     <div class="flex min-h-105 flex-col gap-8 lg:flex-row">
-      <Typography
-        variant="h1"
-        tag="h1"
-        className="basis-2/5 uppercase lg:-mt-2.5"
-      >
-        About Us
-      </Typography>
+      <div class="basis-2/5 lg:-mt-2.5">
+        <AnimatedTitle text="About Us" client:visible />
+      </div>
 
       <div class="flex flex-1 flex-col gap-8 text-pretty 2xl:gap-16">
         <Typography variant="h5" tag="h5">

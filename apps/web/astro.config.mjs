@@ -14,9 +14,6 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss(), svgr()],
-    ssr: {
-      noExternal: ["gsap"],
-    },
   },
 
   integrations: [react()],

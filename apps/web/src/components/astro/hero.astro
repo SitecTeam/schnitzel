@@ -2,8 +2,7 @@
 import Typography from "@/components/typography";
 import AnimatedTitle from "@/components/islands/animated-title";
 import PodcastButton from "@/components/astro/podcast-button.astro";
-import heroImage from "@/assets/hero.webp";
-import heroMobileImage from "@/assets/hero-mobile.webp";
+import { HeroImage } from "@/components/islands/hero-image";
 
 interface Props {
   title?: string;
@@ -57,23 +56,11 @@ const {
       </div>
     </div>
 
-    <!-- Right: hero collage image (lg+) -->
+    <!-- Right: hero collage image (animated) -->
     <div
       class="relative z-10 -mb-24 flex items-end justify-center md:mt-0 lg:z-auto lg:mt-0 lg:mb-0 lg:items-center"
     >
-      <picture>
-        <source media="(min-width: 1024px)" srcset={heroImage.src} />
-        <img
-          src={heroMobileImage.src}
-          alt={heroImageAlt}
-          width={756}
-          height={756}
-          class="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain drop-shadow-xl sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </picture>
+      <HeroImage client:load alt={heroImageAlt} />
     </div>
   </div>
 </section>

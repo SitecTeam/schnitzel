@@ -169,3 +169,77 @@
     transform: none;
   }
 }
+
+/* ── Hero overlay animations ─────────────────────────────────────── */
+
+@keyframes hero-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-rock {
+  0% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* Base: absolutely positioned on top of the background layer */
+.hero-overlay {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Sun — top-left corner, matching its position in the keyframes */
+.hero-overlay--sun {
+  /* top: 1%; */
+  left: 1%;
+  width: 47%;
+}
+
+/* Karabiner — bottom-right area */
+.hero-overlay--karabiner {
+  bottom: 16%;
+  right: 4%;
+  width: 17%;
+  transform-origin: center center;
+}
+
+/* Paper/logo — bottom-right area, below karabiner */
+.hero-overlay--paper {
+  bottom: 7%;
+  right: 3%;
+  width: 34%;
+  transform-origin: center center;
+}
+
+/* Animations — steps() gives the choppy 3fps stop-motion feel */
+.hero-overlay--spin {
+  /* 18s ÷ 333ms per frame = 54 steps */
+  animation: hero-spin 18s steps(54, end) infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.hero-overlay--rock {
+  /* 3.5s ÷ 333ms per frame = ~11 steps */
+  animation: hero-rock 3.5s steps(11, end) infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-overlay--spin,
+  .hero-overlay--rock {
+    animation: none;
+  }
+}

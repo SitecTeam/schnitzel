@@ -148,17 +148,7 @@ export function HeroImage({
       ))}
 
       {/* ── Loop overlays (hidden during entrance, animated after) ── */}
-      <img
-        ref={el => {
-          loopRefs.current[2] = el;
-        }}
-        src={loopKarabiner.src}
-        alt=""
-        aria-hidden={true}
-        loading="eager"
-        decoding="async"
-        className={`hero-overlay hero-overlay--karabiner ${entranceDone ? "hero-overlay--rock" : "opacity-0"}`}
-      />
+      {/* Paper first in DOM — karabiner after so it paints on top */}
       <img
         ref={el => {
           loopRefs.current[3] = el;
@@ -169,6 +159,17 @@ export function HeroImage({
         loading="eager"
         decoding="async"
         className={`hero-overlay hero-overlay--paper ${entranceDone ? "hero-overlay--rock" : "opacity-0"}`}
+      />
+      <img
+        ref={el => {
+          loopRefs.current[2] = el;
+        }}
+        src={loopKarabiner.src}
+        alt=""
+        aria-hidden={true}
+        loading="eager"
+        decoding="async"
+        className={`hero-overlay hero-overlay--karabiner ${entranceDone ? "opacity-100" : "opacity-0"}`}
       />
     </div>
   );

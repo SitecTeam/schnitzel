@@ -202,24 +202,24 @@
 
 /* Sun — top-left corner, matching its position in the keyframes */
 .hero-overlay--sun {
-  /* top: 1%; */
+  top: 0.5%;
   left: 1%;
   width: 47%;
 }
 
 /* Karabiner — bottom-right area */
 .hero-overlay--karabiner {
-  bottom: 16%;
-  right: 4%;
-  width: 17%;
+  bottom: 25%;
+  right: 0%;
+  width: 23%;
   transform-origin: center center;
 }
 
-/* Paper/logo — bottom-right area, below karabiner */
+/* Paper/logo — bottom-right area */
 .hero-overlay--paper {
-  bottom: 7%;
+  bottom: 10%;
   right: 3%;
-  width: 34%;
+  width: 46%;
   transform-origin: center center;
 }
 
@@ -232,8 +232,8 @@
 }
 
 .hero-overlay--rock {
-  /* 3.5s ÷ 333ms per frame = ~11 steps */
-  animation: hero-rock 3.5s steps(11, end) infinite;
+  /* 4s ÷ 333ms per frame = ~12 steps, but use 4 for very visible choppiness */
+  animation: hero-rock 4s steps(4, end) infinite;
   will-change: transform;
 }
 

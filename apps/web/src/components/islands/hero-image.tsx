@@ -110,7 +110,7 @@ export function HeroImage({
         aria-hidden={true}
         loading="eager"
         decoding="async"
-        className={`hero-overlay hero-overlay--sun ${entranceDone ? "hero-overlay--spin" : "opacity-0"}`}
+        className={`pointer-events-none absolute top-[0.5%] left-[1%] w-[47%] select-none ${entranceDone ? "hero-overlay--spin" : "opacity-0"}`}
       />
 
       {/* ── Loop base layer (hidden during entrance) ── */}
@@ -158,7 +158,7 @@ export function HeroImage({
         aria-hidden={true}
         loading="eager"
         decoding="async"
-        className={`hero-overlay hero-overlay--paper ${entranceDone ? "hero-overlay--rock" : "opacity-0"}`}
+        className={`pointer-events-none absolute right-[3%] bottom-[10%] w-[46%] origin-center select-none ${entranceDone ? "hero-overlay--rock" : "opacity-0"}`}
       />
       <img
         ref={el => {
@@ -169,7 +169,7 @@ export function HeroImage({
         aria-hidden={true}
         loading="eager"
         decoding="async"
-        className={`hero-overlay hero-overlay--karabiner ${entranceDone ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute right-0 bottom-[25%] w-[23%] origin-center select-none ${entranceDone ? "opacity-100" : "opacity-0"}`}
       />
     </div>
   );

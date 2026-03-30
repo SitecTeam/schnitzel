@@ -193,47 +193,17 @@
   }
 }
 
-/* Base: absolutely positioned on top of the background layer */
-.hero-overlay {
-  position: absolute;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Sun — top-left corner, matching its position in the keyframes */
-.hero-overlay--sun {
-  top: 0.5%;
-  left: 1%;
-  width: 47%;
-}
-
-/* Karabiner — bottom-right area */
-.hero-overlay--karabiner {
-  bottom: 25%;
-  right: 0%;
-  width: 23%;
-  transform-origin: center center;
-}
-
-/* Paper/logo — bottom-right area */
-.hero-overlay--paper {
-  bottom: 10%;
-  right: 3%;
-  width: 46%;
-  transform-origin: center center;
-}
-
 /* Animations — steps() gives the choppy 3fps stop-motion feel */
 .hero-overlay--spin {
-  /* 18s ÷ 333ms per frame = 54 steps */
-  animation: hero-spin 18s steps(54, end) infinite;
+  /* 4s ÷ 333ms per frame = 12 steps → 30° jump per step */
+  animation: hero-spin 4s steps(12, end) infinite;
   transform-origin: center center;
   will-change: transform;
 }
 
 .hero-overlay--rock {
-  /* 4s ÷ 333ms per frame = ~12 steps, but use 4 for very visible choppiness */
-  animation: hero-rock 4s steps(4, end) infinite;
+  /* 2.5s with 4 steps = 625ms per step */
+  animation: hero-rock 2.5s steps(4, end) infinite;
   will-change: transform;
 }
 

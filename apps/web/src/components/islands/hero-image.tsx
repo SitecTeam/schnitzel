@@ -51,13 +51,6 @@ export function HeroImage({
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Notify other islands (e.g. HeroSlotTitle) that the entrance is complete
-  useEffect(() => {
-    if (entranceDone) {
-      window.dispatchEvent(new CustomEvent("hero-entrance-done"));
-    }
-  }, [entranceDone]);
-
   useEffect(() => {
     if (prefersReduced) {
       setEntranceDone(true);

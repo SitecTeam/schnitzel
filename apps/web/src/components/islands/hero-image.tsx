@@ -51,6 +51,13 @@ export function HeroImage({
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Notify other islands (e.g. HeroSlotTitle) that the entrance is complete
+  useEffect(() => {
+    if (entranceDone) {
+      window.dispatchEvent(new CustomEvent("hero-entrance-done"));
+    }
+  }, [entranceDone]);
+
   useEffect(() => {
     if (prefersReduced) {
       setEntranceDone(true);
@@ -86,6 +93,10 @@ export function HeroImage({
 
       if (cancelled) return;
       setCurrentFrame(nextFrame);
+      // Fire the title animation 1 frame before the loop kicks in
+      if (nextFrame === FRAMES.length - 1) {
+        window.dispatchEvent(new CustomEvent("hero-title-trigger"));
+      }
       advance(nextFrame + 1);
     };
 
@@ -124,7 +135,6 @@ export function HeroImage({
         height={756}
         className={`${FILL_CLASS} drop-shadow-xl ${entranceDone ? "opacity-100" : "opacity-0"}`}
         loading="eager"
-        fetchPriority="high"
         decoding="async"
       />
 
@@ -142,7 +152,6 @@ export function HeroImage({
           height={756}
           className={`${FILL_CLASS} drop-shadow-xl ${!entranceDone && i === currentFrame ? "opacity-100" : "opacity-0"}`}
           loading="eager"
-          fetchPriority={i === 0 ? "high" : "auto"}
           decoding="async"
         />
       ))}

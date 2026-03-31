@@ -169,3 +169,47 @@
     transform: none;
   }
 }
+
+/* ── Hero overlay animations ─────────────────────────────────────── */
+
+@keyframes hero-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero-rock {
+  0% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+  100% {
+    transform: rotate(-4deg);
+  }
+}
+
+/* Animations — steps() gives the choppy 3fps stop-motion feel */
+.hero-overlay--spin {
+  /* 4s ÷ 333ms per frame = 12 steps → 30° jump per step */
+  animation: hero-spin 4s steps(12, end) infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.hero-overlay--rock {
+  /* 2.5s with 4 steps = 625ms per step */
+  animation: hero-rock 2.5s steps(4, end) infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-overlay--spin,
+  .hero-overlay--rock {
+    animation: none;
+  }
+}

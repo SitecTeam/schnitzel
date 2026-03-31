@@ -125,7 +125,7 @@ function EpisodeCard({ episode }: { episode: Episode }) {
             tag="h3"
             variant="h3"
             uppercase={true}
-            className="relative z-10 line-clamp-2 w-full text-primary-foreground"
+            className="relative line-clamp-2 w-full text-primary-foreground"
           >
             Episode #{episode.episodeNumber} <wbr />
             {episode.title}

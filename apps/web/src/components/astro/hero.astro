@@ -3,6 +3,8 @@ import Typography from "@/components/typography";
 import HeroSlotTitle from "@/components/islands/hero-slot-title";
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import { HeroImage } from "@/components/islands/hero-image";
+import heroMobileImage from "@/assets/hero-mobile.webp";
+import AnimatedTitle from "../islands/animated-title";
 
 interface Props {
   title?: string;
@@ -19,7 +21,7 @@ const {
   class="2xl:m flex min-h-[calc(100dvh-64px)] items-center overflow-x-clip overflow-y-visible bg-secondary min-[1024px]:min-h-[calc(100dvh-114px)] min-[2100px]:min-h-[70dvh]"
 >
   <div
-    class="mx-auto grid w-full max-w-432.5 grid-cols-1 items-center gap-0 px-4 py-8 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:py-12 xl:grid-cols-[52%_48%] xl:gap-0 xl:py-0 xl:pr-14.75 xl:pl-24"
+    class="mx-auto grid w-full max-w-432.5 grid-cols-1 items-center gap-0 px-4 py-8 lg:grid-cols-2 lg:gap-8 lg:px-8 lg:py-12 xl:grid-cols-[52%_48%] xl:gap-8 xl:py-0 xl:pr-14.75 xl:pl-24"
   >
     <!-- Left: copy -->
     <div class="flex flex-col gap-5 md:gap-6 xl:gap-8">
@@ -27,7 +29,14 @@ const {
       <HeroSlotTitle
         text={title}
         variant="display-md"
-        className="text-balance text-primary-foreground 3xl:text-[112px] 3xl:leading-31 sm:text-pretty md:text-[64px] md:leading-19.25 lg:text-[64px] lg:leading-19.25 xl:text-[72px] xl:leading-21 2xl:text-[96px] 2xl:leading-27.5"
+        className="hidden text-primary-foreground lg:flex lg:text-[64px] lg:leading-19.25 lg:text-pretty xl:text-[68px] xl:leading-21 2xl:text-[96px] 2xl:leading-27.5"
+        client:load
+      />
+
+      <AnimatedTitle
+        text="The world of climbing, served Schnitzel-style."
+        variant="display-md"
+        className="text-balance text-primary-foreground sm:text-pretty md:text-[64px] md:leading-19.25 lg:hidden"
         client:load
       />
 
@@ -60,6 +69,18 @@ const {
     <div
       class="relative z-10 -mb-24 flex items-end justify-center md:mt-0 lg:z-auto lg:mt-0 lg:mb-0 lg:items-center"
     >
+      <picture>
+        <img
+          src={heroMobileImage.src}
+          alt={heroImageAlt}
+          width={756}
+          height={756}
+          class="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain drop-shadow-xl sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:hidden"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
       <HeroImage client:load alt={heroImageAlt} />
     </div>
   </div>

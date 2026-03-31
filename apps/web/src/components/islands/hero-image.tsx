@@ -28,7 +28,7 @@ const FRAMES = [
 const FRAME_DURATION = 300;
 
 const WRAPPER_CLASS =
-  "relative w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100";
+  "relative origin-bottom translate-x-2 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100 hidden lg:block";
 
 // Shared absolute fill — used by the base + all keyframe layers
 const FILL_CLASS =

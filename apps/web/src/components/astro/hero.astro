@@ -4,7 +4,7 @@ import HeroSlotTitle from "@/components/islands/hero-slot-title";
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import { HeroImage } from "@/components/islands/hero-image";
 import heroMobileImage from "@/assets/hero-mobile.webp";
-import AnimatedTitle from "../islands/animated-title";
+import AnimatedTitle from "@/components/islands/animated-title";
 
 interface Props {
   title?: string;
@@ -30,11 +30,11 @@ const {
         text={title}
         variant="display-md"
         className="hidden text-primary-foreground lg:flex lg:text-[64px] lg:leading-19.25 lg:text-pretty xl:text-[68px] xl:leading-21 2xl:text-[96px] 2xl:leading-27.5"
-        client:load
+        client:media="(min-width: 1024px)"
       />
 
       <AnimatedTitle
-        text="The world of climbing, served Schnitzel-style."
+        text={title}
         variant="display-md"
         className="text-balance text-primary-foreground sm:text-pretty md:text-[64px] md:leading-19.25 lg:hidden"
         client:load
@@ -81,7 +81,7 @@ const {
           decoding="async"
         />
       </picture>
-      <HeroImage client:load alt={heroImageAlt} />
+      <HeroImage client:media="(min-width: 1024px)" alt={heroImageAlt} />
     </div>
   </div>
 </section>

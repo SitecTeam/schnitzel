@@ -12,6 +12,7 @@ import loopBackground from "@/assets/hero/loop-background.webp";
 import loopSun from "@/assets/hero/loop-sunce.webp";
 import loopKarabiner from "@/assets/hero/loop-karabiner.webp";
 import loopPaper from "@/assets/hero/loop_papir.webp";
+import heroMobileImage from "@/assets/hero-mobile.webp";
 
 const FRAMES = [
   keyframe1.src,
@@ -28,7 +29,7 @@ const FRAMES = [
 const FRAME_DURATION = 300;
 
 const WRAPPER_CLASS =
-  "relative w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105 lg:w-full lg:max-w-189 lg:translate-x-0 lg:scale-100";
+  "relative w-full max-w-189 origin-bottom lg:translate-x-0 lg:scale-100";
 
 // Shared absolute fill — used by the base + all keyframe layers
 const FILL_CLASS =
@@ -47,12 +48,15 @@ export function HeroImage({
   // Refs for the 4 loop images — decoded together before the final switch
   const loopRefs = useRef<(HTMLImageElement | null)[]>([]);
 
+  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
+
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
-    if (prefersReduced) {
+    // On mobile (<lg) skip the animation entirely — static image is used instead
+    if (!isDesktop || prefersReduced) {
       setEntranceDone(true);
       return;
     }
@@ -95,7 +99,24 @@ export function HeroImage({
     };
   }, []);
 
-  // ─── Single DOM tree — nothing is ever mounted/unmounted ────────────────────
+  // ─── Mobile: static image, no animation ────────────────────────────────────
+  if (!isDesktop) {
+    return (
+      <img
+        src={heroMobileImage.src}
+        alt={alt}
+        width={756}
+        height={756}
+        className="w-[105vw] max-w-none origin-bottom translate-x-2 scale-110 object-contain drop-shadow-xl sm:mt-20 sm:w-[80vw] sm:scale-120 md:mt-0 md:scale-105"
+        loading="eager"
+        fetchPriority="high"
+        decoding="async"
+      />
+    );
+  }
+
+  // ─── Desktop (lg+): animated entrance + idle loop ───────────────────────────
+  // Single DOM tree — nothing is ever mounted/unmounted.
   // React 18 batches the setEntranceDone(true) state update into one paint, so
   // the opacity flip from keyframe-8 to loop-background+overlays is atomic.
   return (

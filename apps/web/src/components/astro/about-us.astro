@@ -1,56 +1,80 @@
 ---
-import { ArrowDown } from "lucide-react";
 import Typography from "../typography";
 import AnimatedTitle from "@/components/islands/animated-title";
+import VideoText from "@/assets/svgs/video-text.svg?url";
+import VideoPlayer from "@/components/islands/video-player";
 ---
 
 <section
-  class="mx-auto flex justify-center bg-secondary px-4 pb-12 lg:max-w-432.5 lg:bg-transparent lg:px-10 lg:pb-25"
+  class="mx-auto flex justify-center bg-secondary px-4 pb-12 lg:max-w-432.5 lg:bg-transparent lg:px-6 lg:pb-25 xl:px-10"
 >
   <div
-    class="z-20 -mt-12 bg-primary px-4 py-9 text-primary-foreground sm:px-6 sm:py-10 lg:-mt-11 lg:p-10 xl:-mt-18 xl:p-16"
+    class="relative z-20 -mt-12 w-full bg-primary px-4 py-9 text-primary-foreground sm:px-6 sm:py-10 lg:-mt-11 lg:px-6 lg:py-8.5 xl:-mt-18 xl:p-16"
   >
-    <div class="flex min-h-105 flex-col gap-8 lg:flex-row">
-      <div class="basis-2/5 lg:-mt-2.5">
-        <AnimatedTitle text="About Us" client:visible />
-      </div>
-
-      <div class="flex flex-1 flex-col gap-8 text-pretty 2xl:gap-16">
-        <Typography variant="h5" tag="h5">
-          A climbing-centered podcast featuring climbers and unique voices from
-          across the outdoor and creative spectrum.
-        </Typography>
-        <Typography variant="h5" tag="h5">
-          Conversations range from training methods and coaching philosophies to
-          injury recovery, mindset, and pivotal life events that reshape
-          identity.
-        </Typography>
-        <Typography variant="h5" tag="h5">
-          Exploring the intersection of climbing, art, and resilience in modern
-          times. By the one and only Wolf Schnitzel.
-        </Typography>
-      </div>
-    </div>
-
+    {/* Grid Background */}
     <div
-      class="mt-18 flex flex-col justify-between gap-2 lg:mt-16 lg:flex-row lg:gap-8"
+      class="pointer-events-none absolute inset-0 opacity-70"
+      style={{
+        backgroundImage: `
+          linear-gradient(to right, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 1px, transparent 1px)
+        `,
+        backgroundSize: "44px 44px",
+      }}
+      aria-hidden="true"
     >
-      <Typography
-        variant="caption"
-        tag="span"
-        className="hidden basis-2/5 lg:block">Since 2020</Typography
+    </div>
+    <div class="pb-9 lg:-mt-1 lg:pb-12">
+      <AnimatedTitle text="About Us" client:visible />
+    </div>
+    <div
+      class="flex min-h-105 flex-col gap-9 lg:flex-row lg:gap-8 xl:gap-12 2xl:gap-24"
+    >
+      <div class="w-full basis-2/5 xl:basis-1/2">
+        <div
+          class="flex flex-1 flex-col gap-8 text-pretty lg:max-w-165 lg:gap-4 xl:gap-8 2xl:gap-14"
+        >
+          <Typography
+            variant="h5"
+            tag="h5"
+            className="lg:text-[24px] lg:leading-[31px] xl:text-[32px] xl:leading-[40px]"
+          >
+            A climbing-centered podcast featuring climbers and unique voices
+            from across the outdoor and creative spectrum.
+          </Typography>
+          <Typography
+            variant="h5"
+            tag="h5"
+            className="lg:text-[24px] lg:leading-[31px] xl:text-[32px] xl:leading-[40px]"
+          >
+            Conversations range from training methods and coaching philosophies
+            to injury recovery, mindset, and pivotal life events that reshape
+            identity.
+          </Typography>
+          <Typography
+            variant="h5"
+            tag="h5"
+            className="lg:text-[24px] lg:leading-[31px] xl:text-[32px] xl:leading-[40px]"
+          >
+            Exploring the intersection of climbing, art, and resilience in
+            modern times. By the one and only Wolf Schnitzel.
+          </Typography>
+        </div>
+      </div>
+      <div
+        class="z-10 flex min-h-[250px] w-full basis-3/5 flex-col items-center gap-2 bg-primary-foreground p-2.5 sm:min-h-[400px] md:min-h-[500px] lg:min-h-0 lg:gap-4 lg:p-4 xl:basis-1/2"
       >
-      <Typography
-        variant="caption"
-        tag="span"
-        className="flex flex-1 items-center"
-      >
-        Keep scrolling, the good stuff's just below the ledge.
-        <ArrowDown
-          aria-hidden="true"
-          className="relative ml-1 inline-block size-6 shrink-0"
+        <VideoPlayer
+          videoId="Or1d8SUrHVw"
+          title="Intro to ze Schnitzel Show"
+          client:load
         />
-      </Typography>
+        <img
+          src={VideoText}
+          alt="Intro to ze Schintzel Show"
+          class="h-[15px] px-10 sm:h-fit sm:px-0"
+        />
+      </div>
     </div>
   </div>
 </section>

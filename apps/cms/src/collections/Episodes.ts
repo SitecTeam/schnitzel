@@ -105,6 +105,36 @@ export const Episodes: CollectionConfig = {
       },
     },
     {
+      name: "spotifyUrl",
+      type: "text",
+      label: "Spotify Embed Link",
+      validate: (value: string | null | undefined) => {
+        if (!value) {
+          return true;
+        }
+
+        try {
+          const url = new URL(value);
+          if (url.protocol !== "https:") {
+            return "Spotify URL must use https://";
+          }
+
+          const hostname = url.hostname.toLowerCase();
+          const isSpotifyDomain =
+            hostname === "open.spotify.com" ||
+            hostname.endsWith(".open.spotify.com");
+
+          if (!isSpotifyDomain) {
+            return "Spotify URL must be from open.spotify.com";
+          }
+
+          return true;
+        } catch {
+          return "Spotify URL must be a valid URL";
+        }
+      },
+    },
+    {
       name: "podbeanUrl",
       type: "text",
       label: "Podbean Embed Link",

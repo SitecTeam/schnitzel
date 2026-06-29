@@ -2,6 +2,7 @@
 import PodcastButton from "@/components/astro/podcast-button.astro";
 import PodbeanEpisodePlayer from "@/components/islands/podbean";
 import { extractPodbeanEpisodeId } from "@/components/islands/podbean/utils";
+import SpotifyEpisodePlayer from "@/components/islands/spotify";
 import RichTextWrapper from "@/components/islands/rich-text-wrapper";
 import Typography from "@/components/typography";
 import EpisodePagination from "@/components/astro/episode-pagination.astro";
@@ -170,6 +171,16 @@ const marqueeItems = Array.from({ length: 10 });
                   href={episode.youtubeUrl}
                   class="mt-16 lg:mt-24"
                 />
+              )
+            }
+            {
+              episode.spotifyUrl && (
+                <div class="mt-7 w-full lg:mt-10.5">
+                  <SpotifyEpisodePlayer
+                    url={episode.spotifyUrl}
+                    title={episode.title}
+                  />
+                </div>
               )
             }
             {

@@ -3,6 +3,7 @@ import PodcastButton from "@/components/astro/podcast-button.astro";
 import MobileNav from "@/components/islands/mobile-nav";
 import Logo from "@/assets/svgs/logo.svg";
 import Wifi from "@/assets/svgs/wifi.svg";
+import Spotify from "@/assets/svgs/spotify.svg";
 import { Youtube, Instagram } from "lucide-react";
 import Typography from "@/components/typography";
 import SlotMachine from "@/components/astro/slot-machine.astro";
@@ -70,6 +71,14 @@ const navItems = [
       {
         isHome ? (
           <div class="flex items-center gap-4 text-primary-foreground">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://open.spotify.com/show/033znDGTwfqMTT89tXaH3F"
+              aria-label="Spotify Link"
+            >
+              <Spotify class="size-6" />
+            </a>
             <a
               target="_blank"
               rel="noopener noreferrer"

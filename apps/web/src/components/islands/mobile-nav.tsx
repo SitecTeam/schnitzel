@@ -1,4 +1,5 @@
 import { Youtube, Instagram, Menu, X, ArrowRight } from "lucide-react";
+import Spotify from "@/assets/svgs/spotify.svg?react";
 import WifiSvg from "@/assets/svgs/wifi.svg?react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,15 @@ export default function MobileNav({ isHome, navItems }: MobileNavProps) {
         {/* Bottom actions */}
         <div className="px-4 md:px-8">
           <div className="flex items-center gap-5 text-primary-foreground">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://open.spotify.com/show/033znDGTwfqMTT89tXaH3F"
+              className="flex size-10.5 items-center justify-center"
+              aria-label="Spotify Link"
+            >
+              <Spotify fill="currentColor" className="size-7" />
+            </a>
             <a
               target="_blank"
               rel="noopener noreferrer"

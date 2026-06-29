@@ -200,6 +200,7 @@ export interface Episode {
   } | null;
   coverImage: number | Media;
   youtubeUrl?: string | null;
+  spotifyUrl?: string | null;
   podbeanUrl?: string | null;
   /**
    * Music credits shown in episode show notes (displayed in primary pink colour).
@@ -350,6 +351,7 @@ export interface EpisodesSelect<T extends boolean = true> {
   content?: T;
   coverImage?: T;
   youtubeUrl?: T;
+  spotifyUrl?: T;
   podbeanUrl?: T;
   music?:
     | T

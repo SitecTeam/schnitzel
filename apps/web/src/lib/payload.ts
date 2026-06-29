@@ -242,6 +242,7 @@ export async function getEpisodes(
     "select[description]=true",
     "select[coverImage]=true",
     "select[publishedAt]=true",
+    "select[spotifyUrl]=true",
     "select[podbeanUrl]=true",
     "select[youtubeUrl]=true",
     "select[status]=true",

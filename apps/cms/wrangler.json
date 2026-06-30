@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "schnitzel-cms",
-  "account_id": "e2b2bd369383697806442a2ce0648be0",
+  "account_id": "70c30422c6838c681fe8fcd77f68d2ea",
   "compatibility_date": "2026-01-15",
   "compatibility_flags": ["nodejs_compat"],
   "main": ".open-next/worker.js",
@@ -13,7 +13,7 @@
     {
       "binding": "D1",
       "database_name": "schnitzel-db",
-      "database_id": "44ebdcda-99d1-4d46-9988-b77ca6abf5cd",
+      "database_id": "a5ba6e7f-c068-45db-b3c7-f4b22feb9792",
       "remote": true
     }
   ],
@@ -24,36 +24,9 @@
       "remote": true
     }
   ],
-  "routes": [
-    {
-      "pattern": "schnitzelshow.de/_next*",
-      "zone_name": "schnitzelshow.de"
-    },
-    {
-      "pattern": "schnitzelshow.com/_next*",
-      "zone_name": "schnitzelshow.com"
-    },
-    {
-      "pattern": "schnitzelshow.de/api*",
-      "zone_name": "schnitzelshow.de"
-    },
-    {
-      "pattern": "schnitzelshow.de/admin*",
-      "zone_name": "schnitzelshow.de"
-    },
-    {
-      "pattern": "schnitzelshow.com/api*",
-      "zone_name": "schnitzelshow.com"
-    },
-    {
-      "pattern": "schnitzelshow.com/admin*",
-      "zone_name": "schnitzelshow.com"
-    }
-  ],
   "rules": [{ "type": "CompiledWasm", "globs": ["**/*.wasm"] }],
   "vars": {
-    "NODE_ENV": "production",
-    "PAYLOAD_PUBLIC_SERVER_URL": "https://schnitzelshow.com"
+    "NODE_ENV": "production"
   },
   "observability": {
     "enabled": true,

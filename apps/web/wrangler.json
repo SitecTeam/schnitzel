@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "schnitzel-web",
+  "account_id": "e2b2bd369383697806442a2ce0648be0",
   "compatibility_date": "2026-01-15",
   "compatibility_flags": ["nodejs_compat"],
   "main": "dist/_worker.js",
@@ -17,6 +18,16 @@
     "not_found_handling": "404-page"
   },
   "services": [{ "binding": "CMS", "service": "schnitzel-cms" }],
+  "routes": [
+    {
+      "pattern": "schnitzelshow.de/*",
+      "zone_name": "schnitzelshow.de"
+    },
+    {
+      "pattern": "schnitzelshow.com/*",
+      "zone_name": "schnitzelshow.com"
+    }
+  ],
   "vars": {},
   "observability": {
     "enabled": true,

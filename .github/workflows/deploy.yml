@@ -50,7 +50,7 @@ jobs:
         run: bun run build
         working-directory: apps/web
         env:
-          PUBLIC_PAYLOAD_API_URL: https://schnitzel-cms.${{ secrets.CF_WORKERS_SUBDOMAIN }}.workers.dev/api
+          PUBLIC_PAYLOAD_API_URL: https://schnitzelshow.com/api
 
       - name: Deploy Web
         run: bunx wrangler deploy

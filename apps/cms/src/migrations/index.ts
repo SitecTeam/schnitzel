@@ -3,6 +3,7 @@ import * as migration_20260320_131853_add_music_array from "./20260320_131853_ad
 import * as migration_20260323_121900_add_media_focal_point from "./20260323_121900_add_media_focal_point";
 import * as migration_20260325_120000_remove_pages from "./20260325_120000_remove_pages";
 import * as migration_20260629_000000_add_spotify_url_to_episodes from "./20260629_000000_add_spotify_url_to_episodes";
+import * as migration_20260630_000000_remove_podbean_url_from_episodes from "./20260630_000000_remove_podbean_url_from_episodes";
 
 export const migrations = [
   {
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20260629_000000_add_spotify_url_to_episodes.up,
     down: migration_20260629_000000_add_spotify_url_to_episodes.down,
     name: "20260629_000000_add_spotify_url_to_episodes",
+  },
+  {
+    up: migration_20260630_000000_remove_podbean_url_from_episodes.up,
+    down: migration_20260630_000000_remove_podbean_url_from_episodes.down,
+    name: "20260630_000000_remove_podbean_url_from_episodes",
   },
 ];

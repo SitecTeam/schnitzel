@@ -135,11 +135,6 @@ export const Episodes: CollectionConfig = {
       },
     },
     {
-      name: "podbeanUrl",
-      type: "text",
-      label: "Podbean Embed Link",
-    },
-    {
       name: "music",
       type: "array",
       label: "Music Credits",

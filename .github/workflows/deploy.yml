@@ -31,13 +31,6 @@ jobs:
         env:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
-      - name: Set CMS PAYLOAD_SECRET
-        run: echo "${{ secrets.PAYLOAD_SECRET }}" | bunx wrangler secret put PAYLOAD_SECRET
-        working-directory: apps/cms
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-
       - name: Deploy CMS
         run: bunx wrangler deploy
         working-directory: apps/cms

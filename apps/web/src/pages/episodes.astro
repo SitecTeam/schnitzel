@@ -9,6 +9,8 @@ const search = Astro.url.searchParams.get("search") ?? undefined;
 const sort = Astro.url.searchParams.get("sort") ?? "newest";
 const SERVER_EPISODES_TIMEOUT_MS = 2500;
 
+console.log("test");
+
 let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
 let initialPage = 1;
 let initialHasNextPage = false;

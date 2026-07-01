@@ -208,15 +208,15 @@ interface GetEpisodesOptions {
 }
 
 function normalizeEpisodesSort(sort?: string): string {
-  if (!sort || sort === "newest" || sort === "-episodeNumber") {
-    return "-episodeNumber";
+  if (!sort || sort === "newest" || sort === "-publishedAt") {
+    return "-publishedAt";
   }
 
-  if (sort === "oldest" || sort === "episodeNumber") {
-    return "episodeNumber";
+  if (sort === "oldest" || sort === "publishedAt") {
+    return "publishedAt";
   }
 
-  return "-episodeNumber";
+  return "-publishedAt";
 }
 
 /**

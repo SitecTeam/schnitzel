@@ -33,6 +33,10 @@ const isProduction = process.env.NODE_ENV === "production";
 // failures in CI where wrangler credentials are not present.
 const isBuild = process.env.NEXT_PHASE === "phase-production-build";
 const payloadSecret = process.env.PAYLOAD_SECRET?.trim();
+const publicMediaUrl = process.env.PAYLOAD_PUBLIC_MEDIA_URL?.trim().replace(
+  /\/+$/,
+  ""
+);
 const cloudflareEnvironment = isProduction
   ? (process.env.CLOUDFLARE_ENV?.trim() ?? undefined)
   : undefined;
@@ -76,6 +80,15 @@ const cloudflare = isBuild
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true });
 
+const encodeR2Key = (prefix: string | undefined, filename: string) =>
+  [prefix, filename]
+    .filter((part): part is string => Boolean(part))
+    .join("/")
+    .split("/")
+    .filter(Boolean)
+    .map(encodeURIComponent)
+    .join("/");
+
 export default buildConfig({
   serverURL:
     process.env.PAYLOAD_PUBLIC_SERVER_URL ||
@@ -108,7 +121,15 @@ export default buildConfig({
   plugins: [
     r2Storage({
       bucket: cloudflare.env.R2,
-      collections: { media: true },
+      collections: {
+        media: publicMediaUrl
+          ? {
+              disablePayloadAccessControl: true,
+              generateFileURL: ({ filename, prefix }) =>
+                `${publicMediaUrl}/${encodeR2Key(prefix, filename)}`,
+            }
+          : true,
+      },
     }),
   ],
 });

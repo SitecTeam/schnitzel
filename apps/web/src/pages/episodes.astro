@@ -7,22 +7,35 @@ import AnimatedTitle from "@/components/islands/animated-title";
 
 const search = Astro.url.searchParams.get("search") ?? undefined;
 const sort = Astro.url.searchParams.get("sort") ?? "newest";
+const SERVER_EPISODES_TIMEOUT_MS = 2500;
 
 let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
 let initialPage = 1;
 let initialHasNextPage = false;
-let error: string | null = null;
-const fetchOnMount = import.meta.env.DEV;
+let fetchOnMount = import.meta.env.DEV;
 
 if (!fetchOnMount) {
+  const controller = new AbortController();
+  const timeout = setTimeout(
+    () => controller.abort(),
+    SERVER_EPISODES_TIMEOUT_MS
+  );
+  const cmsFetcherWithTimeout: typeof fetch = (input, init) =>
+    Astro.locals.cmsFetcher(input, {
+      ...init,
+      signal: controller.signal,
+    });
+
   try {
-    const result = await getEpisodes({ search, sort }, Astro.locals.cmsFetcher);
+    const result = await getEpisodes({ search, sort }, cmsFetcherWithTimeout);
     episodes = result.docs;
     initialPage = result.page;
     initialHasNextPage = result.hasNextPage;
   } catch (e) {
-    error = "Could not load episodes. Please try again later.";
-    console.error(e);
+    fetchOnMount = true;
+    console.warn("[episodes] Falling back to client-side fetch", e);
+  } finally {
+    clearTimeout(timeout);
   }
 }
 ---
@@ -44,21 +57,15 @@ if (!fetchOnMount) {
 
       <!-- Episodes list -->
       <section>
-        {
-          error ? (
-            <p class="py-16 text-center text-muted-foreground">{error}</p>
-          ) : (
-            <EpisodesList
-              initialDocs={episodes}
-              initialSearch={search ?? ""}
-              initialSort={sort}
-              initialPage={initialPage}
-              initialHasNextPage={initialHasNextPage}
-              fetchOnMount={fetchOnMount}
-              client:load
-            />
-          )
-        }
+        <EpisodesList
+          initialDocs={episodes}
+          initialSearch={search ?? ""}
+          initialSort={sort}
+          initialPage={initialPage}
+          initialHasNextPage={initialHasNextPage}
+          fetchOnMount={fetchOnMount}
+          client:load
+        />
       </section>
     </div>
   </main>

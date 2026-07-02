@@ -21,7 +21,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     response.status === 200 &&
     (pathname === "/episodes" ||
       pathname.startsWith("/episodes/") ||
-      pathname === "/api/episodes")
+      pathname === "/web-api/episodes")
   ) {
     response.headers.set("Cache-Control", EPISODES_CACHE_CONTROL);
   }

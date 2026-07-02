@@ -9,6 +9,7 @@ Production topology is a single domain:
 
 - /admin/\* -> cms worker
 - /api/\* -> cms worker
+- /web-api/\* -> web worker
 - /\* -> web worker
 
 ## 1) Prerequisites
@@ -45,9 +46,17 @@ Configure routes/custom domains so specific routes map to cms worker first.
 
 - example.com/admin/\* -> cms worker
 - example.com/api/\* -> cms worker
+- example.com/web-api/\* -> web worker
 - example.com/\* -> web worker
 
-Path specificity should ensure /admin and /api resolve to cms while all other paths resolve to web.
+Path specificity should ensure /admin and /api resolve to cms while /web-api and
+all public page paths resolve to web.
+
+Route ownership rule:
+
+- Do not create web app endpoints under apps/web/src/pages/api.
+- Payload owns /api/\*.
+- Browser-facing web data endpoints belong under apps/web/src/pages/web-api.
 
 ## 4) Release Workflow (Manual Migration Gate)
 
@@ -68,6 +77,7 @@ If migration fails, stop release and do not deploy cms.
 
 - GET / returns web homepage
 - GET /episodes (or main content route) returns web content
+- GET /web-api/episodes?limit=1 returns web episode JSON
 - GET /admin loads Payload admin
 - GET /api endpoint returns CMS API response
 - Upload media in admin and verify it is retrievable from site/API

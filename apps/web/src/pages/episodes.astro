@@ -9,33 +9,41 @@ const search = Astro.url.searchParams.get("search") ?? undefined;
 const sort = Astro.url.searchParams.get("sort") ?? "newest";
 const SERVER_EPISODES_TIMEOUT_MS = 2500;
 
+function withServerTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number
+): Promise<T> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeout = setTimeout(
+      () => reject(new Error(`Timed out after ${timeoutMs}ms`)),
+      timeoutMs
+    );
+  });
+
+  return Promise.race([promise, timeoutPromise]).finally(() => {
+    if (timeout) clearTimeout(timeout);
+  });
+}
+
 let episodes: Awaited<ReturnType<typeof getEpisodes>>["docs"] = [];
 let initialPage = 1;
 let initialHasNextPage = false;
 let fetchOnMount = import.meta.env.DEV;
 
 if (!fetchOnMount) {
-  const controller = new AbortController();
-  const timeout = setTimeout(
-    () => controller.abort(),
-    SERVER_EPISODES_TIMEOUT_MS
-  );
-  const cmsFetcherWithTimeout: typeof fetch = (input, init) =>
-    Astro.locals.cmsFetcher(input, {
-      ...init,
-      signal: controller.signal,
-    });
-
   try {
-    const result = await getEpisodes({ search, sort }, cmsFetcherWithTimeout);
+    const result = await withServerTimeout(
+      getEpisodes({ search, sort }, Astro.locals.cmsFetcher),
+      SERVER_EPISODES_TIMEOUT_MS
+    );
     episodes = result.docs;
     initialPage = result.page;
     initialHasNextPage = result.hasNextPage;
   } catch (e) {
     fetchOnMount = true;
     console.warn("[episodes] Falling back to client-side fetch", e);
-  } finally {
-    clearTimeout(timeout);
   }
 }
 ---

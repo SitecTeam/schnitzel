@@ -13,8 +13,11 @@ import type {
   Episode,
 } from "@schnitzel/shared";
 
+const DEFAULT_PAYLOAD_API_URL = import.meta.env.DEV
+  ? "http://localhost:3000/api"
+  : "https://schnitzelshow.com/api";
 const PAYLOAD_API_URL =
-  import.meta.env.PUBLIC_PAYLOAD_API_URL ?? "http://localhost:3000/api";
+  import.meta.env.PUBLIC_PAYLOAD_API_URL ?? DEFAULT_PAYLOAD_API_URL;
 const PAYLOAD_FALLBACK_API_URL =
   import.meta.env.PUBLIC_PAYLOAD_API_FALLBACK_URL ?? "";
 const EPISODES_CACHE_TTL_MS = import.meta.env.DEV ? 0 : 30_000;

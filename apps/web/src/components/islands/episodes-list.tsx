@@ -208,7 +208,7 @@ export default function EpisodesList({
         params.set("page", String(nextPage));
         params.set("limit", String(LIMIT));
 
-        const response = await fetch(`/api/episodes?${params.toString()}`, {
+        const response = await fetch(`/web-api/episodes?${params.toString()}`, {
           signal: controller.signal,
         });
         if (!response.ok) throw new Error("Failed to fetch episodes");

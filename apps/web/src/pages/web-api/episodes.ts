@@ -32,7 +32,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
       },
     });
   } catch (e) {
-    console.error("[api/episodes]", e);
+    console.error("[web-api/episodes]", e);
     return new Response(
       JSON.stringify({
         message: "Could not load episodes. Please try again later.",

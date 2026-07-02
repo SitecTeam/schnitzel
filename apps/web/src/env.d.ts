@@ -3,7 +3,7 @@
 /// <reference types="vite-plugin-svgr/client" />
 
 interface ImportMetaEnv {
-  readonly PUBLIC_PAYLOAD_API_URL: string;
+  readonly PUBLIC_PAYLOAD_API_URL?: string;
   readonly PUBLIC_PAYLOAD_API_FALLBACK_URL?: string;
 }
 

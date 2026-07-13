@@ -121,7 +121,7 @@ export default function MobileNav({ isHome, navItems }: MobileNavProps) {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.instagram.com/schnitzelsnow"
+              href="https://www.instagram.com/schnitzelpodcast"
               className="flex size-10.5 items-center justify-center"
               aria-label="Instagram Link"
             >

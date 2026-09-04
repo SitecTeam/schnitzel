@@ -5,6 +5,7 @@
 interface ImportMetaEnv {
   readonly PUBLIC_PAYLOAD_API_URL?: string;
   readonly PUBLIC_PAYLOAD_API_FALLBACK_URL?: string;
+  readonly PUBLIC_GA_MEASUREMENT_ID?: string;
 }
 
 interface ImportMeta {

@@ -12,9 +12,11 @@ const { gaId } = Astro.props;
   src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
 <script is:inline define:vars={{ gaId }}>
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args) {
-    dataLayer.push(args);
+  /* eslint-disable prefer-rest-params -- gtag.js ignores plain arrays; the arguments object is required */
+  function gtag() {
+    dataLayer.push(arguments);
   }
+  /* eslint-enable prefer-rest-params */
   gtag("js", new Date());
   // Page views are sent manually on astro:page-load so view
   // transitions (ClientRouter) are tracked too.

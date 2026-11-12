@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env CLOUDFLARE_REMOTE_BINDINGS=true next dev",
     "dev:local": "next dev",
-    "build": "next build && opennextjs-cloudflare build --skipNextBuild && node scripts/patch-wasm-imports.mjs",
+    "build": "next build && opennextjs-cloudflare build --skipNextBuild --dangerouslyUseUnsupportedNextVersion && node scripts/patch-wasm-imports.mjs",
     "start": "next start",
     "lint": "eslint .",
     "deploy": "bun run build && wrangler deploy",
@@ -45,7 +45,7 @@
     "@payloadcms/ui": "^3.69.0",
     "@schnitzel/shared": "workspace:*",
     "cross-env": "^7.0.3",
-    "next": "15.4.1",
+    "next": "15.4.11",
     "payload": "^3.69.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
